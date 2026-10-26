@@ -1,7 +1,10 @@
 /*
- * FEAScript documentation theme.
- * Mirrors the design tokens of feascript.com (cream "engineering paper",
- * charcoal ink, gold accent, Roboto / Roboto Mono) and the blog footer.
+ * ════════════════════════════════════════════════════════════════
+ *  FEAScript Documentation
+ *  Finite Element Simulation in JavaScript
+ *  https://docs.feascript.com
+ *  CC BY 4.0 License © 2023–2026 FEAScript
+ * ════════════════════════════════════════════════════════════════
  */
 
 :root {
@@ -273,6 +276,7 @@ body {
 
 .theme-toggle {
   position: relative;
+  isolation: isolate;
   flex-direction: row-reverse;
   justify-content: space-between;
   width: 3.75rem;
@@ -324,6 +328,133 @@ html[data-theme="dark"] .theme-toggle .icon-moon {
   display: flex;
   align-items: center;
   padding: 0 0.125rem;
+}
+
+/* Mobile: same pill as feascript.com — logo left; search, theme switch and burger right.
+   Version selector and GitHub link stay in the slide-out menu. */
+@media (max-width: 996px) {
+  .navbar {
+    padding: 0 0.5rem 0 0;
+  }
+
+  .navbar__inner {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Flatten both item groups so the logo, search, switch and burger can be ordered freely */
+  .navbar__inner > .navbar__items {
+    display: contents;
+  }
+
+  .navbar__inner .navbar__brand {
+    order: 1;
+    flex-shrink: 0;
+    margin: 0 auto 0 0;
+    padding-left: 1.4rem;
+  }
+
+  .brand-mark {
+    flex-shrink: 0;
+  }
+
+  .navbar__items--right > .navbar__item {
+    display: none;
+  }
+
+  .navbar .navbar__items--right [class*="navbarSearchContainer"] {
+    position: static;
+    order: 2;
+    padding: 0;
+  }
+
+  .navbar .navbar__search {
+    margin: 0;
+  }
+
+  .navbar .navbar__search-input:not(:focus) {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    background-position: center;
+    cursor: pointer;
+  }
+
+  .navbar .navbar__search-input:not(:focus)::placeholder {
+    color: transparent;
+  }
+
+  /* While searching, the field takes the whole pill and the dropdown anchors to it */
+  .navbar__inner:has(.navbar__search-input:focus) .navbar__brand,
+  .navbar__inner:has(.navbar__search-input:focus) .theme-toggle,
+  .navbar__inner:has(.navbar__search-input:focus) .navbar__toggle {
+    display: none;
+  }
+
+  .navbar .navbar__items--right [class*="navbarSearchContainer"]:has(.navbar__search-input:focus) {
+    flex: 1;
+    padding-left: 0.5rem;
+  }
+
+  .navbar [class*="navbarSearchContainer"]:has(.navbar__search-input:focus) .navbar__search,
+  .navbar [class*="navbarSearchContainer"]:has(.navbar__search-input:focus) [class*="searchBar_"] {
+    position: static !important;
+  }
+
+  .navbar .navbar__search-input:focus {
+    width: 100%;
+  }
+
+  .navbar [class*="searchHintContainer"] {
+    display: none;
+  }
+
+  .navbar__items--right .theme-toggle {
+    display: flex;
+    order: 3;
+  }
+
+  .navbar__inner .navbar__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: 4;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+  }
+
+  .navbar__inner .navbar__toggle svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .navbar-sidebar__brand {
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .navbar-sidebar__brand .navbar__brand {
+    margin-right: auto;
+  }
+
+  .navbar-sidebar__brand .theme-toggle {
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-tag {
+    display: none;
+  }
+
+  .navbar {
+    margin-inline: 0.5rem;
+  }
 }
 
 /* ── Search ────────────────────────────────────────────────── */
@@ -543,6 +674,12 @@ code {
   width: auto;
   margin: 0;
   padding: 0;
+}
+
+.footer__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .footer-brand__wordmark {
