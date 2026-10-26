@@ -255,6 +255,22 @@ body {
   height: 1rem;
 }
 
+.nav-github {
+  width: auto;
+  padding: 0 0.85rem;
+  text-decoration: none;
+}
+
+.nav-github:hover {
+  text-decoration: none;
+}
+
+.nav-github-stars {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
 .theme-toggle {
   position: relative;
   flex-direction: row-reverse;
