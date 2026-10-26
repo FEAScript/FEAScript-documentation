@@ -113,7 +113,7 @@ const config = {
             title: "FEAScript",
             items: [
               { label: "Website", href: "https://feascript.com" },
-              { label: "Studio", href: "https://studio.feascript.com" },
+              { label: "FEAScript Studio", href: "https://studio.feascript.com" },
               { label: "Blog", href: "https://blog.feascript.com" },
             ],
           },
