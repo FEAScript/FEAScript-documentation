@@ -96,12 +96,6 @@ const config = {
     ({
       navbar: {
         items: [
-          {
-            type: "docSidebar",
-            sidebarId: "docsSidebar",
-            position: "left",
-            label: "Docs",
-          },
           { type: "docsVersionDropdown", position: "right" },
           { href: "https://feascript.com", label: "Website", position: "right" },
           {
@@ -126,8 +120,10 @@ const config = {
           {
             title: "Community",
             items: [
-              { label: "GitHub", href: "https://github.com/FEAScript" },
-              { label: "Contributing", href: "https://github.com/FEAScript/FEAScript-core/blob/main/CONTRIBUTING.md" },
+              { label: "Discord", href: "https://discord.gg/3DVjNcuW4f" },
+              { label: "GitHub", href: "https://github.com/FEAScript/FEAScript-core" },
+              { label: "YouTube", href: "https://www.youtube.com/@FEAScript" },
+              { label: "LinkedIn", href: "https://www.linkedin.com/company/feascript/" },
             ],
           },
         ],
