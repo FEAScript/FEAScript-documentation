@@ -19,6 +19,10 @@ npm run serve    # serve the production build locally
 - Math is supported with KaTeX: inline `$T$` and block `$$ ... $$`.
 - `docs/` always holds the **unreleased** docs ("Next" in the version dropdown).
 
+## Appearance
+
+The palette follows the blog's Minima theme: off-white backgrounds, charcoal headings, blue links, and lavender code backgrounds, with a matching dark mode. The footer uses FEAScript's warm gold (`#f7e7b7`) in both modes. Shared colors are defined in `src/css/custom.css`; syntax highlighting backgrounds are configured in `docusaurus.config.js`.
+
 ## Versioning
 
 When a new FEAScript-core version is released, snapshot the current docs:

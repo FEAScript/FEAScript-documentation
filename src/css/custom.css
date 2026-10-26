@@ -1,20 +1,61 @@
 :root {
-  --ifm-color-primary: #2e6fb7;
-  --ifm-color-primary-dark: #2a64a5;
-  --ifm-color-primary-darker: #285e9c;
-  --ifm-color-primary-darkest: #204d81;
-  --ifm-color-primary-light: #3279c9;
-  --ifm-color-primary-lighter: #3a82d0;
-  --ifm-color-primary-lightest: #5e9ad9;
+  --ifm-color-primary: #246dc9;
+  --ifm-color-primary-dark: #2062b5;
+  --ifm-color-primary-darker: #1f5dab;
+  --ifm-color-primary-darkest: #194c8d;
+  --ifm-color-primary-light: #2a7ae2;
+  --ifm-color-primary-lighter: #4088e5;
+  --ifm-color-primary-lightest: #6ba3eb;
+  --ifm-background-color: #fdfdfd;
+  --ifm-background-surface-color: #fdfdfd;
+  --ifm-font-color-base: #111111;
+  --ifm-color-emphasis-600: #666666;
+  --ifm-color-emphasis-300: #e8e8e8;
+  --ifm-heading-color: #424242;
+  --ifm-navbar-background-color: #fdfdfd;
+  --ifm-navbar-link-color: #424242;
+  --ifm-navbar-shadow: none;
+  --ifm-code-background: #eeeeff;
   --ifm-code-font-size: 95%;
+  --ifm-menu-color-background-active: #eeeeff;
+  --feascript-header-border: #424242;
 }
 
 [data-theme="dark"] {
-  --ifm-color-primary: #6aa6e6;
-  --ifm-color-primary-dark: #4d94e1;
-  --ifm-color-primary-darker: #408bdf;
-  --ifm-color-primary-darkest: #1f72cb;
-  --ifm-color-primary-light: #87b8ea;
-  --ifm-color-primary-lighter: #94c0ec;
-  --ifm-color-primary-lightest: #bad6f3;
+  --ifm-color-primary: #82b4f4;
+  --ifm-color-primary-dark: #60a0f1;
+  --ifm-color-primary-darker: #4e95ef;
+  --ifm-color-primary-darkest: #1a75e8;
+  --ifm-color-primary-light: #a4c8f7;
+  --ifm-color-primary-lighter: #b6d3f9;
+  --ifm-color-primary-lightest: #e9f2fd;
+  --ifm-background-color: #1b1b1d;
+  --ifm-background-surface-color: #242426;
+  --ifm-font-color-base: #e8e8e8;
+  --ifm-color-emphasis-600: #b0b0b0;
+  --ifm-color-emphasis-300: #3c3c40;
+  --ifm-heading-color: #eeeeee;
+  --ifm-navbar-background-color: #1b1b1d;
+  --ifm-navbar-link-color: #e8e8e8;
+  --ifm-code-background: #2c2c40;
+  --ifm-menu-color-background-active: #2c2c40;
+  --feascript-header-border: #828282;
+}
+
+.navbar {
+  border-top: 5px solid var(--feascript-header-border);
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.footer {
+  --ifm-footer-background-color: #f7e7b7;
+  --ifm-footer-color: #555555;
+  --ifm-footer-title-color: #424242;
+  --ifm-footer-link-color: #1756a9;
+  --ifm-footer-link-hover-color: #111111;
+  border-top: 1px solid #decfa3;
+}
+
+.theme-code-block {
+  border: 1px solid var(--ifm-color-emphasis-300);
 }

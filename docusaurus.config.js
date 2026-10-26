@@ -96,7 +96,7 @@ const config = {
         ],
       },
       footer: {
-        style: "dark",
+        style: "light",
         links: [
           {
             title: "FEAScript",
@@ -117,8 +117,14 @@ const config = {
         copyright: `Documentation licensed under CC-BY 4.0. The FEAScript core library is MIT licensed.`,
       },
       prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
+        theme: {
+          ...prismThemes.github,
+          plain: { ...prismThemes.github.plain, backgroundColor: "#eeeeff" },
+        },
+        darkTheme: {
+          ...prismThemes.dracula,
+          plain: { ...prismThemes.dracula.plain, backgroundColor: "#2c2c40" },
+        },
         additionalLanguages: ["bash"],
       },
     }),
