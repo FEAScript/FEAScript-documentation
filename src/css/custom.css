@@ -1,61 +1,559 @@
+/*
+ * FEAScript documentation theme.
+ * Mirrors the design tokens of feascript.com (cream "engineering paper",
+ * charcoal ink, gold accent, Roboto / Roboto Mono) and the blog footer.
+ */
+
 :root {
-  --ifm-color-primary: #246dc9;
-  --ifm-color-primary-dark: #2062b5;
-  --ifm-color-primary-darker: #1f5dab;
-  --ifm-color-primary-darkest: #194c8d;
-  --ifm-color-primary-light: #2a7ae2;
-  --ifm-color-primary-lighter: #4088e5;
-  --ifm-color-primary-lightest: #6ba3eb;
-  --ifm-background-color: #fdfdfd;
-  --ifm-background-surface-color: #fdfdfd;
-  --ifm-font-color-base: #111111;
-  --ifm-color-emphasis-600: #666666;
-  --ifm-color-emphasis-300: #e8e8e8;
-  --ifm-heading-color: #424242;
-  --ifm-navbar-background-color: #fdfdfd;
-  --ifm-navbar-link-color: #424242;
+  --bg: #fdfaf2;
+  --bg-sunken: #f6efd9;
+  --ink: #333333;
+  --ink-strong: #1d1d1d;
+  --muted: #5c5c5c;
+  --faint: #8c8a82;
+  --line: rgba(51, 51, 51, 0.16);
+  --line-strong: rgba(51, 51, 51, 0.45);
+  --invert-bg: #2b2b2b;
+  --invert-fg: #fdfaf2;
+  --gold: #d4aa00;
+  --gold-ink: #8f7200;
+  --cream: #f7e7b7;
+  --link: #0056b3;
+  --paper: rgba(51, 51, 51, 0.045);
+  --paper-major: rgba(51, 51, 51, 0.08);
+  --code-bg: #1f1f1f;
+
+  --font-body: "Roboto", system-ui, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Infima mapping */
+  --ifm-font-family-base: var(--font-body);
+  --ifm-font-family-monospace: var(--font-mono);
+  --ifm-font-color-base: var(--ink);
+  --ifm-heading-color: var(--ink-strong);
+  --ifm-heading-font-weight: 400;
+  --ifm-background-color: var(--bg);
+  --ifm-background-surface-color: var(--bg);
+  --ifm-color-primary: #0056b3;
+  --ifm-color-primary-dark: #004ea2;
+  --ifm-color-primary-darker: #004a99;
+  --ifm-color-primary-darkest: #003d7e;
+  --ifm-color-primary-light: #005cc4;
+  --ifm-color-primary-lighter: #0060cc;
+  --ifm-color-primary-lightest: #0072f0;
+  --ifm-link-color: var(--link);
+  --ifm-color-emphasis-300: var(--line);
+  --ifm-color-emphasis-600: var(--muted);
+  --ifm-global-radius: 6px;
+  --ifm-code-font-size: 88%;
+  --ifm-code-background: var(--bg-sunken);
+  --ifm-code-border-radius: 4px;
+  --ifm-code-padding-horizontal: 0.35rem;
+  --ifm-leading-desktop: 1.6;
+  --ifm-navbar-height: 4.5rem;
   --ifm-navbar-shadow: none;
-  --ifm-code-background: #eeeeff;
-  --ifm-code-font-size: 95%;
-  --ifm-menu-color-background-active: #eeeeff;
-  --feascript-header-border: #424242;
+  --ifm-navbar-background-color: transparent;
+  --ifm-navbar-link-color: var(--muted);
+  --ifm-navbar-link-hover-color: var(--ink-strong);
+  --ifm-menu-color: var(--muted);
+  --ifm-menu-color-active: var(--ink-strong);
+  --ifm-menu-color-background-hover: var(--paper-major);
+  --ifm-menu-color-background-active: var(--paper-major);
+  --ifm-toc-border-color: var(--line);
+  --ifm-table-border-color: var(--line);
+  --ifm-table-stripe-background: var(--paper);
+  --ifm-hr-border-color: var(--line);
+  --ifm-pagination-nav-border-radius: 6px;
+  --ifm-alert-border-radius: 6px;
+  --docusaurus-highlighted-code-line-bg: rgba(212, 170, 0, 0.18);
 }
 
 [data-theme="dark"] {
-  --ifm-color-primary: #82b4f4;
-  --ifm-color-primary-dark: #60a0f1;
-  --ifm-color-primary-darker: #4e95ef;
-  --ifm-color-primary-darkest: #1a75e8;
-  --ifm-color-primary-light: #a4c8f7;
-  --ifm-color-primary-lighter: #b6d3f9;
-  --ifm-color-primary-lightest: #e9f2fd;
-  --ifm-background-color: #1b1b1d;
-  --ifm-background-surface-color: #242426;
-  --ifm-font-color-base: #e8e8e8;
-  --ifm-color-emphasis-600: #b0b0b0;
-  --ifm-color-emphasis-300: #3c3c40;
-  --ifm-heading-color: #eeeeee;
-  --ifm-navbar-background-color: #1b1b1d;
-  --ifm-navbar-link-color: #e8e8e8;
-  --ifm-code-background: #2c2c40;
-  --ifm-menu-color-background-active: #2c2c40;
-  --feascript-header-border: #828282;
+  --bg: #181818;
+  --bg-sunken: #222222;
+  --ink: #e6e3da;
+  --ink-strong: #ffffff;
+  --muted: #a9a69c;
+  --faint: #77756d;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.4);
+  --invert-bg: #f7e7b7;
+  --invert-fg: #1d1d1d;
+  --gold-ink: #e6c230;
+  --link: #5aa2ec;
+  --paper: rgba(255, 255, 255, 0.04);
+  --paper-major: rgba(255, 255, 255, 0.07);
+  --code-bg: #101010;
+
+  --ifm-color-primary: #5aa2ec;
+  --ifm-color-primary-dark: #3d90e8;
+  --ifm-color-primary-darker: #2f87e6;
+  --ifm-color-primary-darkest: #1370d1;
+  --ifm-color-primary-light: #77b2f0;
+  --ifm-color-primary-lighter: #85baf2;
+  --ifm-color-primary-lightest: #afd2f7;
+  --docusaurus-highlighted-code-line-bg: rgba(230, 194, 48, 0.16);
 }
+
+/* ── Page: blueprint paper ─────────────────────────────────── */
+
+html {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--paper-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-major) 1px, transparent 1px),
+    linear-gradient(var(--paper) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+}
+
+body {
+  background: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ── Navbar: floating pill ─────────────────────────────────── */
 
 .navbar {
-  border-top: 5px solid var(--feascript-header-border);
-  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  height: 3rem;
+  margin: 0.75rem 1rem;
+  padding: 0 0.5rem 0 0.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  /* No backdrop-filter: it would break the fixed mobile sidebar */
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.35);
 }
 
-.footer {
-  --ifm-footer-background-color: #f7e7b7;
-  --ifm-footer-color: #555555;
-  --ifm-footer-title-color: #424242;
-  --ifm-footer-link-color: #1756a9;
-  --ifm-footer-link-hover-color: #111111;
-  border-top: 1px solid #decfa3;
+.navbar--fixed-top {
+  top: 0.75rem;
 }
+
+@media (min-width: 1280px) {
+  .navbar {
+    width: calc(100% - 2rem);
+    max-width: 1280px;
+    margin-inline: auto;
+  }
+}
+
+.navbar__brand {
+  gap: 0.02em;
+  margin-right: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ink-strong);
+  white-space: nowrap;
+}
+
+@media (min-width: 997px) {
+  .navbar__brand {
+    padding-left: 0.65rem;
+  }
+}
+
+.navbar__brand:hover {
+  opacity: 0.7;
+  color: var(--ink-strong);
+}
+
+.brand-mark {
+  display: block;
+  width: 0.72em;
+  height: 0.72em;
+  margin-right: 0.05em;
+}
+
+/* Logo-style "t": a long tail below the baseline */
+.brand-name .wm-t {
+  display: inline;
+  width: 0.3em;
+  height: 1.15em;
+  margin: 0 0 -0.32em 0.02em;
+  vertical-align: -0.16em;
+}
+
+.brand-tag {
+  margin-left: 0.75rem;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.navbar__link {
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.navbar__link:hover {
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+}
+
+.navbar__link--active {
+  color: var(--ink-strong);
+}
+
+/* External-link arrows are noise in the pill navbar */
+.navbar__item svg[class*="iconExternalLink"] {
+  display: none;
+}
+
+.navbar__toggle {
+  color: var(--ink-strong);
+}
+
+.navbar-sidebar {
+  background: var(--bg);
+}
+
+/* Round icon buttons and the sun / moon switch, same as feascript.com */
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.nav-icon:hover {
+  background: var(--bg-sunken);
+  color: var(--ink-strong);
+}
+
+.nav-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.theme-toggle {
+  position: relative;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  width: 3.75rem;
+  padding: 0 0.5rem;
+}
+
+.theme-toggle::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gold);
+  transition: transform 0.2s;
+}
+
+html[data-theme="dark"] .theme-toggle::before {
+  transform: translateX(24px);
+}
+
+.theme-toggle svg {
+  position: relative;
+  z-index: 1;
+}
+
+.theme-toggle .icon-sun {
+  color: #1d1d1d;
+}
+
+.theme-toggle .icon-moon {
+  color: var(--faint);
+}
+
+html[data-theme="dark"] .theme-toggle .icon-sun {
+  color: var(--faint);
+}
+
+html[data-theme="dark"] .theme-toggle .icon-moon {
+  color: #1d1d1d;
+}
+
+.navbar__items--right {
+  gap: 0.25rem;
+}
+
+.navbar__items--right > .navbar__item {
+  display: flex;
+  align-items: center;
+  padding: 0 0.125rem;
+}
+
+/* ── Search ────────────────────────────────────────────────── */
+
+.navbar__search-input,
+[class*="searchBox"] input {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background-color: var(--bg-sunken);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+.navbar__search-input::placeholder {
+  color: var(--faint);
+}
+
+/* ── Sidebar ───────────────────────────────────────────────── */
+
+.menu__link {
+  border-radius: 4px;
+  font-size: 0.9375rem;
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  box-shadow: inset 3px 0 0 var(--gold);
+  background: var(--cream);
+  color: #1d1d1d;
+  font-weight: 500;
+}
+
+[data-theme="dark"] .menu__link--active:not(.menu__link--sublist) {
+  background: var(--paper-major);
+  color: var(--ink-strong);
+}
+
+.menu__list-item-collapsible--active {
+  background: none;
+}
+
+.theme-doc-sidebar-container {
+  border-right-color: var(--line) !important;
+}
+
+/* ── Typography ────────────────────────────────────────────── */
+
+.markdown > h1:first-child {
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.markdown h2 {
+  margin-top: 2.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.markdown h3 {
+  font-weight: 500;
+}
+
+.markdown a:not(.card, .hash-link) {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--link) 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+.markdown a:not(.card, .hash-link):hover {
+  text-decoration-color: currentColor;
+}
+
+.hash-link {
+  color: var(--gold-ink) !important;
+}
+
+code {
+  border: 0;
+  font-family: var(--font-mono);
+}
+
+.markdown table {
+  display: table;
+  width: 100%;
+  border: 1px solid var(--line);
+}
+
+.markdown table th {
+  background: var(--bg-sunken);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* ── Code blocks: always dark, like the website's terminal ─── */
 
 .theme-code-block {
-  border: 1px solid var(--ifm-color-emphasis-300);
+  --ifm-code-background: var(--code-bg);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.theme-code-block code {
+  background: none;
+  font-size: 0.875rem;
+}
+
+[class*="codeBlockTitle"] {
+  background: #2b2b2b !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+  font-family: var(--font-mono);
+  color: #e6e3da !important;
+}
+
+/* ── Admonitions: engineering-note look with gold accent ───── */
+
+.theme-admonition {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--gold);
+  background: var(--bg);
+  box-shadow: none;
+  --ifm-alert-foreground-color: var(--ink);
+}
+
+.theme-admonition [class*="admonitionHeading"] {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+/* ── TOC, breadcrumbs, pagination ──────────────────────────── */
+
+.table-of-contents__link--active {
+  color: var(--gold-ink);
+  font-weight: 500;
+}
+
+.breadcrumbs__link {
+  border-radius: 4px;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  background: var(--cream);
+  color: #1d1d1d;
+}
+
+.pagination-nav__link {
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  box-shadow: none;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--gold);
+  background: var(--bg-sunken);
+}
+
+.pagination-nav__sublabel {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.theme-doc-version-badge,
+.badge {
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: none;
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+
+/* ── Buttons ───────────────────────────────────────────────── */
+
+.button--primary {
+  --ifm-button-background-color: var(--invert-bg);
+  --ifm-button-border-color: var(--invert-bg);
+  --ifm-button-color: var(--invert-fg);
+  border-radius: 6px;
+}
+
+.button--primary:hover {
+  opacity: 0.8;
+}
+
+/* ── Footer: same as feascript.com ────────────────────────── */
+
+.footer {
+  --ifm-footer-background-color: var(--bg-sunken);
+  --ifm-footer-color: var(--muted);
+  --ifm-footer-title-color: var(--faint);
+  --ifm-footer-link-color: var(--muted);
+  --ifm-footer-link-hover-color: var(--ink-strong);
+  padding: 3rem 1rem 2rem;
+  border-top: 1px solid var(--line);
+}
+
+.footer__title {
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer__title::before {
+  content: "// ";
+  color: var(--gold-ink);
+}
+
+.footer__link-item {
+  padding: 0.15rem 0;
+  font-size: 0.9375rem;
+  transition:
+    color 0.15s,
+    transform 0.15s;
+}
+
+.footer__link-item:hover {
+  transform: translateX(3px);
+  text-decoration: none;
+}
+
+.footer__copyright {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--faint);
 }
