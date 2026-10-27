@@ -4,6 +4,8 @@ export default function GitHubNavbarItem({ mobile = false }) {
   const [stars, setStars] = useState(null);
 
   useEffect(() => {
+    if (mobile) return undefined;
+
     const controller = new AbortController();
 
     async function loadStars() {
@@ -28,10 +30,12 @@ export default function GitHubNavbarItem({ mobile = false }) {
 
     loadStars();
     return () => controller.abort();
-  }, []);
+  }, [mobile]);
+
+  if (mobile) return null;
 
   return (
-    <div className={mobile ? "menu__list-item" : "navbar__item"}>
+    <div className="navbar__item">
       <a
         className="nav-icon nav-github"
         href="https://github.com/FEAScript/FEAScript-core"
