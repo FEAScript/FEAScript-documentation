@@ -775,12 +775,15 @@ code {
   }
 }
 
-/* ── Figures: black line art from static/assets, inverted in dark mode ─── */
-.markdown img[src^="/assets/"] {
+/* ── Figures: black line art SVGs from static/assets, inverted in dark mode ───
+   Small SVGs are inlined as data URIs at build time, so match both forms */
+.markdown img[src^="data:image/svg+xml"],
+.markdown img[src$=".svg"] {
   display: block;
   margin: 1.5rem auto;
 }
 
-[data-theme="dark"] .markdown img[src^="/assets/"] {
+[data-theme="dark"] .markdown img[src^="data:image/svg+xml"],
+[data-theme="dark"] .markdown img[src$=".svg"] {
   filter: invert(0.88);
 }
