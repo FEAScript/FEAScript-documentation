@@ -53,11 +53,11 @@ model.terminate();
 
 | Method                                         | Returns            | Description                                                      |
 | ---------------------------------------------- | ------------------ | ---------------------------------------------------------------- |
-| `setModelConfig(modelConfig)`                  | `Promise<boolean>` | Selects the model (name only, see the note below)                |
+| `setModelConfig(modelConfig, options)`         | `Promise<boolean>` | Selects the model and its options, as `FEAScriptModel`           |
 | `setMeshConfig(meshConfig)`                    | `Promise<boolean>` | Sets the mesh, as `FEAScriptModel.setMeshConfig`                 |
 | `addBoundaryCondition(boundaryKey, condition)` | `Promise<boolean>` | Adds a boundary condition                                        |
 | `setSolverMethod(solverMethod)`                | `Promise<boolean>` | Selects the solver method                                        |
-| `solve()`                                      | `Promise<object>`  | Solves the model in the worker                                   |
+| `solve(options)`                               | `Promise<object>`  | Solves the model in the worker (`maxIterations`, `tolerance`)    |
 | `getModelInfo()`                               | `Promise<object>`  | `{ solverConfig, meshConfig, boundaryConditions, solverMethod }` |
 | `ping()`                                       | `Promise<boolean>` | Resolves to `true` when the worker is ready                      |
 | `terminate()`                                  | –                  | Stops the worker                                                 |
@@ -65,13 +65,42 @@ model.terminate();
 `solve()` resolves to `{ solutionVector, nodesCoordinates, solverConfig, meshDimension }`. The object returned by
 `getModelInfo()` can be passed as the `model` argument of the [plotting functions](./visualization.md).
 
+## Model options
+
+`setModelConfig` and `solve` take the same options as in `FEAScriptModel`, including `coefficientFunctions`,
+`nonlinear`, `maxIterations` and `tolerance`:
+
+```javascript
+await model.setModelConfig("generalFormPDEScript", {
+  coefficientFunctions: {
+    A: (x) => 1, // Diffusion coefficient
+    B: (x) => -10, // Advection coefficient
+    C: (x) => 0, // Reaction coefficient
+    D: (x) => 10 * Math.exp(-200 * Math.pow(x - 0.5, 2)), // Source term
+  },
+});
+```
+
+Functions cannot be sent to a web worker, so `FEAScriptWorker` sends each coefficient function as its source code
+and rebuilds it in the worker. A rebuilt function does not have access to the variables around it, so write the
+values into the function:
+
+```javascript
+const Da = 0.5;
+
+// Does not work in the worker: Da is not defined there
+D: (x, u) => Da * u ** 2,
+
+// Works in the worker
+D: (x, u) => 0.5 * u ** 2,
+```
+
+Use functions defined in your own code: built-in functions such as `Math.sin` must be wrapped, e.g.
+`(x) => Math.sin(x)`. Rebuilding the functions requires `eval`, so a page with a
+[Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) must allow `'unsafe-eval'`.
+
 ## Limitations
 
-- `setModelConfig` takes only the model name: model options such as `coefficientFunctions`, `nonlinear`,
-  `maxIterations` and `tolerance` cannot be passed to the worker (functions cannot be sent to a web worker). Models
-  that need coefficient functions (the general form PDE and the Euler–Bernoulli beam) can therefore not run in
-  the worker yet, and heat conduction runs with the default coefficients ($k = 1$, $Q = 0$).
-- `solve()` takes no options, so the solvers run with their default `maxIterations` and `tolerance`.
 - `solveAsync` and the `"jacobi-gpu"` method are not available through the worker.
 
 ## Examples
