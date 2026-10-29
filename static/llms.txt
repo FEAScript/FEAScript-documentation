@@ -211,15 +211,18 @@ Newton–Raphson (nonlinear general form, front propagation): defaults `maxItera
 ```javascript
 const worker = new FEAScriptWorker();
 await worker.ping();
-await worker.setModelConfig("frontPropagationScript"); // Model name only, no options
+await worker.setModelConfig("frontPropagationScript"); // Same options as FEAScriptModel.setModelConfig
 await worker.setMeshConfig({ meshDimension: "2D", elementOrder: "quadratic", numElementsX: 12, numElementsY: 8, maxX: 4, maxY: 2 });
 await worker.addBoundaryCondition("0", ["constantValue", 0]);
-const result = await worker.solve();
+const result = await worker.solve(); // Optional { maxIterations, tolerance }
 plotSolution(await worker.getModelInfo(), result, "contour", "plotDiv");
 worker.terminate();
 ```
 
-`FEAScriptWorker` cannot take model options (no `coefficientFunctions`, `nonlinear`, `maxIterations` or `tolerance`), so models that need coefficient functions cannot run in it.
+- Every method is async. `setModelConfig(name, options)` and `solve(options)` take the same options as `FEAScriptModel`, so every model can run in the worker.
+- Coefficient functions are sent to the worker as source code and rebuilt there, so they **must be self-contained**: write values into the function (`D: (x, u) => 0.5 * u ** 2`), never refer to outer variables (`D: (x, u) => Da * u ** 2` fails in the worker with `Da is not defined`). Wrap built-in functions: `(x) => Math.sin(x)`, not `Math.sin`.
+- Rebuilding the functions needs `eval`: a page with a Content Security Policy must allow `'unsafe-eval'`.
+- `solveAsync` and the `"jacobi-gpu"` method are not available through the worker.
 
 ## Errors and logging
 
