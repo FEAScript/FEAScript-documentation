@@ -55,6 +55,11 @@ const config = {
         theme: {
           customCss: "./src/css/custom.css",
         },
+        // Same GA4 property as feascript.com, the blog and Studio
+        gtag: {
+          trackingID: "G-1JPK0KLEC9",
+          anonymizeIP: true,
+        },
       }),
     ],
   ],
