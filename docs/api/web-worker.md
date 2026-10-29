@@ -16,10 +16,12 @@ method is asynchronous and returns a `Promise`.
 ```javascript
 import { FEAScriptWorker, plotSolution } from "https://core.feascript.com/dist/feascript.esm.js";
 
+// 1. Create the model in a web worker and select the physics
 const model = new FEAScriptWorker();
 await model.ping(); // Wait until the worker is ready
-
 await model.setModelConfig("frontPropagationScript");
+
+// 2. Define the mesh
 await model.setMeshConfig({
   meshDimension: "2D",
   elementOrder: "quadratic",
@@ -28,18 +30,22 @@ await model.setMeshConfig({
   maxX: 4,
   maxY: 2,
 });
-await model.addBoundaryCondition("0", ["constantValue", 0]);
-await model.addBoundaryCondition("1", ["constantValue", 0]);
-await model.addBoundaryCondition("2", ["zeroGradient"]);
-await model.addBoundaryCondition("3", ["constantValue", 0]);
-await model.setSolverMethod("lusolve");
 
+// 3. Apply the boundary conditions
+await model.addBoundaryCondition("0", ["constantValue", 0]); // Bottom: initial front
+await model.addBoundaryCondition("1", ["constantValue", 0]); // Left: initial front
+await model.addBoundaryCondition("2", ["zeroGradient"]); // Top
+await model.addBoundaryCondition("3", ["constantValue", 0]); // Right: initial front
+
+// 4. Solve
+await model.setSolverMethod("lusolve");
 const result = await model.solve();
 
-// Plot in the main thread
+// 5. Plot the results in the main thread
 const modelInfo = await model.getModelInfo();
 plotSolution(modelInfo, result, "contour", "resultsCanvas");
 
+// 6. Terminate the worker
 model.terminate();
 ```
 

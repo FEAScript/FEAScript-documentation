@@ -52,8 +52,8 @@ The model is linear, so the system is solved once.
 ```javascript
 import { FEAScriptModel } from "feascript";
 
+// 1. Create the model and select the physics
 const model = new FEAScriptModel();
-
 model.setModelConfig("heatConductionScript", {
   coefficientFunctions: {
     thermalConductivity: 1, // k
@@ -61,6 +61,7 @@ model.setModelConfig("heatConductionScript", {
   },
 });
 
+// 2. Define the mesh
 model.setMeshConfig({
   meshDimension: "2D",
   elementOrder: "quadratic",
@@ -70,13 +71,14 @@ model.setMeshConfig({
   maxY: 2,
 });
 
+// 3. Apply the boundary conditions
 model.addBoundaryCondition("0", ["constantTemperature", 200]); // Bottom
 model.addBoundaryCondition("1", ["symmetry"]); // Left
 model.addBoundaryCondition("2", ["convection", 1, 20]); // Top
 model.addBoundaryCondition("3", ["constantTemperature", 200]); // Right
 
+// 4. Solve
 model.setSolverMethod("lusolve");
-
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 

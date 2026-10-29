@@ -61,8 +61,8 @@ from J. N. Reddy, _An Introduction to the Finite Element Method_, 3rd ed., McGra
 ```javascript
 import { FEAScriptModel } from "feascript";
 
+// 1. Create the model and select the physics
 const model = new FEAScriptModel();
-
 model.setModelConfig("eulerBernoulliBeamScript", {
   coefficientFunctions: {
     EI: (x) => 2.0e6, // Bending stiffness
@@ -70,6 +70,7 @@ model.setModelConfig("eulerBernoulliBeamScript", {
   },
 });
 
+// 2. Define the mesh
 model.setMeshConfig({
   meshDimension: "1D",
   elementOrder: "linear", // Required
@@ -77,6 +78,7 @@ model.setMeshConfig({
   maxX: 10,
 });
 
+// 3. Apply the boundary conditions
 model.addBoundaryCondition("1", [["fixed"]]); // Clamped end
 model.addBoundaryCondition("2", [["pinned"], ["moment", 1250]]); // Roller with an applied moment
 model.addBoundaryCondition("3", [
@@ -84,8 +86,8 @@ model.addBoundaryCondition("3", [
   ["force", -2500],
 ]); // Spring support with an applied force
 
+// 4. Solve
 model.setSolverMethod("lusolve");
-
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 

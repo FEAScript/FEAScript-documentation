@@ -56,18 +56,22 @@ Node.js has no `File` object for files on disk, so pass an object with a `text()
 import fs from "fs";
 import { FEAScriptModel, importGmshMesh } from "feascript";
 
-const meshContent = fs.readFileSync("rect_quad.msh", "utf8");
-const parsedMesh = await importGmshMesh({ text: async () => meshContent });
-
+// 1. Create the model and select the physics
 const model = new FEAScriptModel();
 model.setModelConfig("heatConductionScript");
+
+// 2. Load the Gmsh mesh
+const meshContent = fs.readFileSync("rect_quad.msh", "utf8");
+const parsedMesh = await importGmshMesh({ text: async () => meshContent });
 model.setMeshConfig({ parsedMesh });
 
+// 3. Apply the boundary conditions
 model.addBoundaryCondition("0", ["constantTemperature", 200]); // Physical curve "bottom", tag 1
 model.addBoundaryCondition("1", ["symmetry"]); // Physical curve "left", tag 2
 model.addBoundaryCondition("2", ["convection", 1, 20]); // Physical curve "top", tag 3
 model.addBoundaryCondition("3", ["constantTemperature", 200]); // Physical curve "right", tag 4
 
+// 4. Solve
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 

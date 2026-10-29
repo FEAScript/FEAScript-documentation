@@ -78,10 +78,11 @@ The solidification front in a $4 \times 2$ domain, starting from the bottom, lef
 ```javascript
 import { FEAScriptModel } from "feascript";
 
+// 1. Create the model and select the physics
 const model = new FEAScriptModel();
-
 model.setModelConfig("frontPropagationScript");
 
+// 2. Define the mesh
 model.setMeshConfig({
   meshDimension: "2D",
   elementOrder: "quadratic",
@@ -91,13 +92,14 @@ model.setMeshConfig({
   maxY: 2,
 });
 
+// 3. Apply the boundary conditions
 model.addBoundaryCondition("0", ["constantValue", 0]); // Bottom: initial front
 model.addBoundaryCondition("1", ["constantValue", 0]); // Left: initial front
 model.addBoundaryCondition("2", ["zeroGradient"]); // Top
 model.addBoundaryCondition("3", ["constantValue", 0]); // Right: initial front
 
+// 4. Solve
 model.setSolverMethod("lusolve");
-
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 

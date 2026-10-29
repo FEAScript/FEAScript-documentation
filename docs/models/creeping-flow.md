@@ -72,28 +72,28 @@ The lid-driven cavity: a $4 \times 2$ cavity whose top wall moves with unit velo
 ```javascript
 import { FEAScriptModel } from "feascript";
 
+// 1. Create the model and select the physics
 const model = new FEAScriptModel();
-
 model.setModelConfig("creepingFlowScript");
 
-const numElementsX = 12;
-const numElementsY = 6;
+// 2. Define the mesh
 model.setMeshConfig({
   meshDimension: "2D",
   elementOrder: "quadratic", // Required (Taylor–Hood elements)
-  numElementsX,
-  numElementsY,
+  numElementsX: 12,
+  numElementsY: 6,
   maxX: 4,
   maxY: 2,
 });
 
+// 3. Apply the boundary conditions
 model.addBoundaryCondition("0", ["constantVelocity", 0, 0]); // Bottom wall
 model.addBoundaryCondition("1", ["constantVelocity", 0, 0]); // Left wall
 model.addBoundaryCondition("2", ["constantVelocity", 1, 0]); // Moving lid
 model.addBoundaryCondition("3", ["constantVelocity", 0, 0]); // Right wall
 
+// 4. Solve
 model.setSolverMethod("lusolve");
-
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 

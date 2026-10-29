@@ -76,8 +76,8 @@ The equation $\frac{d^2u}{dx^2} - 10 \frac{du}{dx} = 10 \, e^{-200 (x - 0.5)^2}$
 ```javascript
 import { FEAScriptModel } from "feascript";
 
+// 1. Create the model and select the physics
 const model = new FEAScriptModel();
-
 model.setModelConfig("generalFormPDEScript", {
   coefficientFunctions: {
     A: (x) => 1, // Diffusion coefficient
@@ -87,6 +87,7 @@ model.setModelConfig("generalFormPDEScript", {
   },
 });
 
+// 2. Define the mesh
 model.setMeshConfig({
   meshDimension: "1D",
   elementOrder: "quadratic",
@@ -94,11 +95,12 @@ model.setMeshConfig({
   maxX: 1.0,
 });
 
+// 3. Apply the boundary conditions
 model.addBoundaryCondition("0", ["constantValue", 1]); // Left, x = 0
 model.addBoundaryCondition("1", ["zeroGradient"]); // Right, x = 1
 
+// 4. Solve
 model.setSolverMethod("lusolve");
-
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 
