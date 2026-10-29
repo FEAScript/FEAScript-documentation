@@ -63,10 +63,10 @@ const model = new FEAScriptModel();
 model.setModelConfig("heatConductionScript");
 model.setMeshConfig({ parsedMesh });
 
-model.addBoundaryCondition("0", ["constantTemperature", 200]); // Physical curve with tag 1
-model.addBoundaryCondition("1", ["constantTemperature", 200]); // Physical curve with tag 2
-model.addBoundaryCondition("2", ["convection", 1, 20]); // Physical curve with tag 3
-model.addBoundaryCondition("3", ["symmetry"]); // Physical curve with tag 4
+model.addBoundaryCondition("0", ["constantTemperature", 200]); // Physical curve "bottom", tag 1
+model.addBoundaryCondition("1", ["symmetry"]); // Physical curve "left", tag 2
+model.addBoundaryCondition("2", ["convection", 1, 20]); // Physical curve "top", tag 3
+model.addBoundaryCondition("3", ["constantTemperature", 200]); // Physical curve "right", tag 4
 
 const { solutionVector, nodesCoordinates } = model.solve();
 ```

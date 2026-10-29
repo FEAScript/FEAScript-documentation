@@ -173,7 +173,7 @@ model.setMeshConfig({ parsedMesh }); // meshDimension and elementOrder are detec
 ```
 
 - Supported: `.msh` version 4.1 ASCII (`gmsh model.geo -2 -format msh41 -o model.msh`), 2D only, all quadrilaterals or all triangles, all linear or all quadratic.
-- Boundary keys come from the 1D physical groups (`Physical Curve` / `Physical Line`), numbered in increasing tag order from `"0"`: tags 1, 2, 3, 4 → keys `"0"`, `"1"`, `"2"`, `"3"`.
+- Boundary keys come from the 1D physical groups (`Physical Curve` / `Physical Line`), numbered in increasing tag order from `"0"`: tags 1, 2, 3, 4 → keys `"0"`, `"1"`, `"2"`, `"3"`. Tag the sides bottom, left, top, right (e.g. `Physical Line("left", 2) = {4};`) to get the same keys as a structured mesh.
 
 ## Boundary condition rules
 

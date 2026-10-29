@@ -135,15 +135,19 @@ They are numbered in increasing order of their physical tag, starting from key `
 have the tags `1`, `2`, ..., the boundary key is the tag minus one. 2D physical groups (for example a
 `Physical Surface`) do not define boundaries.
 
-For example, with the following `.geo` definitions:
+To get the same keys as a [structured mesh](#boundaries-of-a-structured-mesh), tag the sides in the order
+bottom, left, top, right. For a rectangle whose lines 1, 2, 3, 4 are the bottom, right, top and left sides:
 
 ```
-Physical Line("bottom") = {1}; // tag 1 → boundary key "0"
-Physical Line("right")  = {2}; // tag 2 → boundary key "1"
-Physical Line("top")    = {3}; // tag 3 → boundary key "2"
-Physical Line("left")   = {4}; // tag 4 → boundary key "3"
-Physical Surface("domain") = {1};
+Physical Line("bottom", 1) = {1}; // tag 1 → boundary key "0"
+Physical Line("left", 2)   = {4}; // tag 2 → boundary key "1"
+Physical Line("top", 3)    = {3}; // tag 3 → boundary key "2"
+Physical Line("right", 4)  = {2}; // tag 4 → boundary key "3"
+Physical Surface("domain", 5) = {1};
 ```
+
+The second argument of `Physical Line` sets the tag explicitly. Without it, Gmsh numbers the groups in the order they
+are defined.
 
 Generate the mesh in the supported format with:
 
