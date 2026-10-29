@@ -19,6 +19,13 @@ FEAScript is under heavy development. Its functionality and interfaces may chang
 - **Performance:** web worker support for multi-threaded computation
 - **Visualization:** interactive rendering with vtk.js and Plotly
 
+## Using FEAScript with AI assistants
+
+[`llms.txt`](https://docs.feascript.com/llms.txt) is a single-file summary of the FEAScript API for AI assistants
+(for example ChatGPT, Claude or Copilot): every model, option, boundary condition and solver, the layout of the
+results, common pitfalls, and what is not supported yet. Give it to your assistant together with your question, so
+that the code it writes uses the actual API.
+
 ## Where to go next
 
 - [Installation](./getting-started/installation.md) – use FEAScript in the browser or with Node.js

@@ -18,6 +18,8 @@ npm run serve    # serve the production build locally
 - Pages are Markdown/MDX files under `docs/`; the sidebar is defined in `sidebars.js`.
 - Math is supported with KaTeX: inline `$T$` and block `$$ ... $$`.
 - `docs/` always holds the **unreleased** docs ("0.3.0-RC (dev)" in the version dropdown).
+- `static/llms.txt` (served at `docs.feascript.com/llms.txt`) is a hand-written, single-file API summary for AI
+  assistants. Update it whenever the API changes: new models, options, boundary conditions or solvers.
 
 ## Appearance
 

@@ -1,0 +1,253 @@
+# FEAScript
+
+> FEAScript is a finite element simulation library written in JavaScript (ES modules). It runs in the browser and in Node.js. This file is a compact, exact reference of the FEAScript 0.3.0 (RC) API for AI assistants. Use only the functions, options and string values listed here: anything not listed is not supported.
+
+Full documentation: https://docs.feascript.com
+Source code: https://github.com/FEAScript/FEAScript-core
+
+## Import
+
+```javascript
+// Browser (no install)
+import { FEAScriptModel } from "https://core.feascript.com/dist/feascript.esm.js";
+
+// Node.js: npm install feascript, and set "type": "module" in package.json
+import { FEAScriptModel } from "feascript";
+```
+
+Exports: `FEAScriptModel`, `importGmshMesh`, `logSystem`, `printVersion` (a string constant, not a function), `plotSolution`, `plotInterpolatedSolution`, `plotSolutionVtk`, `plotInterpolatedSolutionVtk`, `createColorScale`, `createContourLineOptions`, `transformSolverOutputToVtkData`, `transformSolverOutputToVTP`, `transformSolverOutputToMLBuffers`, `FEAScriptWorker`.
+
+## Workflow
+
+Every simulation follows the same steps:
+
+```javascript
+const model = new FEAScriptModel();
+
+model.setModelConfig("heatConductionScript", {
+  coefficientFunctions: { thermalConductivity: 1, heatSource: 0 },
+});
+
+model.setMeshConfig({
+  meshDimension: "2D",
+  elementOrder: "quadratic",
+  numElementsX: 8,
+  numElementsY: 4,
+  maxX: 4,
+  maxY: 2,
+});
+
+model.addBoundaryCondition("0", ["constantTemperature", 200]); // Bottom
+model.addBoundaryCondition("1", ["symmetry"]); // Left
+model.addBoundaryCondition("2", ["convection", 1, 20]); // Top: h = 1, T∞ = 20
+model.addBoundaryCondition("3", ["constantTemperature", 200]); // Right
+
+model.setSolverMethod("lusolve"); // Optional, "lusolve" is the default
+
+const { solutionVector, nodesCoordinates } = model.solve();
+// solutionVector: Float64Array
+// nodesCoordinates: { nodesXCoordinates: number[], nodesYCoordinates: number[] }
+```
+
+`solve()` is synchronous. It accepts optional `{ maxIterations, tolerance }`, which override the same options given to `setModelConfig`.
+
+## Models
+
+| `setModelConfig` name        | Equation                                                     | Mesh                         |
+| ---------------------------- | ------------------------------------------------------------ | ---------------------------- |
+| `"heatConductionScript"`     | −∇·(k ∇T) = Q                                                | 1D or 2D, linear or quadratic |
+| `"generalFormPDEScript"`     | d/dx(A du/dx) + B du/dx + C u = D                            | 1D only                      |
+| `"frontPropagationScript"`   | Eikonal equation \|∇u\| = 1 (vanishing viscosity)            | 1D or 2D                     |
+| `"creepingFlowScript"`       | Stokes flow: −μ∇²u + ∇p = 0, ∇·u = 0, with μ = 1 (fixed)     | 2D, quadratic only           |
+| `"eulerBernoulliBeamScript"` | d²/dx²(EI d²w/dx²) + c0 w = q                                | 1D, `elementOrder: "linear"` only |
+
+### heatConductionScript
+
+- Options: `coefficientFunctions: { thermalConductivity, heatSource }`. Each is a number or a function `(x) => ...` in 1D, `(x, y) => ...` in 2D. Defaults: `thermalConductivity = 1`, `heatSource = 0`. `coefficientFunctions` can be omitted.
+- Boundary conditions:
+  - `["constantTemperature", T]`: Dirichlet, T = T_b (`"constantTemp"` is a deprecated alias).
+  - `["convection", h, Tinf]`: Robin, −k ∂T/∂n = h (T − T∞). `h` and `Tinf` are numbers.
+  - `["symmetry"]`: zero heat flux.
+- Solvers: `"lusolve"`, `"jacobi"`, `"frontal"`, and `"jacobi-gpu"` (with `await model.solveAsync()` only).
+- Result: one temperature per node.
+
+### generalFormPDEScript (1D only)
+
+- Options: `coefficientFunctions: { A, B, C, D }`. All four are required and must be **functions** of `x`, even when constant: `A: (x) => 1`, never `A: 1`.
+- Nonlinear form: add `nonlinear: true`, make `D` a function `(x, u) => ...`, and add `dDdu: (x, u) => ...` (∂D/∂u, required). It is solved with Newton–Raphson.
+- Boundary conditions: `["constantValue", value]` (Dirichlet), `["zeroGradient"]` (A du/dx = 0). Keys: `"0"` = left end (x = 0), `"1"` = right end (x = maxX).
+- Solvers: linear form: `"lusolve"`, `"jacobi"`, `"frontal"`. Nonlinear form: `"lusolve"`, `"jacobi"` (not `"frontal"`).
+- Result: one value per node.
+
+```javascript
+model.setModelConfig("generalFormPDEScript", {
+  nonlinear: true,
+  coefficientFunctions: {
+    A: (x) => 1,
+    B: (x) => 0,
+    C: (x) => 0,
+    D: (x, u) => u ** 2,
+    dDdu: (x, u) => 2 * u,
+  },
+});
+model.setMeshConfig({ meshDimension: "1D", elementOrder: "linear", numElementsX: 20, maxX: 10 });
+model.addBoundaryCondition("0", ["constantValue", 1]);
+model.addBoundaryCondition("1", ["zeroGradient"]);
+const result = model.solve({ maxIterations: 100, tolerance: 1e-5 });
+```
+
+### frontPropagationScript
+
+- No options and no coefficient functions: the front speed is 1 everywhere. The solution u is the arrival time of the front, which equals the distance from the initial front.
+- Boundary conditions: `["constantValue", value]` marks a boundary where the front is at time `value` (use `0` for the initial front); `["zeroGradient"]`.
+- It is solved with Newton–Raphson in 6 steps that activate the eikonal term gradually. If a step does not converge, an error is logged and the result is not valid; refine the mesh.
+- Solvers: `"lusolve"`, `"jacobi"`, `"frontal"`.
+- Result: one value per node.
+
+### creepingFlowScript (2D, quadratic only)
+
+- No options. The viscosity μ is fixed to 1.
+- Mesh: `meshDimension: "2D"` and `elementOrder: "quadratic"` (Taylor–Hood Q2–Q1 on quadrilaterals, P2–P1 on triangles from Gmsh).
+- Boundary conditions: `["constantVelocity", u, v]` (Dirichlet), `["stressFree"]` (natural outflow). If no boundary is `"stressFree"`, the pressure is set to 0 at the first pressure node.
+- Solvers: `"lusolve"` only.
+- Result layout: `[u_1..u_N, v_1..v_N, p_1..p_Np]`, where N = number of mesh nodes and Np = number of corner (pressure) nodes:
+
+```javascript
+const N = nodesCoordinates.nodesXCoordinates.length;
+const u = solutionVector.slice(0, N);
+const v = solutionVector.slice(N, 2 * N);
+const p = solutionVector.slice(2 * N); // Pressure, per corner node (not per mesh node)
+```
+
+### eulerBernoulliBeamScript (1D)
+
+- Options: `coefficientFunctions: { EI, c0, q }`. All are **functions** of `x`. `EI` is required; `c0` (elastic foundation) and `q` (distributed load) default to `(x) => 0`.
+- Mesh: `meshDimension: "1D"`, `elementOrder: "linear"` (cubic Hermite interpolation is applied internally).
+- Boundary conditions are keyed by the **1-based node number** (node j is at x = (j − 1)·maxX/numElementsX), and each value is an **array of conditions**:
+  - `[["fixed"]]`: w = 0 and θ = 0
+  - `[["pinned"]]` or `[["deflection", w]]`: deflection
+  - `[["rotationFixed"]]` or `[["rotation", theta]]`: rotation
+  - `[["force", F]]`: point force; `[["moment", M]]`: point moment
+  - `[["spring", k, wRef]]`: transverse spring (wRef defaults to 0)
+  - Several conditions at one node: `[["pinned"], ["moment", 1250]]`
+- Sign convention: w, q and F are positive in the same direction; θ = dw/dx.
+- Solvers: `"lusolve"` (`"jacobi"` may not converge; `"frontal"` is not supported).
+- Result layout: `[w_1, θ_1, w_2, θ_2, ...]`, two values per node:
+
+```javascript
+const w = solutionVector.filter((_, i) => i % 2 === 0);
+const theta = solutionVector.filter((_, i) => i % 2 === 1);
+```
+
+## Mesh
+
+### Structured mesh (`setMeshConfig`)
+
+| Property        | Meaning                                                            |
+| --------------- | ------------------------------------------------------------------ |
+| `meshDimension` | `"1D"` or `"2D"`                                                   |
+| `elementOrder`  | `"linear"` (default) or `"quadratic"`                              |
+| `numElementsX`  | Number of elements along x                                         |
+| `maxX`          | Domain length; the domain starts at x = 0                          |
+| `numElementsY`  | 2D: number of elements along y                                     |
+| `maxY`          | 2D: domain height; the domain starts at y = 0                      |
+| `angleLeft`     | 2D, optional: interior angle of the left side in degrees (default 90) |
+| `angleRight`    | 2D, optional: interior angle of the right side in degrees (default 90) |
+
+Structured 2D meshes are quadrilaterals. Boundary keys:
+
+- 1D: `"0"` = left (x = 0), `"1"` = right (x = maxX)
+- 2D: `"0"` = bottom, `"1"` = left, `"2"` = top, `"3"` = right
+
+Node order of a structured 2D mesh is column by column: index = i·ny + j (column i along x, row j along y, both from 0), where ny = numElementsY + 1 (linear) or 2·numElementsY + 1 (quadratic). The solution vector follows `nodesCoordinates`, so use the coordinate arrays rather than recomputing indices.
+
+### Gmsh mesh
+
+```javascript
+// Browser: a File (e.g. from <input type="file">)
+const parsedMesh = await importGmshMesh(file);
+// Node.js: any object with an async text() method
+const parsedMesh = await importGmshMesh({ text: async () => fs.readFileSync("mesh.msh", "utf8") });
+
+model.setMeshConfig({ parsedMesh }); // meshDimension and elementOrder are detected from the file
+```
+
+- Supported: `.msh` version 4.1 ASCII (`gmsh model.geo -2 -format msh41 -o model.msh`), 2D only, all quadrilaterals or all triangles, all linear or all quadratic.
+- Boundary keys come from the 1D physical groups (`Physical Curve` / `Physical Line`), numbered in increasing tag order from `"0"`: tags 1, 2, 3, 4 → keys `"0"`, `"1"`, `"2"`, `"3"`.
+
+## Boundary condition rules
+
+- The condition is an **array**: `["zeroGradient"]`, not `"zeroGradient"` (a plain string is accepted with a warning).
+- One condition per boundary key; adding again replaces it. A boundary without a condition gets the natural condition (zero flux or zero gradient).
+- When `solve()` runs, condition types that the model does not recognize are reported as `[ERROR]` in the console and ignored.
+- At a node shared by two Dirichlet boundaries, the boundary with the larger key sets the value.
+
+## Solvers
+
+| `setSolverMethod` | Method                                    | Notes                                                      |
+| ----------------- | ----------------------------------------- | ---------------------------------------------------------- |
+| `"lusolve"`       | Sparse LU (math.js), default              | Works for every model                                      |
+| `"jacobi"`        | Jacobi iteration (CPU)                    | Needs diagonally dominant matrices; defaults `maxIterations: 10000`, `tolerance: 1e-4` |
+| `"frontal"`       | Frontal solver                            | Heat conduction, general form (linear), front propagation  |
+| `"jacobi-gpu"`    | Jacobi on WebGPU, single precision        | Heat conduction only, browser with WebGPU, `await model.solveAsync()` |
+
+Newton–Raphson (nonlinear general form, front propagation): defaults `maxIterations: 100`, `tolerance: 1e-4` on the norm of the update.
+
+## Visualization (browser)
+
+- Plotly: load `plotly.min.js` with a `<script>` tag first (global `Plotly`).
+  - `plotSolution(model, result, plotType, divId)`: `plotType` is `"line"` (1D) or `"contour"` (2D).
+  - `plotInterpolatedSolution(model, result, "contour", divId)`: 2D only, on a grid of 50 points per unit length.
+- vtk.js: the functions are `async` and need `@kitware/vtk.js` (npm) or an import map in the browser.
+  - `await plotSolutionVtk(model, result, plotType, divId, renderOptions)`
+  - `await plotInterpolatedSolutionVtk(model, result, "contour", divId, { colorScale: createColorScale({ scalarBarTitle: "T" }), contourLines: createContourLineOptions({ numberOfContours: 12 }) })`
+- Export: `await transformSolverOutputToVTP(model, result, null, { mode: "surface" })` returns a VTP XML string; `transformSolverOutputToMLBuffers(result)` returns typed arrays `[x, y, value]` per node.
+- Plotting functions read one value per node from the start of `solutionVector`. For creeping flow and the beam, pass one field: `plotSolution(model, { solutionVector: w, nodesCoordinates }, "line", divId)`.
+
+## Web worker (browser)
+
+```javascript
+const worker = new FEAScriptWorker();
+await worker.ping();
+await worker.setModelConfig("frontPropagationScript"); // Model name only, no options
+await worker.setMeshConfig({ meshDimension: "2D", elementOrder: "quadratic", numElementsX: 12, numElementsY: 8, maxX: 4, maxY: 2 });
+await worker.addBoundaryCondition("0", ["constantValue", 0]);
+const result = await worker.solve();
+plotSolution(await worker.getModelInfo(), result, "contour", "plotDiv");
+worker.terminate();
+```
+
+`FEAScriptWorker` cannot take model options (no `coefficientFunctions`, `nonlinear`, `maxIterations` or `tolerance`), so models that need coefficient functions cannot run in it.
+
+## Errors and logging
+
+- FEAScript reports most problems as `[ERROR]` messages in the console and usually continues instead of throwing. Always check the console when a result looks wrong (for example an empty `solutionVector`).
+- `logSystem("none" | "basic" | "debug")` sets the amount of output; errors and warnings are always printed.
+
+## Not supported (do not suggest these)
+
+- 3D meshes, and 1D or 3D Gmsh meshes
+- 2D general form PDE
+- Transient (time-dependent) problems
+- Setting the viscosity in creeping flow, or Navier–Stokes (inertia)
+- Coefficient functions for front propagation or creeping flow
+- Mixed element shapes or orders in one mesh
+- Heat flux (Neumann) conditions with a non-zero value
+- `"frontal"` for creeping flow, the beam, or the nonlinear general form
+- `"jacobi-gpu"` for models other than heat conduction
+
+## Docs
+
+- [Installation](https://docs.feascript.com/getting-started/installation)
+- [Your first simulation](https://docs.feascript.com/getting-started/first-simulation)
+- [Finite element method](https://docs.feascript.com/fundamentals/finite-element-method)
+- [Mesh](https://docs.feascript.com/fundamentals/mesh)
+- [Boundary conditions](https://docs.feascript.com/fundamentals/boundary-conditions)
+- [Solvers](https://docs.feascript.com/fundamentals/solvers)
+- [Heat conduction](https://docs.feascript.com/models/heat-conduction)
+- [General form PDE](https://docs.feascript.com/models/general-form-pde)
+- [Front propagation](https://docs.feascript.com/models/front-propagation)
+- [Creeping flow](https://docs.feascript.com/models/creeping-flow)
+- [Euler–Bernoulli beam](https://docs.feascript.com/models/euler-bernoulli-beam)
+- [API reference](https://docs.feascript.com/api/feascript-model)
+- [Examples](https://github.com/FEAScript/FEAScript-core/tree/main/examples)
