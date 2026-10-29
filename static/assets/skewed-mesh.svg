@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" width="600" height="340" font-family="sans-serif" font-size="15" fill="#000">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <!-- Mesh lines (6 x 4 elements) -->
+  <g stroke="#000" stroke-width="0.6" stroke-opacity="0.45">
+    <line x1="103.09" y1="220" x2="469.28" y2="220"/>
+    <line x1="126.19" y1="180" x2="458.56" y2="180"/>
+    <line x1="149.28" y1="140" x2="447.85" y2="140"/>
+    <line x1="146.67" y1="260" x2="216.52" y2="100"/>
+    <line x1="213.33" y1="260" x2="260.64" y2="100"/>
+    <line x1="280" y1="260" x2="304.76" y2="100"/>
+    <line x1="346.67" y1="260" x2="348.88" y2="100"/>
+    <line x1="413.33" y1="260" x2="393.00" y2="100"/>
+  </g>
+
+  <!-- Domain outline -->
+  <path d="M80,260 L480,260 L437.13,100 L172.38,100 Z" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- Angles -->
+  <path d="M125,260 A45,45 0 0 0 102.5,221.03" fill="none" stroke="#000" stroke-width="1"/>
+  <text x="130" y="246" font-size="13" font-style="italic">angleLeft</text>
+  <path d="M435,260 A45,45 0 0 1 468.35,216.53" fill="none" stroke="#000" stroke-width="1"/>
+  <text x="428" y="246" font-size="13" font-style="italic" text-anchor="end">angleRight</text>
+
+  <!-- Dimensions -->
+  <line x1="80" y1="300" x2="480" y2="300" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="280" y="322" text-anchor="middle" font-style="italic">maxX</text>
+  <line x1="437.13" y1="100" x2="535" y2="100" stroke="#000" stroke-width="0.6" stroke-dasharray="2 2"/>
+  <line x1="480" y1="260" x2="535" y2="260" stroke="#000" stroke-width="0.6" stroke-dasharray="2 2"/>
+  <line x1="525" y1="100" x2="525" y2="260" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="545" y="185" font-style="italic">maxY</text>
+
+  <!-- Origin -->
+  <circle cx="80" cy="260" r="3"/>
+  <text x="62" y="282" font-size="13" text-anchor="middle">(0, 0)</text>
+
+  <text x="300" y="50" text-anchor="middle" font-size="14" fill="#555">Both angles are measured inside the domain from the bottom side (90° = vertical side)</text>
+</svg>

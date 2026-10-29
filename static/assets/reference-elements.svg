@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 450" width="760" height="450" font-family="sans-serif" font-size="14" fill="#000">
+
+  <!-- 1D linear -->
+  <line x1="80" y1="70" x2="280" y2="70" stroke="#000" stroke-width="2"/>
+  <g fill="#000"><circle cx="80" cy="70" r="4.5"/><circle cx="280" cy="70" r="4.5"/></g>
+  <text x="80" y="55" text-anchor="middle">0</text>
+  <text x="280" y="55" text-anchor="middle">1</text>
+  <text x="80" y="92" text-anchor="middle" font-size="12"><tspan font-style="italic">ξ</tspan> = 0</text>
+  <text x="280" y="92" text-anchor="middle" font-size="12"><tspan font-style="italic">ξ</tspan> = 1</text>
+  <circle cx="54" cy="70" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="54" y="74" text-anchor="middle" font-size="11" fill="#666">0</text>
+  <circle cx="306" cy="70" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="306" y="74" text-anchor="middle" font-size="11" fill="#666">1</text>
+  <text x="180" y="122" text-anchor="middle" font-weight="bold">1D, linear</text>
+
+  <!-- 1D quadratic -->
+  <line x1="460" y1="70" x2="660" y2="70" stroke="#000" stroke-width="2"/>
+  <g fill="#000"><circle cx="460" cy="70" r="4.5"/><circle cx="560" cy="70" r="4.5"/><circle cx="660" cy="70" r="4.5"/></g>
+  <text x="460" y="55" text-anchor="middle">0</text>
+  <text x="560" y="55" text-anchor="middle">1</text>
+  <text x="660" y="55" text-anchor="middle">2</text>
+  <text x="460" y="92" text-anchor="middle" font-size="12"><tspan font-style="italic">ξ</tspan> = 0</text>
+  <text x="560" y="92" text-anchor="middle" font-size="12"><tspan font-style="italic">ξ</tspan> = 0.5</text>
+  <text x="660" y="92" text-anchor="middle" font-size="12"><tspan font-style="italic">ξ</tspan> = 1</text>
+  <circle cx="434" cy="70" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="434" y="74" text-anchor="middle" font-size="11" fill="#666">0</text>
+  <circle cx="686" cy="70" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="686" y="74" text-anchor="middle" font-size="11" fill="#666">1</text>
+  <text x="560" y="122" text-anchor="middle" font-weight="bold">1D, quadratic</text>
+
+  <!-- Quadrilateral, linear -->
+  <rect x="50" y="200" width="120" height="120" fill="none" stroke="#000" stroke-width="2"/>
+  <g fill="#000">
+    <circle cx="50" cy="320" r="4.5"/><circle cx="50" cy="200" r="4.5"/>
+    <circle cx="170" cy="320" r="4.5"/><circle cx="170" cy="200" r="4.5"/>
+  </g>
+  <text x="60" y="312">0</text><text x="60" y="219">1</text>
+  <text x="152" y="312">2</text><text x="152" y="219">3</text>
+  <circle cx="110" cy="340" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="110" y="344" text-anchor="middle" font-size="11" fill="#666">0</text>
+  <circle cx="30" cy="260" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="30" y="264" text-anchor="middle" font-size="11" fill="#666">1</text>
+  <circle cx="110" cy="180" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="110" y="184" text-anchor="middle" font-size="11" fill="#666">2</text>
+  <circle cx="190" cy="260" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="190" y="264" text-anchor="middle" font-size="11" fill="#666">3</text>
+  <text x="110" y="378" text-anchor="middle" font-weight="bold">Quadrilateral, linear</text>
+
+  <!-- Quadrilateral, quadratic -->
+  <rect x="240" y="200" width="120" height="120" fill="none" stroke="#000" stroke-width="2"/>
+  <g fill="#000">
+    <circle cx="240" cy="320" r="4.5"/><circle cx="240" cy="260" r="4.5"/><circle cx="240" cy="200" r="4.5"/>
+    <circle cx="300" cy="320" r="4.5"/><circle cx="300" cy="260" r="4.5"/><circle cx="300" cy="200" r="4.5"/>
+    <circle cx="360" cy="320" r="4.5"/><circle cx="360" cy="260" r="4.5"/><circle cx="360" cy="200" r="4.5"/>
+  </g>
+  <text x="250" y="312">0</text><text x="250" y="256">1</text><text x="250" y="219">2</text>
+  <text x="308" y="312">3</text><text x="308" y="256">4</text><text x="308" y="219">5</text>
+  <text x="342" y="312">6</text><text x="342" y="256">7</text><text x="342" y="219">8</text>
+  <circle cx="300" cy="340" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="300" y="344" text-anchor="middle" font-size="11" fill="#666">0</text>
+  <circle cx="220" cy="260" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="220" y="264" text-anchor="middle" font-size="11" fill="#666">1</text>
+  <circle cx="300" cy="180" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="300" y="184" text-anchor="middle" font-size="11" fill="#666">2</text>
+  <circle cx="380" cy="260" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="380" y="264" text-anchor="middle" font-size="11" fill="#666">3</text>
+  <text x="300" y="378" text-anchor="middle" font-weight="bold">Quadrilateral, quadratic</text>
+
+  <!-- Triangle, linear -->
+  <path d="M430,320 L430,200 L550,320 Z" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <g fill="#000"><circle cx="430" cy="320" r="4.5"/><circle cx="430" cy="200" r="4.5"/><circle cx="550" cy="320" r="4.5"/></g>
+  <text x="440" y="312">0</text><text x="420" y="206" text-anchor="end">1</text><text x="518" y="312">2</text>
+  <circle cx="490" cy="340" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="490" y="344" text-anchor="middle" font-size="11" fill="#666">0</text>
+  <circle cx="410" cy="260" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="410" y="264" text-anchor="middle" font-size="11" fill="#666">1</text>
+  <circle cx="506" cy="244" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="506" y="248" text-anchor="middle" font-size="11" fill="#666">2</text>
+  <text x="490" y="378" text-anchor="middle" font-weight="bold">Triangle, linear</text>
+
+  <!-- Triangle, quadratic -->
+  <path d="M610,320 L610,200 L730,320 Z" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <g fill="#000">
+    <circle cx="610" cy="320" r="4.5"/><circle cx="610" cy="260" r="4.5"/><circle cx="610" cy="200" r="4.5"/>
+    <circle cx="670" cy="320" r="4.5"/><circle cx="670" cy="260" r="4.5"/><circle cx="730" cy="320" r="4.5"/>
+  </g>
+  <text x="620" y="312">0</text><text x="620" y="256">1</text><text x="600" y="206" text-anchor="end">2</text>
+  <text x="678" y="312">3</text><text x="660" y="280">4</text><text x="698" y="312">5</text>
+  <circle cx="670" cy="340" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="670" y="344" text-anchor="middle" font-size="11" fill="#666">0</text>
+  <circle cx="590" cy="260" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="590" y="264" text-anchor="middle" font-size="11" fill="#666">1</text>
+  <circle cx="686" cy="244" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="686" y="248" text-anchor="middle" font-size="11" fill="#666">2</text>
+  <text x="670" y="378" text-anchor="middle" font-weight="bold">Triangle, quadratic</text>
+
+  <!-- Legend -->
+  <circle cx="200" cy="425" r="4.5"/>
+  <text x="212" y="430">node (local number)</text>
+  <circle cx="390" cy="425" r="9" fill="none" stroke="#666" stroke-width="1"/><text x="390" y="429" text-anchor="middle" font-size="11" fill="#666">0</text>
+  <text x="406" y="430">side number</text>
+  <text x="380" y="160" text-anchor="middle" font-size="13" fill="#555">reference coordinates: 0 ≤ <tspan font-style="italic">ξ</tspan>, <tspan font-style="italic">η</tspan> ≤ 1 (<tspan font-style="italic">ξ</tspan> horizontal, <tspan font-style="italic">η</tspan> vertical)</text>
+</svg>

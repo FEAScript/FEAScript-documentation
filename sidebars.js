@@ -11,8 +11,35 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Fundamentals",
+      items: [
+        "fundamentals/finite-element-method",
+        "fundamentals/mesh",
+        "fundamentals/boundary-conditions",
+        "fundamentals/solvers",
+      ],
+    },
+    {
+      type: "category",
       label: "Models",
-      items: ["models/heat-conduction"],
+      items: [
+        "models/heat-conduction",
+        "models/general-form-pde",
+        "models/front-propagation",
+        "models/creeping-flow",
+        "models/euler-bernoulli-beam",
+      ],
+    },
+    {
+      type: "category",
+      label: "API Reference",
+      items: [
+        "api/feascript-model",
+        "api/gmsh-import",
+        "api/visualization",
+        "api/web-worker",
+        "api/utilities",
+      ],
     },
   ],
 };

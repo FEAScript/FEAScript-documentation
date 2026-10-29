@@ -22,5 +22,8 @@ FEAScript is under heavy development. Its functionality and interfaces may chang
 ## Where to go next
 
 - [Installation](./getting-started/installation.md) – use FEAScript in the browser or with Node.js
-- [Your first simulation](./getting-started/first-simulation.md)
-- [Heat conduction model](./models/heat-conduction.md)
+- [Your first simulation](./getting-started/first-simulation.md) – a complete example, step by step
+- [Fundamentals](./fundamentals/finite-element-method.md) – the finite element formulation, meshes, boundary
+  conditions and solvers
+- [Models](./models/heat-conduction.md) – the equations and options of every physical model
+- [API reference](./api/feascript-model.md) – classes and functions exported by FEAScript

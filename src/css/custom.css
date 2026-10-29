@@ -102,16 +102,11 @@
 
 html {
   background-color: var(--bg);
-  background-image:
-    linear-gradient(var(--paper-major) 1px, transparent 1px),
+  background-image: linear-gradient(var(--paper-major) 1px, transparent 1px),
     linear-gradient(90deg, var(--paper-major) 1px, transparent 1px),
     linear-gradient(var(--paper) 1px, transparent 1px),
     linear-gradient(90deg, var(--paper) 1px, transparent 1px);
-  background-size:
-    120px 120px,
-    120px 120px,
-    24px 24px,
-    24px 24px;
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
 }
 
 body {
@@ -243,9 +238,7 @@ body {
   background: none;
   color: var(--muted);
   cursor: pointer;
-  transition:
-    background 0.15s,
-    color 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 
 .nav-icon:hover {
@@ -614,9 +607,7 @@ code {
   border: 1px solid var(--line-strong);
   background: var(--bg);
   box-shadow: none;
-  transition:
-    border-color 0.15s,
-    background 0.15s;
+  transition: border-color 0.15s, background 0.15s;
 }
 
 .pagination-nav__link:hover {
@@ -745,9 +736,7 @@ code {
 .footer__link-item {
   padding: 0.15rem 0;
   font-size: 0.9375rem;
-  transition:
-    color 0.15s,
-    transform 0.15s;
+  transition: color 0.15s, transform 0.15s;
 }
 
 .footer__link-item svg[class*="iconExternalLink"] {
@@ -784,4 +773,14 @@ code {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+}
+
+/* ── Figures: black line art from static/assets, inverted in dark mode ─── */
+.markdown img[src^="/assets/"] {
+  display: block;
+  margin: 1.5rem auto;
+}
+
+[data-theme="dark"] .markdown img[src^="/assets/"] {
+  filter: invert(0.88);
 }
