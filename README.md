@@ -29,17 +29,24 @@ The navbar's GitHub pill matches the website and fetches the FEAScript-core star
 
 ## Versioning
 
-When a new FEAScript-core version is released, snapshot the current docs:
+The docs keep one version per **minor** release of FEAScript-core (`MAJOR.MINOR`), labeled with its latest patch release. Patch releases do not change the API, so they get no docs version of their own.
+
+- `docs/` holds the docs of the latest minor version and is served at the unversioned URLs (`lastVersion: "current"` in `docusaurus.config.js`). Its label in the version dropdown is set in `docusaurus.config.js`.
+- Older minor versions are snapshots in `versioned_docs/version-x.y.z/`, served at `docs.feascript.com/x.y.z/...`, with their sidebars in `versioned_sidebars/` and their names in `versions.json`.
+
+**Patch release** (for example 0.3.1 → 0.3.2): update the docs in `docs/` if needed and change the label of `current` in `docusaurus.config.js` to the new version.
+
+**Minor or major release** (for example 0.3.x → 0.4.0): before changing `docs/`, snapshot it under the latest patch release of the previous minor version:
 
 ```bash
-npm run version -- 0.3.0
+npm run version -- 0.3.1
 ```
 
-This copies `docs/` to `versioned_docs/version-0.3.0/`, the sidebar to `versioned_sidebars/`, and records the version in `versions.json`. Released docs are then available at `docs.feascript.com/0.3.0/...` and appear in the version dropdown.
+This copies `docs/` to `versioned_docs/version-0.3.1/`, the sidebar to `versioned_sidebars/`, and records the version in `versions.json`. Then add the snapshot to `versions` in `docusaurus.config.js` (with `banner: "unmaintained"`), change the label of `current` to the new version, and update `docs/` for the new release.
 
-Versions appear inside that dropdown, not as separate links across the navbar. The space between the logo and the right-hand controls is flexible layout spacing.
+Versions appear inside the dropdown, not as separate links across the navbar. The space between the logo and the right-hand controls is flexible layout spacing.
 
-After the first release, edit `docusaurus.config.js`: remove `lastVersion: "current"` so the newest released version becomes the default (unversioned URLs). Fixes to an old version are made directly in its `versioned_docs/version-x.y.z/` folder.
+Fixes to an old version are made directly in its `versioned_docs/version-x.y.z/` folder. Absolute links in those pages, such as CDN URLs and examples, must point to that version (for example `feascript@0.2.0` and the `0.2.0` tag of FEAScript-core), not to the latest release.
 
 ## Deployment
 
