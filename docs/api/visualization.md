@@ -12,15 +12,28 @@ All plotting functions take the same first arguments:
 | Parameter   | Type     | Description                                                                                                                               |
 | ----------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `model`     | `object` | The `FEAScriptModel`, or any object with its `solverConfig` and `meshConfig` (for example the result of `FEAScriptWorker.getModelInfo()`) |
-| `result`    | `object` | `{ solutionVector, nodesCoordinates }`, as returned by `solve()`                                                                          |
+| `result`    | `object` | The object returned by `solve()` (`{ solutionVector, nodesCoordinates }`, and `fields` for models with several unknowns per node)         |
 | `plotType`  | `string` | `"line"` for 1D meshes, `"contour"` for 2D meshes                                                                                         |
 | `plotDivId` | `string` | `id` of the HTML element in which the plot is drawn                                                                                       |
 
-The plotting functions draw one value per mesh node, taken from the beginning of `solutionVector`. For models with
-several unknowns per node, pass the field to plot instead of the full solution vector, for example
-`{ solutionVector: velocityMagnitude, nodesCoordinates }` (see the
+The plotting functions draw one value per mesh node. For scalar models this is `solutionVector`. Models with
+several unknowns per node return named `fields`, and the plotting functions draw one of them, selected with the
+`field` option:
+
+| Model                      | Fields                             | Default             |
+| -------------------------- | ---------------------------------- | ------------------- |
+| `creepingFlowScript`       | `velocityMagnitude`, `u`, `v`, `p` | `velocityMagnitude` |
+| `eulerBernoulliBeamScript` | `w`, `theta`                       | `w`                 |
+
+```javascript
+const result = model.solve();
+plotSolution(model, result, "contour", "velocityMagnitudeCanvas"); // Default field
+plotSolution(model, result, "contour", "pressureCanvas", { field: "p" });
+```
+
+An unknown field name is reported as an error and the default field is plotted. See the
 [creeping flow](../models/creeping-flow.md#results) and
-[Euler–Bernoulli beam](../models/euler-bernoulli-beam.md#results) pages).
+[Euler–Bernoulli beam](../models/euler-bernoulli-beam.md#results) pages for the fields.
 
 ## Plotly
 
@@ -31,9 +44,9 @@ Load Plotly with a `<script>` tag before using these functions; FEAScript uses t
 <div id="resultsCanvas"></div>
 ```
 
-### `plotSolution(model, result, plotType, plotDivId)`
+### `plotSolution(model, result, plotType, plotDivId, options)`
 
-Plots the nodal values directly:
+Plots the nodal values directly (`options.field` selects the field, see above):
 
 - `"line"` (1D): a line plot of the solution along $x$.
 - `"contour"` (2D): a contour plot built from the nodal values and coordinates.
@@ -43,7 +56,7 @@ const result = model.solve();
 plotSolution(model, result, "contour", "resultsCanvas");
 ```
 
-### `plotInterpolatedSolution(model, result, plotType, plotDivId)`
+### `plotInterpolatedSolution(model, result, plotType, plotDivId, options)`
 
 Evaluates the finite element solution, with the basis functions of each element, on a regular grid of 50 points
 per unit length, and draws a contour plot of it. Grid points outside the mesh are left empty, so non-rectangular
@@ -107,6 +120,7 @@ await plotInterpolatedSolutionVtk(model, result, "contour", "resultsCanvas", {
 | ------------------------ | ---------------------- | ------------------------------------- |
 | `colorScale`             | `createColorScale({})` | Color map and scalar bar              |
 | `contourLines`           | Contour lines disabled | Contour lines drawn over the solution |
+| `field`                  | Default field of model | Field to plot (see above)             |
 
 ### `createColorScale(options)`
 

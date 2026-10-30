@@ -94,7 +94,7 @@ model.addBoundaryCondition("3", ["constantVelocity", 0, 0]); // Right wall
 
 // 4. Solve
 model.setSolverMethod("lusolve");
-const { solutionVector, nodesCoordinates } = model.solve();
+const { solutionVector, nodesCoordinates, fields } = model.solve();
 ```
 
 The model takes no coefficient functions.
@@ -117,35 +117,38 @@ cannot handle, and the frontal solver is not implemented for this model.
 
 ## Results
 
-`solutionVector` holds all the unknowns of the mixed formulation, in three consecutive blocks:
+`result.fields` holds the solution as named fields, each a `Float64Array` with one value per mesh node, in the
+order of `nodesCoordinates`:
+
+| Field               | Description                         |
+| ------------------- | ----------------------------------- |
+| `velocityMagnitude` | Velocity magnitude $\sqrt{u^2+v^2}$ |
+| `u`                 | Velocity component $u$ (along $x$)  |
+| `v`                 | Velocity component $v$ (along $y$)  |
+| `p`                 | Pressure $p$                        |
+
+The plotting functions draw `velocityMagnitude` by default; select another field with the `field` option (see
+[Visualization](../api/visualization.md)):
+
+```javascript
+plotSolution(model, result, "contour", "velocityMagnitudeCanvas");
+plotSolution(model, result, "contour", "uVelocityCanvas", { field: "u" });
+plotSolution(model, result, "contour", "vVelocityCanvas", { field: "v" });
+```
+
+The fields can also be post-processed directly, for example `Math.max(...result.fields.velocityMagnitude)`.
+
+The pressure is solved at the corner nodes of the elements (Q1/P1) and interpolated linearly to the mid-side
+(and, on quadrilaterals, centre) nodes, so that `p` has a value at every mesh node.
+
+`result.solutionVector` holds the raw unknowns of the mixed formulation, in three consecutive blocks:
 
 $$
 [\, u_1, \dots, u_{N}, \; v_1, \dots, v_{N}, \; p_1, \dots, p_{N_p} \,],
 $$
 
-where $N$ is the number of mesh nodes (the velocity nodes, in the order of `nodesCoordinates`) and $N_p$ the
-number of pressure (corner) nodes. Extract the velocity components and magnitude with:
-
-```javascript
-const totalNodesVelocity = nodesCoordinates.nodesXCoordinates.length;
-
-const uVelocity = solutionVector.slice(0, totalNodesVelocity);
-const vVelocity = solutionVector.slice(totalNodesVelocity, 2 * totalNodesVelocity);
-const velocityMagnitude = uVelocity.map((u, i) => Math.hypot(u, vVelocity[i]));
-const pressure = solutionVector.slice(2 * totalNodesVelocity);
-```
-
-Pass each field separately to the plotting functions, for example
-`plotSolution(model, { solutionVector: velocityMagnitude, nodesCoordinates }, "contour", "plotDiv")` (see
-[Visualization](../api/visualization.md)).
-
-The pressure nodes are numbered in the order in which corner nodes first appear when the elements are traversed.
-After `solve()`, the mesh node of every pressure unknown is available in
-`model._creepingFlowMetadata.pressureNodeIndices` (0-based node indices).
-
-:::caution
-`_creepingFlowMetadata` is an internal property, not part of the public API, and may change in a future version.
-:::
+where $N$ is the number of mesh nodes and $N_p$ the number of pressure (corner) nodes. Use `result.fields`
+rather than slicing this vector.
 
 ## Examples
 

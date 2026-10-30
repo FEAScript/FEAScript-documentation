@@ -49,6 +49,7 @@ model.setSolverMethod("lusolve"); // Optional, "lusolve" is the default
 const { solutionVector, nodesCoordinates } = model.solve();
 // solutionVector: Float64Array
 // nodesCoordinates: { nodesXCoordinates: number[], nodesYCoordinates: number[] }
+// fields: { name: Float64Array } per node, only for creeping flow and the beam (see below)
 ```
 
 `solve()` is synchronous. It accepts optional `{ maxIterations, tolerance }`, which override the same options given to `setModelConfig`.
@@ -112,13 +113,13 @@ const result = model.solve({ maxIterations: 100, tolerance: 1e-5 });
 - Mesh: `meshDimension: "2D"` and `elementOrder: "quadratic"` (Taylor–Hood Q2–Q1 on quadrilaterals, P2–P1 on triangles from Gmsh).
 - Boundary conditions: `["constantVelocity", u, v]` (Dirichlet), `["stressFree"]` (natural outflow). If no boundary is `"stressFree"`, the pressure is set to 0 at the first pressure node.
 - Solvers: `"lusolve"` only.
-- Result layout: `[u_1..u_N, v_1..v_N, p_1..p_Np]`, where N = number of mesh nodes and Np = number of corner (pressure) nodes:
+- Result: `result.fields` = `{ velocityMagnitude, u, v, p }`, each a Float64Array with one value per mesh node (the pressure, solved at the corner nodes, is interpolated linearly to the other nodes). Do not slice `solutionVector` (raw layout `[u_1..u_N, v_1..v_N, p_1..p_Np]`).
 
 ```javascript
-const N = nodesCoordinates.nodesXCoordinates.length;
-const u = solutionVector.slice(0, N);
-const v = solutionVector.slice(N, 2 * N);
-const p = solutionVector.slice(2 * N); // Pressure, per corner node (not per mesh node)
+const result = model.solve();
+plotSolution(model, result, "contour", "velocityMagnitudeCanvas"); // Default field: velocityMagnitude
+plotSolution(model, result, "contour", "uVelocityCanvas", { field: "u" });
+plotSolution(model, result, "contour", "pressureCanvas", { field: "p" });
 ```
 
 ### eulerBernoulliBeamScript (1D)
@@ -134,11 +135,13 @@ const p = solutionVector.slice(2 * N); // Pressure, per corner node (not per mes
   - Several conditions at one node: `[["pinned"], ["moment", 1250]]`
 - Sign convention: w, q and F are positive in the same direction; θ = dw/dx.
 - Solvers: `"lusolve"` (`"jacobi"` may not converge; `"frontal"` is not supported).
-- Result layout: `[w_1, θ_1, w_2, θ_2, ...]`, two values per node:
+- Result: `result.fields` = `{ w, theta }`, each a Float64Array with one value per node. Do not filter `solutionVector` (raw layout `[w_1, θ_1, w_2, θ_2, ...]`).
 
 ```javascript
-const w = solutionVector.filter((_, i) => i % 2 === 0);
-const theta = solutionVector.filter((_, i) => i % 2 === 1);
+const result = model.solve();
+plotSolution(model, result, "line", "deflectionCanvas"); // Default field: w
+plotSolution(model, result, "line", "rotationCanvas", { field: "theta" });
+const tipDeflection = result.fields.w.at(-1);
 ```
 
 ## Mesh
@@ -198,13 +201,13 @@ Newton–Raphson (nonlinear general form, front propagation): defaults `maxItera
 ## Visualization (browser)
 
 - Plotly: load `plotly.min.js` with a `<script>` tag first (global `Plotly`).
-  - `plotSolution(model, result, plotType, divId)`: `plotType` is `"line"` (1D) or `"contour"` (2D).
-  - `plotInterpolatedSolution(model, result, "contour", divId)`: 2D only, on a grid of 50 points per unit length.
+  - `plotSolution(model, result, plotType, divId, { field })`: `plotType` is `"line"` (1D) or `"contour"` (2D).
+  - `plotInterpolatedSolution(model, result, "contour", divId, { field })`: 2D only, on a grid of 50 points per unit length.
 - vtk.js: the functions are `async` and need `@kitware/vtk.js` (npm) or an import map in the browser.
-  - `await plotSolutionVtk(model, result, plotType, divId, renderOptions)`
+  - `await plotSolutionVtk(model, result, plotType, divId, renderOptions)`: `renderOptions.field` selects the field
   - `await plotInterpolatedSolutionVtk(model, result, "contour", divId, { colorScale: createColorScale({ scalarBarTitle: "T" }), contourLines: createContourLineOptions({ numberOfContours: 12 }) })`
 - Export: `await transformSolverOutputToVTP(model, result, null, { mode: "surface" })` returns a VTP XML string; `transformSolverOutputToMLBuffers(result)` returns typed arrays `[x, y, value]` per node.
-- Plotting functions read one value per node from the start of `solutionVector`. For creeping flow and the beam, pass one field: `plotSolution(model, { solutionVector: w, nodesCoordinates }, "line", divId)`.
+- Pass the `result` of `solve()` as is. Scalar models plot `solutionVector`. Creeping flow and the beam plot one of `result.fields`, chosen with `{ field }` (defaults: `velocityMagnitude` for creeping flow, `w` for the beam); an unknown field name logs an error and plots the default.
 
 ## Web worker (browser)
 

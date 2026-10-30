@@ -88,7 +88,7 @@ model.addBoundaryCondition("3", [
 
 // 4. Solve
 model.setSolverMethod("lusolve");
-const { solutionVector, nodesCoordinates } = model.solve();
+const { solutionVector, nodesCoordinates, fields } = model.solve();
 ```
 
 ### Coefficient functions
@@ -136,21 +136,27 @@ stiffness matrices are generally not diagonally dominant, so it may not converge
 
 ## Results
 
-`solutionVector` holds two unknowns per node, ordered node by node:
+`result.fields` holds the solution as named fields, each a `Float64Array` with one value per node, in the order
+of `nodesCoordinates.nodesXCoordinates`:
 
-$$
-[\, w_1, \theta_1, \; w_2, \theta_2, \; \dots, \; w_N, \theta_N \,],
-$$
+| Field   | Description               |
+| ------- | ------------------------- |
+| `w`     | Deflection $w$            |
+| `theta` | Rotation $\theta = dw/dx$ |
 
-so it is twice as long as `nodesCoordinates.nodesXCoordinates`. Extract the deflection and rotation with:
+The plotting functions draw the deflection `w` by default; plot the rotation with the `field` option (see
+[Visualization](../api/visualization.md)):
 
 ```javascript
-const deflection = solutionVector.filter((_, index) => index % 2 === 0);
-const rotation = solutionVector.filter((_, index) => index % 2 === 1);
+plotSolution(model, result, "line", "deflectionCanvas");
+plotSolution(model, result, "line", "rotationCanvas", { field: "theta" });
 ```
 
-Pass `deflection` (not the full `solutionVector`) to the plotting functions, for example
-`plotSolution(model, { solutionVector: deflection, nodesCoordinates }, "line", "plotDiv")`.
+The fields can also be post-processed directly, for example the tip deflection `result.fields.w.at(-1)`.
+
+`result.solutionVector` holds the raw unknowns, two per node, ordered node by node:
+$[\, w_1, \theta_1, \; w_2, \theta_2, \; \dots, \; w_N, \theta_N \,]$. Use `result.fields` rather than
+extracting the values from this vector.
 
 ## Examples
 

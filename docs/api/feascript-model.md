@@ -110,16 +110,18 @@ synchronous.
 
 Returns an object with:
 
-| Property                             | Type           | Description                                   |
-| ------------------------------------ | -------------- | --------------------------------------------- |
-| `solutionVector`                     | `Float64Array` | The computed unknowns (see the model pages)   |
-| `nodesCoordinates.nodesXCoordinates` | `number[]`     | $x$ coordinates of the mesh nodes             |
-| `nodesCoordinates.nodesYCoordinates` | `number[]`     | $y$ coordinates of the mesh nodes (2D meshes) |
+| Property                             | Type           | Description                                                              |
+| ------------------------------------ | -------------- | ------------------------------------------------------------------------ |
+| `solutionVector`                     | `Float64Array` | The computed unknowns (see the model pages)                              |
+| `nodesCoordinates.nodesXCoordinates` | `number[]`     | $x$ coordinates of the mesh nodes                                        |
+| `nodesCoordinates.nodesYCoordinates` | `number[]`     | $y$ coordinates of the mesh nodes (2D meshes)                            |
+| `fields`                             | `object`       | Named fields, one value per node (models with several unknowns per node) |
 
 For scalar models (heat conduction, general form PDE, front propagation), `solutionVector` has one value per
-node, in the order of `nodesCoordinates`. The [creeping flow](../models/creeping-flow.md#results) and
-[Euler–Bernoulli beam](../models/euler-bernoulli-beam.md#results) models return more unknowns per node; see
-their pages for the layout.
+node, in the order of `nodesCoordinates`, and there is no `fields` property. The
+[creeping flow](../models/creeping-flow.md#results) (`velocityMagnitude`, `u`, `v`, `p`) and
+[Euler–Bernoulli beam](../models/euler-bernoulli-beam.md#results) (`w`, `theta`) models have more unknowns per
+node: `fields` holds each of them as a `Float64Array` with one value per node, ready to plot or post-process.
 
 ### `solveAsync(computeEngine, options)`
 
