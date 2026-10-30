@@ -534,10 +534,12 @@ code {
   font-family: var(--font-mono);
 }
 
+/* Opaque like the website's cells, so the blueprint grid does not show through the rows */
 .markdown table {
   display: table;
   width: 100%;
   border: 1px solid var(--line);
+  background-color: var(--bg);
 }
 
 .markdown table th {
