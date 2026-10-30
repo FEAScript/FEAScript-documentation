@@ -113,11 +113,12 @@ The rule depends on the element type:
 
 | Element                       | Integration rule                           |
 | ----------------------------- | ------------------------------------------ |
-| 1D / quadrilateral, linear    | 1-point Gauss rule per direction           |
+| 1D / quadrilateral, linear    | 2-point Gauss rule per direction           |
 | 1D / quadrilateral, quadratic | 3-point Gauss rule per direction           |
 | Triangle, linear              | 3-point rule (exact up to degree 2)        |
 | Triangle, quadratic           | 6-point rule (exact up to degree 4)        |
 | 1D, cubic Hermite             | 6-point Gauss rule (exact up to degree 11) |
 
-Quadrilateral rules are tensor products of the 1D rule. Coefficients given as functions of position (for
+Quadrilateral rules are tensor products of the 1D rule (2 × 2 points for linear quadrilaterals, 3 × 3 for
+quadratic ones), which integrate the stiffness and mass terms of undistorted elements exactly. Coefficients given as functions of position (for
 example a thermal conductivity $k(x, y)$) are evaluated at these integration points.

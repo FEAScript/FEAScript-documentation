@@ -1,6 +1,6 @@
 # FEAScript
 
-> FEAScript is a finite element simulation library written in JavaScript (ES modules). It runs in the browser and in Node.js. This file is a compact, exact reference of the FEAScript 0.3.0 (RC) API for AI assistants. Use only the functions, options and string values listed here: anything not listed is not supported.
+> FEAScript is a finite element simulation library written in JavaScript (ES modules). It runs in the browser and in Node.js. This file is a compact, exact reference of the FEAScript 0.3.0 API for AI assistants. Use only the functions, options and string values listed here: anything not listed is not supported.
 
 Full documentation: https://docs.feascript.com
 Source code: https://github.com/FEAScript/FEAScript-core
