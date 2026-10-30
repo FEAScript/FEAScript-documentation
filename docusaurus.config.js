@@ -48,7 +48,7 @@ const config = {
           // "current" holds the unreleased docs; released versions are snapshots (see README)
           lastVersion: "current",
           versions: {
-            current: { label: "0.3.0" },
+            current: { label: "0.3.1" },
           },
         },
         blog: false,
