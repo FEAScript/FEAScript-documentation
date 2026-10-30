@@ -44,12 +44,12 @@ Selects the physical model and sets its options.
 | `"creepingFlowScript"`       | [Creeping flow](../models/creeping-flow.md)               | 2D         |
 | `"eulerBernoulliBeamScript"` | [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md) | 1D         |
 
-| Option                 | Type      | Used by                                                 | Description                                            |
-| ---------------------- | --------- | ------------------------------------------------------- | ------------------------------------------------------ |
-| `coefficientFunctions` | `object`  | Heat conduction, general form PDE, Euler–Bernoulli beam | Coefficients of the equation; see each model page      |
-| `nonlinear`            | `boolean` | General form PDE                                        | Solve with the Newton–Raphson method (default `false`) |
-| `maxIterations`        | `number`  | All                                                     | Maximum iterations of the iterative method in use      |
-| `tolerance`            | `number`  | All                                                     | Convergence tolerance of the iterative method in use   |
+| Option                 | Type      | Used by                                                                | Description                                            |
+| ---------------------- | --------- | ---------------------------------------------------------------------- | ------------------------------------------------------ |
+| `coefficientFunctions` | `object`  | Heat conduction, general form PDE, creeping flow, Euler–Bernoulli beam | Coefficients of the equation; see each model page      |
+| `nonlinear`            | `boolean` | General form PDE                                                       | Solve with the Newton–Raphson method (default `false`) |
+| `maxIterations`        | `number`  | All                                                                    | Maximum iterations of the iterative method in use      |
+| `tolerance`            | `number`  | All                                                                    | Convergence tolerance of the iterative method in use   |
 
 `maxIterations` and `tolerance` apply to the Jacobi solvers in linear models and to the Newton–Raphson method in
 nonlinear models; see [Solvers](../fundamentals/solvers.md) for their defaults.

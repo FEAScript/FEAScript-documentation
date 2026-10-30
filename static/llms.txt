@@ -61,7 +61,7 @@ const { solutionVector, nodesCoordinates } = model.solve();
 | `"heatConductionScript"`     | −∇·(k ∇T) = Q                                                | 1D or 2D, linear or quadratic |
 | `"generalFormPDEScript"`     | d/dx(A du/dx) + B du/dx + C u = D                            | 1D only                      |
 | `"frontPropagationScript"`   | Eikonal equation \|∇u\| = 1 (vanishing viscosity)            | 1D or 2D                     |
-| `"creepingFlowScript"`       | Stokes flow: −μ∇²u + ∇p = 0, ∇·u = 0, with μ = 1 (fixed)     | 2D, quadratic only           |
+| `"creepingFlowScript"`       | Stokes flow: −μ∇²u + ∇p = 0, ∇·u = 0                         | 2D, quadratic only           |
 | `"eulerBernoulliBeamScript"` | d²/dx²(EI d²w/dx²) + c0 w = q                                | 1D, `elementOrder: "linear"` only |
 
 ### heatConductionScript
@@ -109,7 +109,7 @@ const result = model.solve({ maxIterations: 100, tolerance: 1e-5 });
 
 ### creepingFlowScript (2D, quadratic only)
 
-- No options. The viscosity μ is fixed to 1.
+- Options: `coefficientFunctions: { viscosity }`, the dynamic viscosity μ, a positive number or a function `(x, y) => ...`. Default `viscosity = 1`; `coefficientFunctions` can be omitted. With velocity boundary conditions only, a constant μ leaves the velocity unchanged and scales the pressure by μ.
 - Mesh: `meshDimension: "2D"` and `elementOrder: "quadratic"` (Taylor–Hood Q2–Q1 on quadrilaterals, P2–P1 on triangles from Gmsh).
 - Boundary conditions: `["constantVelocity", u, v]` (Dirichlet), `["stressFree"]` (natural outflow). If no boundary is `"stressFree"`, the pressure is set to 0 at the first pressure node.
 - Solvers: `"lusolve"` only.
@@ -237,8 +237,8 @@ worker.terminate();
 - 3D meshes, and 1D or 3D Gmsh meshes
 - 2D general form PDE
 - Transient (time-dependent) problems
-- Setting the viscosity in creeping flow, or Navier–Stokes (inertia)
-- Coefficient functions for front propagation or creeping flow
+- Navier–Stokes (inertia) in creeping flow
+- Coefficient functions for front propagation
 - Mixed element shapes or orders in one mesh
 - Heat flux (Neumann) conditions with a non-zero value
 - `"frontal"` for creeping flow, the beam, or the nonlinear general form

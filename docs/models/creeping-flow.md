@@ -21,9 +21,8 @@ where $\bar{u} = (u, v)$ is the velocity, $p$ the pressure and $\mu$ the dynamic
 forces are neglected, which is valid when the Reynolds number is much smaller than one.
 
 :::note
-The viscosity is fixed to $\mu = 1$ and cannot be changed yet. For a Newtonian fluid with a different viscosity
-and velocity boundary conditions only, the velocity field is the same and the pressure scales linearly with
-$\mu$.
+With velocity boundary conditions only, a constant viscosity does not change the velocity field: the pressure
+scales linearly with $\mu$.
 :::
 
 ## Taylor–Hood elements
@@ -74,7 +73,11 @@ import { FEAScriptModel } from "feascript";
 
 // 1. Create the model and select the physics
 const model = new FEAScriptModel();
-model.setModelConfig("creepingFlowScript");
+model.setModelConfig("creepingFlowScript", {
+  coefficientFunctions: {
+    viscosity: 1, // μ
+  },
+});
 
 // 2. Define the mesh
 model.setMeshConfig({
@@ -97,7 +100,24 @@ model.setSolverMethod("lusolve");
 const { solutionVector, nodesCoordinates, fields } = model.solve();
 ```
 
-The model takes no coefficient functions.
+### Coefficient functions
+
+| Property    | Symbol | Default | Type                             |
+| ----------- | ------ | ------- | -------------------------------- |
+| `viscosity` | $\mu$  | `1`     | `number` or function of position |
+
+The dynamic viscosity can be a positive constant or a function of the physical coordinates `(x, y) => ...`,
+evaluated at every integration point, so regions of different viscosity are supported. `coefficientFunctions`
+can be omitted entirely to use $\mu = 1$.
+
+```javascript
+model.setModelConfig("creepingFlowScript", {
+  coefficientFunctions: {
+    // A ten times more viscous fluid in the right half of the cavity
+    viscosity: (x, y) => (x < 2 ? 1 : 10),
+  },
+});
+```
 
 ### Boundary conditions
 
