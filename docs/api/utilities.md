@@ -29,7 +29,7 @@ at every level.
 ```javascript
 import { printVersion } from "feascript";
 
-console.log("FEAScript version:", printVersion); // "0.3.1"
+console.log("FEAScript version:", printVersion); // "0.4.0 (RC)"
 ```
 
 A string constant with the version of the library.

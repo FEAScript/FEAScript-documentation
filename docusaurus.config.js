@@ -48,7 +48,8 @@ const config = {
           // "current" holds the docs of the latest minor version; older minor versions are snapshots (see README)
           lastVersion: "current",
           versions: {
-            current: { label: "0.3.1" },
+            current: { label: "0.4.0 (RC)" },
+            "0.3.1": { label: "0.3.1" },
             "0.2.0": { label: "0.2.0", banner: "unmaintained" },
           },
         },
