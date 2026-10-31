@@ -55,17 +55,24 @@ $$
 u_i^{(m+1)} = \frac{1}{\mathcal{J}_{ii}} \left( R_i - \sum_{j \ne i} \mathcal{J}_{ij} \, u_j^{(m)} \right),
 $$
 
-starting from $\bar{u}^{(0)} = 0$. The iterations stop when the Euclidean norm of the change between two
-iterations is smaller than the tolerance.
+starting from $\bar{u}^{(0)} = 0$. The iterations stop when the residual, relative to the right-hand side, is
+smaller than the tolerance:
+
+$$
+\frac{\lVert \bar{R} - \mathcal{J} \bar{u}^{(m)} \rVert_2}{\lVert \bar{R} \rVert_2} < \text{tolerance}.
+$$
+
+The size of the change between two iterations is not used: the Jacobi method can converge slowly, so the changes
+become small while the iterate is still far from the solution.
 
 The Jacobi method converges only for suitable matrices, for example diagonally dominant ones. Linear elements
 usually give such matrices; quadratic elements usually do not. If the method does not converge, FEAScript logs
 an error and returns the last iterate.
 
-| Option          | Default | Description                              |
-| --------------- | ------- | ---------------------------------------- |
-| `maxIterations` | `10000` | Maximum number of Jacobi iterations      |
-| `tolerance`     | `1e-4`  | Convergence tolerance on the update norm |
+| Option          | Default | Description                                     |
+| --------------- | ------- | ----------------------------------------------- |
+| `maxIterations` | `10000` | Maximum number of Jacobi iterations             |
+| `tolerance`     | `1e-8`  | Tolerance on the residual relative to $\bar{R}$ |
 
 These options can be passed to `solve()` or `setModelConfig()` (see
 [`FEAScriptModel`](../api/feascript-model.md)):
@@ -93,9 +100,9 @@ const result = await model.solveAsync();
 system matrix, so its memory use grows with the square of the number of nodes.
 :::
 
-The GPU computations use single precision (32-bit) floats. The `maxIterations` (default `10000`) and
-`tolerance` (default `1e-4`) options have the same meaning as for `"jacobi"`, but the stopping criterion is the
-largest absolute residual, $\max_i \lvert R_i - \sum_j \mathcal{J}_{ij} u_j \rvert$, which is checked every few
+The GPU computations use single precision (32-bit) floats. The `maxIterations` option (default `10000`) has the
+same meaning as for `"jacobi"`. The `tolerance` option (default `1e-4`) applies to a different stopping criterion:
+the largest absolute residual, $\max_i \lvert R_i - \sum_j \mathcal{J}_{ij} u_j \rvert$, which is checked every few
 iterations.
 
 ## Newton–Raphson method

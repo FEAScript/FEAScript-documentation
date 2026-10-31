@@ -76,9 +76,10 @@ When two boundaries share a node, for example at a corner of a rectangle:
 
 - a Dirichlet condition on either boundary takes precedence over a Robin or natural condition on the other;
 - if both boundaries have Dirichlet conditions with different values, the boundary with the larger key sets the
-  value at the shared node (the boundaries are processed in increasing key order). In the lid-driven cavity of
-  the [creeping flow](../models/creeping-flow.md) model, for example, the top-right corner takes the velocity of
-  the right wall (`"3"`) and the top-left corner the velocity of the lid (`"2"`).
+  value at the shared node (the boundaries are processed in increasing key order);
+- in the [creeping flow](../models/creeping-flow.md) model, a zero velocity (no slip) takes precedence over a
+  nonzero velocity, whatever the keys. In the lid-driven cavity, both top corners therefore take the velocity
+  of the side walls, zero, so that the moving lid does not push fluid through the side walls at the corners.
 
 ## Deprecated names
 

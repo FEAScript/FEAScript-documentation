@@ -64,6 +64,10 @@ If every boundary has a velocity condition, the pressure is defined only up to a
 FEAScript sets $p = 0$ at the first pressure node (for a structured mesh, the bottom-left corner of the domain).
 When at least one boundary is `"stressFree"`, the pressure level is set by that boundary and no node is fixed.
 
+With velocity conditions on every boundary, the net flow through the boundary must be zero. At a node shared by
+two boundaries, a zero velocity (no slip) therefore takes precedence over a nonzero one, whatever the boundary
+keys: the corners of a moving lid get the velocity of the fixed walls, so that no fluid is pushed through them.
+
 ## Usage
 
 The lid-driven cavity: a $4 \times 2$ cavity whose top wall moves with unit velocity.
