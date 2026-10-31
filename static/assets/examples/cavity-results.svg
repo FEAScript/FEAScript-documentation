@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740.0 360" width="740.0" height="360" font-family="sans-serif" font-size="15" fill="#000">
+  <!-- Lid-driven cavity: velocity vectors -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+  <text x="370" y="30" text-anchor="middle">Velocity vectors at the element corners (the lid moves at 1 m/s)</text>
+  <defs><marker id="arrow-small" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000" fill-opacity="0.6"/></marker></defs>
+  <line x1="153.33" y1="276.67" x2="149.97" y2="273.45" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="153.33" y1="233.33" x2="147.34" y2="221.84" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="153.33" y1="190" x2="145.57" y2="167.88" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="153.33" y1="146.67" x2="143.9" y2="111.38" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="153.33" y1="103.33" x2="150.63" y2="72.93" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="196.67" y1="276.67" x2="186.19" y2="272.34" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="196.67" y1="233.33" x2="180.09" y2="219.75" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="196.67" y1="190" x2="178.25" y2="166.8" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="196.67" y1="146.67" x2="184.06" y2="120.3" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="196.67" y1="103.33" x2="212.36" y2="88.54" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="240" y1="276.67" x2="222.63" y2="273.25" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="240" y1="233.33" x2="214.76" y2="223.12" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="240" y1="190" x2="216.33" y2="174.45" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="240" y1="146.67" x2="231.74" y2="131.87" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="240" y1="103.33" x2="272.02" y2="96.97" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="283.33" y1="276.67" x2="261.24" y2="274.65" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="283.33" y1="233.33" x2="252.87" y2="227.45" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="283.33" y1="190" x2="257.86" y2="181.62" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="283.33" y1="146.67" x2="279.33" y2="139.56" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="283.33" y1="103.33" x2="321.94" y2="100.54" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="326.67" y1="276.67" x2="302.1" y2="275.8" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="326.67" y1="233.33" x2="293.66" y2="230.81" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="326.67" y1="190" x2="300.74" y2="186.54" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="326.67" y1="146.67" x2="325" y2="143.88" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="326.67" y1="103.33" x2="368.52" y2="102.33" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="370" y1="276.67" x2="344.7" y2="276.67" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="370" y1="233.33" x2="336.26" y2="233.33" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="370" y1="190" x2="344" y2="190" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="370" y1="103.33" x2="412.62" y2="103.33" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="413.33" y1="276.67" x2="388.77" y2="277.54" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="413.33" y1="233.33" x2="380.33" y2="235.85" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="413.33" y1="190" x2="387.41" y2="193.46" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="413.33" y1="146.67" x2="411.67" y2="149.45" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="413.33" y1="103.33" x2="455.19" y2="104.34" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="456.67" y1="276.67" x2="434.57" y2="278.68" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="456.67" y1="233.33" x2="426.21" y2="239.22" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="456.67" y1="190" x2="431.2" y2="198.38" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="456.67" y1="146.67" x2="452.66" y2="153.77" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="456.67" y1="103.33" x2="495.28" y2="106.13" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="500" y1="276.67" x2="482.63" y2="280.08" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="500" y1="233.33" x2="474.76" y2="243.55" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="500" y1="190" x2="476.33" y2="205.55" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="500" y1="146.67" x2="491.74" y2="161.47" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="500" y1="103.33" x2="532.02" y2="109.7" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="543.33" y1="276.67" x2="532.86" y2="280.99" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="543.33" y1="233.33" x2="526.76" y2="246.92" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="543.33" y1="190" x2="524.91" y2="213.2" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="543.33" y1="146.67" x2="530.73" y2="173.03" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="543.33" y1="103.33" x2="559.02" y2="118.13" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="586.67" y1="276.67" x2="583.3" y2="279.88" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="586.67" y1="233.33" x2="580.68" y2="244.83" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="586.67" y1="190" x2="578.91" y2="212.12" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="586.67" y1="146.67" x2="577.23" y2="181.95" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <line x1="586.67" y1="103.33" x2="583.96" y2="133.73" stroke="#000" stroke-width="1" stroke-opacity="0.6" marker-end="url(#arrow-small)"/>
+  <path d="M110,320 L131.67,320 M131.67,320 L153.33,320 M110,298.33 L110,276.67 M110,320 L110,298.33 M110,255 L110,233.33 M110,276.67 L110,255 M110,211.67 L110,190 M110,233.33 L110,211.67 M110,168.33 L110,146.67 M110,190 L110,168.33 M110,125 L110,103.33 M110,146.67 L110,125 M131.67,60 L153.33,60 M110,60 L131.67,60 M110,81.67 L110,60 M110,103.33 L110,81.67 M153.33,320 L175,320 M175,320 L196.67,320 M175,60 L196.67,60 M153.33,60 L175,60 M196.67,320 L218.33,320 M218.33,320 L240,320 M218.33,60 L240,60 M196.67,60 L218.33,60 M240,320 L261.67,320 M261.67,320 L283.33,320 M261.67,60 L283.33,60 M240,60 L261.67,60 M283.33,320 L305,320 M305,320 L326.67,320 M305,60 L326.67,60 M283.33,60 L305,60 M326.67,320 L348.33,320 M348.33,320 L370,320 M348.33,60 L370,60 M326.67,60 L348.33,60 M370,320 L391.67,320 M391.67,320 L413.33,320 M391.67,60 L413.33,60 M370,60 L391.67,60 M413.33,320 L435,320 M435,320 L456.67,320 M435,60 L456.67,60 M413.33,60 L435,60 M456.67,320 L478.33,320 M478.33,320 L500,320 M478.33,60 L500,60 M456.67,60 L478.33,60 M500,320 L521.67,320 M521.67,320 L543.33,320 M521.67,60 L543.33,60 M500,60 L521.67,60 M543.33,320 L565,320 M565,320 L586.67,320 M565,60 L586.67,60 M543.33,60 L565,60 M586.67,320 L608.33,320 M608.33,320 L630,320 M630,320 L630,298.33 M630,298.33 L630,276.67 M630,276.67 L630,255 M630,255 L630,233.33 M630,233.33 L630,211.67 M630,211.67 L630,190 M630,190 L630,168.33 M630,168.33 L630,146.67 M630,146.67 L630,125 M630,125 L630,103.33 M630,103.33 L630,81.67 M630,81.67 L630,60 M608.33,60 L630,60 M586.67,60 L608.33,60" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+</svg>

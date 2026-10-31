@@ -5,3 +5,7 @@
 .DS_Store
 .env*
 npm-debug.log*
+
+# Example results recorded by scripts/export-example-results.mjs
+/scripts/.example-results
+/scripts/__pycache__

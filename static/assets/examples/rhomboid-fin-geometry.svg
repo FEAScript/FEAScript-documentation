@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 370" width="640" height="370" font-family="sans-serif" font-size="15" fill="#000">
+  <!-- 2D rhomboid fin: bottom 4 m, top shifted by 1 m, height 2 m -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+  <polygon points="140,260 460,260 540,100 220,100" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="300" y="282" text-anchor="middle"><tspan font-style="italic">T</tspan> = 200 °C</text>
+  <text x="300" y="298" font-size="12" fill="#666" text-anchor="middle">boundary "0"</text>
+  <text x="380" y="88" text-anchor="middle">Convection, <tspan font-style="italic">h</tspan> = 1 W/(m²·K), <tspan font-style="italic">T</tspan><tspan dy="4" font-size="11">∞</tspan><tspan dy="-4"></tspan> = 20 °C</text>
+  <text x="380" y="70" font-size="12" fill="#666" text-anchor="middle">boundary "2"</text>
+  <text x="160.32" y="170.16" text-anchor="middle" transform="rotate(-63.43 160.32 170.16)">Symmetry</text>
+  <text x="144.22" y="162.11" font-size="12" fill="#666" text-anchor="middle" transform="rotate(-63.43 144.22 162.11)">boundary "1"</text>
+  <text x="519.68" y="189.84" text-anchor="middle" transform="rotate(-63.43 519.68 189.84)"><tspan font-style="italic">T</tspan> = 200 °C</text>
+  <text x="535.78" y="197.89" font-size="12" fill="#666" text-anchor="middle" transform="rotate(-63.43 535.78 197.89)">boundary "3"</text>
+  <circle cx="140" cy="260" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <text x="134" y="280" font-size="13" text-anchor="middle">(0, 0)</text>
+  <line x1="140" y1="330" x2="460" y2="330" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="300" y="350" text-anchor="middle">4 m</text>
+  <line x1="600" y1="260" x2="600" y2="100" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="614" y="180" text-anchor="middle" transform="rotate(90 614 180)">2 m</text>
+  <text x="340" y="180" text-anchor="middle">∇<tspan dy="-6" font-size="11">2</tspan><tspan dy="6"><tspan font-style="italic">T</tspan> = 0</tspan></text>
+</svg>

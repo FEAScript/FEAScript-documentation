@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" font-family="sans-serif" font-size="15" fill="#000">
+  <!-- Cantilever beam: deflection -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+  <g stroke="#000" stroke-width="0.6" stroke-opacity="0.25">
+    <line x1="90" y1="30" x2="90" y2="300"/>
+    <line x1="217.5" y1="30" x2="217.5" y2="300"/>
+    <line x1="345" y1="30" x2="345" y2="300"/>
+    <line x1="472.5" y1="30" x2="472.5" y2="300"/>
+    <line x1="600" y1="30" x2="600" y2="300"/>
+    <line x1="90" y1="300" x2="600" y2="300"/>
+    <line x1="90" y1="246" x2="600" y2="246"/>
+    <line x1="90" y1="192" x2="600" y2="192"/>
+    <line x1="90" y1="138" x2="600" y2="138"/>
+    <line x1="90" y1="84" x2="600" y2="84"/>
+    <line x1="90" y1="30" x2="600" y2="30"/>
+  </g>
+  <line x1="90" y1="300" x2="600" y2="300" stroke="#000" stroke-width="1"/>
+  <line x1="90" y1="30" x2="90" y2="300" stroke="#000" stroke-width="1"/>
+  <text x="90" y="320" font-size="13" text-anchor="middle">0</text>
+  <text x="217.5" y="320" font-size="13" text-anchor="middle">1</text>
+  <text x="345" y="320" font-size="13" text-anchor="middle">2</text>
+  <text x="472.5" y="320" font-size="13" text-anchor="middle">3</text>
+  <text x="600" y="320" font-size="13" text-anchor="middle">4</text>
+  <text x="82" y="304" font-size="13" text-anchor="end">-0.25</text>
+  <text x="82" y="250" font-size="13" text-anchor="end">-0.2</text>
+  <text x="82" y="196" font-size="13" text-anchor="end">-0.15</text>
+  <text x="82" y="142" font-size="13" text-anchor="end">-0.1</text>
+  <text x="82" y="88" font-size="13" text-anchor="end">-0.05</text>
+  <text x="82" y="34" font-size="13" text-anchor="end">0</text>
+  <text x="345" y="346" text-anchor="middle"><tspan font-style="italic">x</tspan> (m)</text>
+  <text x="24" y="165" text-anchor="middle" transform="rotate(-90 24 165)">Deflection <tspan font-style="italic">w</tspan> (m)</text>
+  <polyline points="90,30 96.38,30.05 102.75,30.21 109.12,30.48 115.5,30.85 121.88,31.32 128.25,31.9 134.62,32.57 141,33.34 147.38,34.21 153.75,35.18 160.12,36.23 166.5,37.39 172.88,38.63 179.25,39.97 185.62,41.39 192,42.9 198.38,44.5 204.75,46.18 211.12,47.95 217.5,49.8 223.88,51.73 230.25,53.74 236.62,55.83 243,57.99 249.38,60.23 255.75,62.55 262.12,64.94 268.5,67.4 274.88,69.93 281.25,72.53 287.62,75.19 294,77.92 300.38,80.72 306.75,83.58 313.12,86.5 319.5,89.49 325.88,92.53 332.25,95.63 338.62,98.79 345,102 351.38,105.27 357.75,108.59 364.12,111.96 370.5,115.38 376.88,118.85 383.25,122.36 389.62,125.93 396,129.53 402.38,133.18 408.75,136.88 415.12,140.61 421.5,144.38 427.88,148.19 434.25,152.03 440.62,155.92 447,159.83 453.38,163.78 459.75,167.76 466.12,171.76 472.5,175.8 478.88,179.86 485.25,183.95 491.62,188.07 498,192.2 504.38,196.36 510.75,200.54 517.12,204.73 523.5,208.95 529.88,213.18 536.25,217.43 542.62,221.68 549,225.96 555.38,230.24 561.75,234.53 568.12,238.83 574.5,243.13 580.88,247.45 587.25,251.76 593.62,256.08 600,260.4" fill="none" stroke="#000" stroke-width="1.5"/>
+  <circle cx="90" cy="30" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="217.5" cy="49.8" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="345" cy="102" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="472.5" cy="175.8" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="600" cy="260.4" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+</svg>
