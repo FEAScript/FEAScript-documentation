@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 520" width="680" height="520" font-family="sans-serif" font-size="15" fill="#000">
+  <!-- Code_Aster TPLP01: L-shaped domain, re-entrant corner C, 13 reference points -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+  <polygon points="170,400 330,400 330,240 490,240 490,80 170,80" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="156" y="240" text-anchor="middle" transform="rotate(-90 156 240)"><tspan font-style="italic">T</tspan> = 10 °C</text>
+  <text x="140" y="240" font-size="12" fill="#666" text-anchor="middle" transform="rotate(-90 140 240)">boundary "0"</text>
+  <text x="510" y="160" text-anchor="middle" transform="rotate(90 510 160)"><tspan font-style="italic">T</tspan> = 0 °C</text>
+  <text x="526" y="160" font-size="12" fill="#666" text-anchor="middle" transform="rotate(90 526 160)">boundary "1"</text>
+  <text x="330" y="68" text-anchor="middle">Insulated</text>
+  <text x="330" y="50" font-size="12" fill="#666" text-anchor="middle">boundary "2"</text>
+  <text x="250" y="422" text-anchor="middle">Insulated</text>
+  <text x="250" y="438" font-size="12" fill="#666" text-anchor="middle">boundary "2"</text>
+  <text x="344" y="325">Insulated</text>
+  <text x="344" y="341" font-size="12" fill="#666">boundary "2"</text>
+  <circle cx="250" cy="400" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="250" cy="320" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="250" cy="240" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="250" cy="160" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="250" cy="80" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="330" cy="400" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="330" cy="320" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="330" cy="240" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="330" cy="160" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="330" cy="80" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="410" cy="240" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="410" cy="160" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="410" cy="80" r="3" fill="#000" stroke="#000" stroke-width="1"/>
+  <text x="158" y="416" font-size="13" fill="#666" text-anchor="middle">A</text>
+  <text x="342" y="416" font-size="13" fill="#666" text-anchor="middle">B</text>
+  <text x="342" y="256" font-size="13" fill="#666" text-anchor="middle">C</text>
+  <text x="502" y="256" font-size="13" fill="#666" text-anchor="middle">D</text>
+  <text x="502" y="74" font-size="13" fill="#666" text-anchor="middle">E</text>
+  <text x="158" y="74" font-size="13" fill="#666" text-anchor="middle">F</text>
+  <line x1="170" y1="470" x2="490" y2="470" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="330" y="490" text-anchor="middle">0.8 m</text>
+  <line x1="570" y1="240" x2="570" y2="80" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="584" y="160" text-anchor="middle" transform="rotate(90 584 160)">0.4 m</text>
+</svg>

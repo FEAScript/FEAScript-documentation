@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" width="720" height="320" font-family="sans-serif" font-size="15" fill="#000">
+  <!-- Spatially varying coefficients: 1D domain [0, 1] and 2D unit square, case 1 -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+  <text x="40" y="40" font-size="16" font-weight="bold">1D</text>
+  <line x1="60" y1="150" x2="320" y2="150" stroke="#000" stroke-width="2"/>
+  <circle cx="60" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="92.5" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="125" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="157.5" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="190" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="222.5" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="255" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="287.5" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="320" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="60" y="125" text-anchor="middle"><tspan font-style="italic">T</tspan>(0)</text>
+  <text x="60" y="107" font-size="12" fill="#666" text-anchor="middle">boundary "0"</text>
+  <text x="320" y="125" text-anchor="middle"><tspan font-style="italic">T</tspan>(1)</text>
+  <text x="320" y="107" font-size="12" fill="#666" text-anchor="middle">boundary "1"</text>
+  <line x1="60" y1="185" x2="320" y2="185" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="190" y="205" text-anchor="middle">1</text>
+  <text x="190" y="235" font-size="13" fill="#666" text-anchor="middle">8 elements</text>
+  <text x="400" y="40" font-size="16" font-weight="bold">2D</text>
+  <g fill="none" stroke="#000" stroke-width="0.6" stroke-opacity="0.45" stroke-linejoin="round">
+    <line x1="490" y1="230" x2="490" y2="70"/>
+    <line x1="530" y1="230" x2="530" y2="70"/>
+    <line x1="570" y1="230" x2="570" y2="70"/>
+    <line x1="450" y1="176.67" x2="610" y2="176.67"/>
+    <line x1="450" y1="123.33" x2="610" y2="123.33"/>
+  </g>
+  <polygon points="450,230 610,230 610,70 450,70" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="436" y="150" text-anchor="middle" transform="rotate(-90 436 150)"><tspan font-style="italic">T</tspan> = 0</text>
+  <text x="420" y="150" font-size="12" fill="#666" text-anchor="middle" transform="rotate(-90 420 150)">boundary "1"</text>
+  <text x="630" y="150" text-anchor="middle" transform="rotate(90 630 150)"><tspan font-style="italic">T</tspan> = 1</text>
+  <text x="646" y="150" font-size="12" fill="#666" text-anchor="middle" transform="rotate(90 646 150)">boundary "3"</text>
+  <text x="530" y="252" text-anchor="middle">Insulated</text>
+  <text x="530" y="268" font-size="12" fill="#666" text-anchor="middle">boundary "0"</text>
+  <text x="530" y="58" text-anchor="middle">Insulated</text>
+  <text x="530" y="40" font-size="12" fill="#666" text-anchor="middle">boundary "2"</text>
+  <text x="530" y="300" font-size="13" fill="#666" text-anchor="middle">4 × 3 quadratic quadrilaterals, case 1</text>
+</svg>

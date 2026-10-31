@@ -1,0 +1,202 @@
+---
+sidebar_position: 2
+---
+
+import ConvergencePlot from "@site/src/components/ConvergencePlot";
+
+# Heat conduction
+
+Verification of [`heatConductionScript`](../models/heat-conduction) against published benchmarks and closed-form
+solutions. All results are from FEAScript-core 0.4.0 (RC), solved with `lusolve`.
+
+The benchmark tests run on one mesh each. The convergence studies below were run for these pages with the same
+setups on a sequence of structured meshes, refined by a factor of 2 each time.
+
+## NAFEMS T4
+
+A 0.6 m × 1.0 m plate, $k = 52$ W/(m·K), with a fixed temperature of 100 °C on the bottom edge, an insulated
+left edge, and convection ($h = 750$ W/(m²·K), $T_\infty = 0$ °C) on the top and right edges. The target is the
+temperature at point E (0.6 m, 0.2 m): **18.3 °C** in the NAFEMS standard benchmarks (TNSB Rev. 3, 1990), the
+value used by most codes. COMSOL quotes 18.25 °C, citing the 1986 NAFEMS summary of the thermal benchmarks
+(Cameron, Casey and Simpson).
+
+![NAFEMS T4 plate with its boundary conditions and point E](/assets/verification/nafems-t4-geometry.svg)
+
+![12 × 20 quadratic mesh of the NAFEMS T4 test](/assets/verification/nafems-t4-mesh.svg)
+
+| Mesh    | Linear (°C) | Quadratic (°C) |
+| ------- | ----------- | -------------- |
+| 3 × 5   | 8.4996      | 21.5227        |
+| 6 × 10  | 17.9540     | 18.3984        |
+| 12 × 20 | 18.0927     | **18.2558**    |
+| 24 × 40 | 18.2137     | 18.2539        |
+| 48 × 80 | 18.2438     | 18.2538        |
+
+Both element orders converge to 18.254 °C, which agrees with 18.25 °C and rounds to 18.3 °C. The plot shows the
+error against the finest quadratic result (18.2538 °C). Linear elements
+converge at second order on the finer meshes, quadratic elements at fourth order or faster.
+
+<ConvergencePlot
+  title="NAFEMS T4: error at point E"
+  xLabel="Element size h (m)"
+  yLabel="|T(E) − 18.2538| (°C)"
+  series={[
+    {
+      name: "Linear",
+      points: [
+        [0.2, 9.754],
+        [0.1, 0.2998],
+        [0.05, 0.161],
+        [0.025, 0.04011],
+        [0.0125, 0.009997],
+      ],
+    },
+    {
+      name: "Quadratic",
+      points: [
+        [0.2, 3.269],
+        [0.1, 0.1446],
+        [0.05, 0.002085],
+        [0.025, 0.0001002],
+      ],
+    },
+  ]}
+/>
+
+The test checks the 12 × 20 quadratic mesh against 18.3 °C with a tolerance of 0.1 °C:
+[`heatConduction2DNafemsT4`](https://github.com/FEAScript/FEAScript-core/tree/main/tests/verification/benchmark/heatConduction2DNafemsT4).
+This is an independent reproduction of the T4 problem and is not sponsored, endorsed, or affiliated with NAFEMS.
+
+## Code_Aster TPLP302
+
+From the Code_Aster validation manual
+([V4.05.302](https://ericca.uqtr.ca/fr12.4/man_v/v4/v4.05.302.pdf)): a strip 0.2 m wide and 2 m long, $k = 1$,
+with 100 °C on the bottom edge, 0 °C on both side edges and an insulated top edge. The strip is ten widths long,
+so the solution is that of a semi-infinite strip (Welty, Wicks and Wilson):
+
+$$
+T(x, y) = \frac{4 T_p}{\pi} \sum_{n=0}^{\infty} \frac{1}{2n+1} \, e^{-(2n+1)\pi y / l} \,
+\sin\frac{(2n+1)\pi x}{l},
+$$
+
+with $T_p = 100$ °C and $l = 0.2$ m. The temperature jumps from 100 °C to 0 °C at the two bottom corners.
+
+![Code_Aster TPLP302 strip with its boundary conditions and the reference points E to K](/assets/verification/tplp302-geometry.svg)
+
+![8 × 80 quadratic mesh of the TPLP302 test, lower part of the strip](/assets/verification/tplp302-mesh.svg)
+
+| Point | x (m) | y (m) | Reference (°C) | Quadratic 8 × 80 (°C) | Quadratic 16 × 160 (°C) |
+| ----- | ----- | ----- | -------------- | --------------------- | ----------------------- |
+| E     | 0.05  | 0.05  | 43.496         | 43.483                | 43.495                  |
+| F     | 0.05  | 0.10  | 18.978         | 18.977                | 18.978                  |
+| G     | 0.05  | 0.15  | 8.559          | 8.558                 | 8.559                   |
+| H     | 0.10  | 0.05  | 54.467         | 54.470                | 54.467                  |
+| I     | 0.10  | 0.10  | 26.096         | 26.096                | 26.096                  |
+| J     | 0.10  | 0.15  | 12.032         | 12.032                | 12.032                  |
+| K     | 0.10  | 0.20  | 5.499          | 5.499                 | 5.499                   |
+
+The convergence study measures the largest error at the seven points against the series:
+
+| Mesh     | Nodes (linear) | Error, linear (°C) | Order | Nodes (quadratic) | Error, quadratic (°C) | Order |
+| -------- | -------------- | ------------------ | ----- | ----------------- | --------------------- | ----- |
+| 4 × 40   | 205            | 6.9e0              |       | 729               | 6.4e-1                |       |
+| 8 × 80   | 729            | 1.6e0              | 2.08  | 2,737             | 1.3e-2                | 5.64  |
+| 16 × 160 | 2,737          | 3.5e-1             | 2.21  | 10,593            | 1.6e-4                | 6.28  |
+| 32 × 320 | 10,593         | 8.5e-2             | 2.04  | 41,665            | 9.9e-6                | 4.04  |
+
+Linear elements converge at second order. Quadratic elements converge at fourth order or faster at these
+points: nodal values of quadratic elements often converge faster than the solution between the nodes.
+
+<ConvergencePlot
+  title="Code_Aster TPLP302: largest error at the seven reference points"
+  xLabel="Element size h (m)"
+  yLabel="Largest error (°C)"
+  series={[
+    {
+      name: "Linear",
+      points: [
+        [0.05, 6.893],
+        [0.025, 1.629],
+        [0.0125, 0.3514],
+        [0.00625, 0.08533],
+      ],
+    },
+    {
+      name: "Quadratic",
+      points: [
+        [0.05, 0.6381],
+        [0.025, 0.01277],
+        [0.0125, 0.0001638],
+        [0.00625, 0.00000994],
+      ],
+    },
+  ]}
+/>
+
+The test checks the 8 × 80 quadratic mesh against the reference values (relative tolerance `1e-3`) and the
+16 × 160 quadratic mesh against the series (tolerance `2e-3` °C):
+[`heatConduction2DCodeAsterTplp302`](https://github.com/FEAScript/FEAScript-core/tree/main/tests/verification/benchmark/heatConduction2DCodeAsterTplp302).
+This is an independent reproduction and is not sponsored, endorsed, or affiliated with EDF or the Code_Aster
+project.
+
+## Code_Aster TPLP01
+
+From the Code_Aster validation manual ([V4.05.001](https://ericca.uqtr.ca/fr12.4/man_v/v4/v4.05.001.pdf)),
+which takes the problem and its reference values from the VPCS validation guide (SFM/AFNOR, 1990, after Symm,
+NPL Report NAC 31, 1973). An L-shaped domain, a 0.8 m × 0.8 m square without its 0.4 m × 0.4 m bottom right
+quarter, $k = 1$, with 10 °C on the left edge, 0 °C on the right edge ($x = 0.8$, $0.4 \le y \le 0.8$) and all
+other edges insulated. The temperature gradient is singular at the re-entrant corner (0.4, 0.4).
+
+![Code_Aster TPLP01 L-shaped domain with its boundary conditions, the re-entrant corner C and the 13 reference points](/assets/verification/tplp01-geometry.svg)
+
+The meshes are made with Gmsh, with an element size of 0.05 m refined to 0.01 m at the corner: 618 six-node
+triangles and 321 nine-node quadrilaterals, both with a node at each reference point.
+
+![Gmsh meshes of the TPLP01 test: quadratic triangles and quadratic quadrilaterals, refined at the corner C](/assets/verification/tplp01-meshes.svg)
+
+| x (m) | y (m) | Reference (°C) | Triangles (°C) | Quadrilaterals (°C) |
+| ----- | ----- | -------------- | -------------- | ------------------- |
+| 0.2   | 0.0   | 9.316          | 9.307          | 9.307               |
+| 0.2   | 0.2   | 9.001 ¹        | 9.100          | 9.101               |
+| 0.2   | 0.4   | 8.514          | 8.516          | 8.517               |
+| 0.2   | 0.6   | 8.018          | 8.018          | 8.018               |
+| 0.2   | 0.8   | 7.869          | 7.874          | 7.874               |
+| 0.4   | 0.0   | 9.009          | 9.008          | 9.008               |
+| 0.4   | 0.2   | 8.640          | 8.660          | 8.660               |
+| 0.4   | 0.4   | 6.667          | 6.666          | 6.665               |
+| 0.4   | 0.6   | 5.680          | 5.670          | 5.670               |
+| 0.4   | 0.8   | 5.495          | 5.496          | 5.496               |
+| 0.6   | 0.4   | 2.972          | 2.967          | 2.967               |
+| 0.6   | 0.6   | 2.881          | 2.881          | 2.881               |
+| 0.6   | 0.8   | 2.816          | 2.819          | 2.819               |
+
+Triangles and quadrilaterals agree within 0.001 °C, and the values hardly change on a mesh of about 20,000 nodes.
+The largest deviation from the reference is 0.24 %, apart from the point marked ¹.
+
+¹ At (0.2, 0.2) the published 9.001 °C is 1.1 % below the FEAScript result, which is mesh-converged
+(9.1007 °C on the 20,000-node mesh). It is likely a misprint of about 9.10 °C.
+
+The test checks every point on both meshes with a relative tolerance of `5e-3` (`1.5e-2` at the point
+marked ¹):
+[`heatConduction2DCodeAsterTplp01`](https://github.com/FEAScript/FEAScript-core/tree/main/tests/verification/benchmark/heatConduction2DCodeAsterTplp01).
+This is an independent reproduction and is not sponsored, endorsed, or affiliated with EDF, the Code_Aster
+project, SFM or AFNOR.
+
+## Spatially varying coefficients
+
+Closed-form solutions with spatially varying $k$ and $Q$, chosen so that the finite element solution is exact at
+the nodes. Every nodal value must match to within `1e-10`; the observed deviations are of order `1e-15`.
+
+![Domains and meshes of the spatially varying coefficient tests: 8 elements in 1D, 4 × 3 quadratic elements in 2D](/assets/verification/varying-coefficients.svg)
+
+| Dimension | $k$     | $Q$ | Exact solution      | Elements          |
+| --------- | ------- | --- | ------------------- | ----------------- |
+| 1D        | 1       | 1   | $T = x (1 - x) / 2$ | Linear            |
+| 1D        | $1 + x$ | −1  | $T = x$             | Linear, quadratic |
+| 2D        | $1 + x$ | −1  | $T = x$             | Quadratic quads   |
+| 2D        | $1 + y$ | −1  | $T = y$             | Quadratic quads   |
+
+The 1D test also checks the frontal solver against `lusolve`. Tests:
+[`heatConduction1DVaryingCoefficients`](https://github.com/FEAScript/FEAScript-core/tree/main/tests/verification/analytical/heatConduction1DVaryingCoefficients)
+and
+[`heatConduction2DVaryingCoefficients`](https://github.com/FEAScript/FEAScript-core/tree/main/tests/verification/analytical/heatConduction2DVaryingCoefficients).

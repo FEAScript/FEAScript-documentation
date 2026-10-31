@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" font-family="sans-serif" font-size="15" fill="#000">
+  <!-- Couette flow: 4 m x 2 m channel with a moving top wall -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+  <polygon points="150,290 550,290 550,90 150,90" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="150" y1="90" x2="550" y2="90" stroke="#000" stroke-width="4"/>
+  <g stroke="#000" stroke-width="1">
+    <line x1="162" y1="290" x2="150" y2="302"/>
+    <line x1="178" y1="290" x2="166" y2="302"/>
+    <line x1="194" y1="290" x2="182" y2="302"/>
+    <line x1="210" y1="290" x2="198" y2="302"/>
+    <line x1="226" y1="290" x2="214" y2="302"/>
+    <line x1="242" y1="290" x2="230" y2="302"/>
+    <line x1="258" y1="290" x2="246" y2="302"/>
+    <line x1="274" y1="290" x2="262" y2="302"/>
+    <line x1="290" y1="290" x2="278" y2="302"/>
+    <line x1="306" y1="290" x2="294" y2="302"/>
+    <line x1="322" y1="290" x2="310" y2="302"/>
+    <line x1="338" y1="290" x2="326" y2="302"/>
+    <line x1="354" y1="290" x2="342" y2="302"/>
+    <line x1="370" y1="290" x2="358" y2="302"/>
+    <line x1="386" y1="290" x2="374" y2="302"/>
+    <line x1="402" y1="290" x2="390" y2="302"/>
+    <line x1="418" y1="290" x2="406" y2="302"/>
+    <line x1="434" y1="290" x2="422" y2="302"/>
+    <line x1="450" y1="290" x2="438" y2="302"/>
+    <line x1="466" y1="290" x2="454" y2="302"/>
+    <line x1="482" y1="290" x2="470" y2="302"/>
+    <line x1="498" y1="290" x2="486" y2="302"/>
+    <line x1="514" y1="290" x2="502" y2="302"/>
+    <line x1="530" y1="290" x2="518" y2="302"/>
+    <line x1="546" y1="290" x2="534" y2="302"/>
+  </g>
+  <line x1="430" y1="56" x2="530" y2="56" stroke="#000" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="350" y="78" text-anchor="middle">Moving wall, <tspan font-style="italic">u</tspan> = 1, <tspan font-style="italic">v</tspan> = 0</text>
+  <text x="350" y="60" font-size="12" fill="#666" text-anchor="middle">boundary "2"</text>
+  <text x="350" y="320" text-anchor="middle">Fixed wall, <tspan font-style="italic">u</tspan> = <tspan font-style="italic">v</tspan> = 0</text>
+  <text x="350" y="336" font-size="12" fill="#666" text-anchor="middle">boundary "0"</text>
+  <text x="136" y="190" text-anchor="middle" transform="rotate(-90 136 190)">Stress-free</text>
+  <text x="120" y="190" font-size="12" fill="#666" text-anchor="middle" transform="rotate(-90 120 190)">boundary "1"</text>
+  <text x="570" y="190" text-anchor="middle" transform="rotate(90 570 190)">Stress-free</text>
+  <text x="586" y="190" font-size="12" fill="#666" text-anchor="middle" transform="rotate(90 586 190)">boundary "3"</text>
+  <line x1="270" y1="290" x2="270" y2="90" stroke="#000" stroke-width="1"/>
+  <line x1="270" y1="290" x2="370" y2="90" stroke="#000" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="270" y1="250" x2="290" y2="250" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="270" y1="210" x2="310" y2="210" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="270" y1="170" x2="330" y2="170" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="270" y1="130" x2="350" y2="130" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="410" y="195"><tspan font-style="italic">u</tspan> = <tspan font-style="italic">y</tspan> / 2</text>
+  <text x="410" y="215"><tspan font-style="italic">μ</tspan> = 1</text>
+  <line x1="150" y1="370" x2="550" y2="370" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="350" y="390" text-anchor="middle">4 m</text>
+  <line x1="70" y1="290" x2="70" y2="90" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="60" y="190" text-anchor="middle" transform="rotate(-90 60 190)">2 m</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 370" width="800" height="370" font-family="sans-serif" font-size="15" fill="#000">
+  <!-- Planar front: 1D domain [0, 2] and 2D 4 x 2 domain, front starting at the bottom -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+  <text x="40" y="40" font-size="16" font-weight="bold">1D</text>
+  <line x1="60" y1="150" x2="320" y2="150" stroke="#000" stroke-width="2"/>
+  <circle cx="60" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="320" cy="150" r="4" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="60" y="125" text-anchor="middle"><tspan font-style="italic">u</tspan> = 0</text>
+  <text x="60" y="107" font-size="12" fill="#666" text-anchor="middle">boundary "0"</text>
+  <text x="320" y="125" text-anchor="middle">Zero gradient</text>
+  <text x="320" y="107" font-size="12" fill="#666" text-anchor="middle">boundary "1"</text>
+  <line x1="100" y1="175" x2="180" y2="175" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="140" y="195" font-size="13" fill="#666" text-anchor="middle">front</text>
+  <line x1="60" y1="225" x2="320" y2="225" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="190" y="245" text-anchor="middle">2</text>
+  <text x="400" y="40" font-size="16" font-weight="bold">2D</text>
+  <polygon points="440,250 680,250 680,130 440,130" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="440" y="130" width="240" height="12" fill="#000" fill-opacity="0.12"/>
+  <text x="674" y="156" font-size="12" fill="#666" text-anchor="end">boundary layer</text>
+  <text x="560" y="272" text-anchor="middle"><tspan font-style="italic">u</tspan> = 0</text>
+  <text x="560" y="288" font-size="12" fill="#666" text-anchor="middle">boundary "0"</text>
+  <text x="426" y="190" text-anchor="middle" transform="rotate(-90 426 190)">Zero gradient</text>
+  <text x="410" y="190" font-size="12" fill="#666" text-anchor="middle" transform="rotate(-90 410 190)">boundary "1"</text>
+  <text x="560" y="118" text-anchor="middle">Zero gradient</text>
+  <text x="560" y="100" font-size="12" fill="#666" text-anchor="middle">boundary "2"</text>
+  <text x="700" y="190" text-anchor="middle" transform="rotate(90 700 190)">Zero gradient</text>
+  <text x="716" y="190" font-size="12" fill="#666" text-anchor="middle" transform="rotate(90 716 190)">boundary "3"</text>
+  <line x1="500" y1="235" x2="500" y2="190" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="560" y1="235" x2="560" y2="190" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="620" y1="235" x2="620" y2="190" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="440" y1="320" x2="680" y2="320" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="560" y="340" text-anchor="middle">4</text>
+  <line x1="750" y1="250" x2="750" y2="130" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="764" y="190" text-anchor="middle" transform="rotate(90 764 190)">2</text>
+</svg>
