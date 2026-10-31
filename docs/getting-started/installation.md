@@ -6,7 +6,13 @@ sidebar_position: 1
 
 ## In the browser
 
-Import the ES module build from the hosted build or from a CDN:
+Import the ES module build from the jsDelivr CDN or from the hosted build:
+
+```html
+<script type="module">
+  import { FEAScriptModel } from "https://cdn.jsdelivr.net/gh/FEAScript/FEAScript-core/dist/feascript.esm.js";
+</script>
+```
 
 ```html
 <script type="module">
@@ -14,11 +20,15 @@ Import the ES module build from the hosted build or from a CDN:
 </script>
 ```
 
+:::note
+Both URLs above always serve the latest FEAScript release, so your page updates automatically when a new version is published (new versions may include breaking changes). To freeze your page to a specific version, add a version tag to the jsDelivr URL:
+
 ```html
 <script type="module">
-  import { FEAScriptModel } from "https://cdn.jsdelivr.net/gh/FEAScript/FEAScript-core/dist/feascript.esm.js";
+  import { FEAScriptModel } from "https://cdn.jsdelivr.net/gh/FEAScript/FEAScript-core@0.3.1/dist/feascript.esm.js";
 </script>
 ```
+:::
 
 You can also download a release from [GitHub Releases](https://github.com/FEAScript/FEAScript-core/releases) and import it locally.
 
