@@ -1,6 +1,6 @@
 # FEAScript
 
-> FEAScript is a finite element simulation library written in JavaScript (ES modules). It runs in the browser and in Node.js. This file is a compact, exact reference of the FEAScript 0.3.1 API for AI assistants. Use only the functions, options and string values listed here: anything not listed is not supported.
+> FEAScript is a finite element simulation library written in JavaScript (ES modules). It runs in the browser and in Node.js. This file is a compact, exact reference of the FEAScript 0.4.0 (RC) API for AI assistants. Use only the functions, options and string values listed here: anything not listed is not supported.
 
 Full documentation: https://docs.feascript.com
 Source code: https://github.com/FEAScript/FEAScript-core
@@ -185,14 +185,14 @@ model.setMeshConfig({ parsedMesh }); // meshDimension and elementOrder are detec
 - The condition is an **array**: `["zeroGradient"]`, not `"zeroGradient"` (a plain string is accepted with a warning).
 - One condition per boundary key; adding again replaces it. A boundary without a condition gets the natural condition (zero flux or zero gradient).
 - When `solve()` runs, condition types that the model does not recognize are reported as `[ERROR]` in the console and ignored.
-- At a node shared by two Dirichlet boundaries, the boundary with the larger key sets the value.
+- At a node shared by two Dirichlet boundaries, the boundary with the larger key sets the value. Exception: in `creepingFlowScript`, a zero `constantVelocity` (no slip) always wins over a nonzero one, so the corners of a moving lid get zero velocity.
 
 ## Solvers
 
 | `setSolverMethod` | Method                                    | Notes                                                      |
 | ----------------- | ----------------------------------------- | ---------------------------------------------------------- |
 | `"lusolve"`       | Sparse LU (math.js), default              | Works for every model                                      |
-| `"jacobi"`        | Jacobi iteration (CPU)                    | Needs diagonally dominant matrices; defaults `maxIterations: 10000`, `tolerance: 1e-4` |
+| `"jacobi"`        | Jacobi iteration (CPU)                    | Needs diagonally dominant matrices; defaults `maxIterations: 10000`, `tolerance: 1e-8` on the residual relative to the right-hand side |
 | `"frontal"`       | Frontal solver                            | Heat conduction, general form (linear), front propagation  |
 | `"jacobi-gpu"`    | Jacobi on WebGPU, single precision        | Heat conduction only, browser with WebGPU, `await model.solveAsync()` |
 
@@ -257,5 +257,7 @@ worker.terminate();
 - [Front propagation](https://docs.feascript.com/models/front-propagation)
 - [Creeping flow](https://docs.feascript.com/models/creeping-flow)
 - [Euler–Bernoulli beam](https://docs.feascript.com/models/euler-bernoulli-beam)
+- [Examples](https://docs.feascript.com/examples/overview)
+- [Verification](https://docs.feascript.com/verification/overview)
 - [API reference](https://docs.feascript.com/api/feascript-model)
 - [Examples](https://github.com/FEAScript/FEAScript-core/tree/main/examples)

@@ -32,6 +32,29 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Examples",
+      items: [
+        "examples/overview",
+        "examples/heat-conduction",
+        "examples/general-form-pde",
+        "examples/front-propagation",
+        "examples/creeping-flow",
+        "examples/euler-bernoulli-beam",
+      ],
+    },
+    {
+      type: "category",
+      label: "Verification",
+      items: [
+        "verification/overview",
+        "verification/heat-conduction",
+        "verification/creeping-flow",
+        "verification/front-propagation",
+        "verification/euler-bernoulli-beam",
+      ],
+    },
+    {
+      type: "category",
       label: "API Reference",
       items: [
         "api/feascript-model",
