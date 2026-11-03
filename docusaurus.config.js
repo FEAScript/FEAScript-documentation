@@ -131,7 +131,7 @@ const config = {
             ],
           },
         ],
-        copyright: `<span>&#169; 2023-${new Date().getFullYear()} FEAScript</span><span>Core: MIT license &middot; Docs: CC BY 4.0</span>`,
+        copyright: `<span>&#169; 2024-${new Date().getFullYear()} FEAScript</span><span>Core: MIT license &middot; Docs: CC BY 4.0</span>`,
       },
       prism: {
         theme: darkCode,
