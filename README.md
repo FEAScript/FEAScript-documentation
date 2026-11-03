@@ -81,3 +81,5 @@ Pushing to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/de
 ## License
 
 The content of the FEAScript documentation is licensed under <a href="https://github.com/FEAScript/FEAScript-documentation/blob/main/LICENSE" target="_blank">CC-BY 4.0</a>. Note that the core library of FEAScript is distributed under the terms of the <a href="https://github.com/FEAScript/FEAScript-core/blob/main/LICENSE" target="_blank">MIT license</a>.
+
+The CC-BY 4.0 license does not cover the FEAScript logo or the name "FEAScript", which are not licensed. You may use them unchanged when you refer to FEAScript, for example in a lesson, a talk or a blog post; for anything else, please ask first at info@feascript.com.
