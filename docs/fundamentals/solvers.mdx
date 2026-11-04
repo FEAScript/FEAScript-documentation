@@ -135,10 +135,11 @@ uses the defaults of the selected method. For `frontPropagationScript`, see the
 ## Performance
 
 The time FEAScript takes to assemble and solve a problem depends on the solver and on the size of the mesh. The
-plot shows it for `"frontal"` and `"lusolve"` on the [fin in 2D](../examples/heat-conduction.md#fin-in-2d), with
-linear quadrilaterals on meshes from 20 × 10 to 320 × 160 elements.
+plot shows it for `"frontal"`, `"lusolve"` and `"jacobi"` on the [fin in 2D](../examples/heat-conduction.md#fin-in-2d),
+with linear quadrilaterals on meshes from 20 × 10 to 320 × 160 elements. The `"jacobi"` line stops at 861 nodes:
+on the larger meshes it does not converge with its default settings (see below).
 
-![Fin in 2D: assembly and solve time of "frontal" and "lusolve" against the number of nodes, logarithmic axes](/assets/solver-performance.svg)
+![Fin in 2D: assembly and solve time of "frontal", "lusolve" and "jacobi" against the number of nodes, logarithmic axes; the "jacobi" line stops at 861 nodes](/assets/solver-performance.svg)
 
 | Mesh      | Nodes  | `"frontal"` | `"lusolve"` | `"jacobi"`    | Elmer (UMFPACK) |
 | --------- | ------ | ----------- | ----------- | ------------- | --------------- |
@@ -161,7 +162,7 @@ direct solvers by up to 7e-5 °C on these two meshes, because it stops at the re
 The memory a problem needs also grows with the mesh. The plot shows the peak memory of the whole Node.js process,
 which includes about 60 MB for Node.js and FEAScript themselves:
 
-![Fin in 2D: peak memory of "frontal" and "lusolve" against the number of nodes, logarithmic axes](/assets/solver-memory.svg)
+![Fin in 2D: peak memory of "frontal", "lusolve" and "jacobi" against the number of nodes, logarithmic axes; the "jacobi" line stops at 861 nodes](/assets/solver-memory.svg)
 
 | Mesh      | Nodes  | `"frontal"` | `"lusolve"` | `"jacobi"`    | Elmer (UMFPACK) |
 | --------- | ------ | ----------- | ----------- | ------------- | --------------- |

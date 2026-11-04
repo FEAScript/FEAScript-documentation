@@ -158,8 +158,9 @@ def log_plot(series, x_label, y_label, comment, width=640, height=360, padding=0
     Gridlines and ticks are at the decades, labelled as powers of ten; an axis that spans less than two decades
     gets ticks at 1, 2 and 5 times the decades instead, labelled as plain numbers.
 
-    series: list of (name, points), at most two. The first is a solid line with open markers, the second a
-    dashed line with filled markers, as in the line plots of the example pages.
+    series: list of (name, points), at most three. The first is a solid line with open circles, the second a
+    dashed line with filled circles, as in the line plots of the example pages, and the third a dotted line with
+    open squares.
     """
     left, right, top, bottom = 90, width - 40, 30, height - 60
     xs = [math.log10(x) for _, points in series for x, _ in points]
@@ -200,13 +201,18 @@ def log_plot(series, x_label, y_label, comment, width=640, height=360, padding=0
     body += [text(left - 8, py(v) + 4, label, 13, anchor="end") for v, label in y_ticks]
     body += [text((left + right) / 2, height - 14, x_label)]
     body += [text(24, (top + bottom) / 2, y_label, rotate=-90)]
+    def marker(k, x, y):
+        if k == 2:  # Open square
+            return f'<rect x="{fmt(x - 3.5)}" y="{fmt(y - 3.5)}" width="7" height="7" fill="#fff" stroke="#000" stroke-width="1"/>'
+        return dot(x, y, 3.5, filled=k == 1)
+
     for k, (name, points) in enumerate(series):
-        dash = ' stroke-dasharray="5 4"' if k else ""
+        dash = ["", ' stroke-dasharray="5 4"', ' stroke-dasharray="1.5 3"'][k]
         path = " ".join(f"{fmt(px(x))},{fmt(py(y))}" for x, y in points)
         body.append(f'<polyline points="{path}" fill="none" stroke="#000" stroke-width="1.5"{dash}/>')
-        body += [dot(px(x), py(y), 3.5, filled=bool(k)) for x, y in points]
+        body += [marker(k, px(x), py(y)) for x, y in points]
         ly = top + 18 + 22 * k
         body.append(f'<line x1="{left + 18}" y1="{ly}" x2="{left + 50}" y2="{ly}" stroke="#000" stroke-width="1.5"{dash}/>')
-        body.append(dot(left + 34, ly, 3.5, filled=bool(k)))
+        body.append(marker(k, left + 34, ly))
         body.append(f'<text x="{left + 60}" y="{ly + 4}" font-size="13" {HALO}>{name}</text>')
     return svg(width, height, body, comment)
