@@ -52,7 +52,7 @@ $\bar{\bar{J}}$ of the isoparametric mapping below):
   $$
   and the solution is updated as $\bar{u}^{k+1} = \bar{u}^{k} + \Delta \bar{u}$. The iterations stop when the
   Euclidean norm $\lVert \Delta \bar{u} \rVert_2$ drops to the tolerance or below
-  (see [Solvers](./solvers.md)).
+  (see [Solvers](./solvers.mdx)).
 
 ## Boundary conditions
 

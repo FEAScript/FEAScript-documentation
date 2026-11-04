@@ -52,7 +52,7 @@ Selects the physical model and sets its options.
 | `tolerance`            | `number`  | All                                                                    | Convergence tolerance of the iterative method in use   |
 
 `maxIterations` and `tolerance` apply to the Jacobi solvers in linear models and to the Newton–Raphson method in
-nonlinear models; see [Solvers](../fundamentals/solvers.md) for their defaults.
+nonlinear models; see [Solvers](../fundamentals/solvers.mdx) for their defaults.
 
 ```javascript
 model.setModelConfig("heatConductionScript", {
@@ -97,7 +97,7 @@ Condition types that the selected model does not recognize are reported as error
 ### `setSolverMethod(solverMethod)`
 
 Selects the linear system solver: `"lusolve"` (default), `"jacobi"`, `"frontal"` or `"jacobi-gpu"`. See
-[Solvers](../fundamentals/solvers.md) for the methods supported by each model.
+[Solvers](../fundamentals/solvers.mdx) for the methods supported by each model.
 
 ### `solve(options)`
 

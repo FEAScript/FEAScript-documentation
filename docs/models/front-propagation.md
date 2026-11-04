@@ -69,7 +69,7 @@ $$
 
 If a step does not converge, FEAScript stops at that step and logs an error: the returned solution is not
 valid, and a finer mesh may be required. The `maxIterations` and `tolerance` options (see
-[Solvers](../fundamentals/solvers.md#newtonraphson-method)) apply to the Newton–Raphson iterations of each step.
+[Solvers](../fundamentals/solvers.mdx#newtonraphson-method)) apply to the Newton–Raphson iterations of each step.
 
 ## Usage
 

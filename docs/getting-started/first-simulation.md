@@ -80,7 +80,7 @@ Save the following as an `.html` file and open it through a local web server (fo
    (left), `"2"` (top) and `"3"` (right). See [Boundary conditions](../fundamentals/boundary-conditions.md) for the
    condition types of every model.
 4. **Solve.** `setSolverMethod` is optional (the default is `"lusolve"`). `solve()` returns the
-   `solutionVector` and the `nodesCoordinates` of the mesh (see [Solvers](../fundamentals/solvers.md)).
+   `solutionVector` and the `nodesCoordinates` of the mesh (see [Solvers](../fundamentals/solvers.mdx)).
 5. **Plot the results.** [`plotSolution`](../api/visualization.md) draws the result in the `resultsCanvas` element.
 
 ## The result
@@ -138,6 +138,6 @@ Run it with `node fin.js` (with `"type": "module"` in your `package.json`, see
 - Read about the [physical models](../models/heat-conduction.md) and their equations.
 - Import an unstructured mesh with [`importGmshMesh`](../api/gmsh-import.md).
 - Run the simulation in a [web worker](../api/web-worker.md), or on the GPU with the
-  [`"jacobi-gpu"` solver](../fundamentals/solvers.md#jacobi-method-on-the-gpu-jacobi-gpu).
+  [`"jacobi-gpu"` solver](../fundamentals/solvers.mdx#jacobi-method-on-the-gpu-jacobi-gpu).
 - Explore the [tutorials](https://feascript.com/#tutorials) on the FEAScript website and the
   [examples](https://github.com/FEAScript/FEAScript-core/tree/main/examples) of FEAScript-core.

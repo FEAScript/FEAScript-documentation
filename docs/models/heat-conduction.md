@@ -122,7 +122,7 @@ $k$, W/m³ for $Q$, W/(m²·K) for $h$, and °C or K for temperatures).
 ### Solvers
 
 All solver methods are supported: `"lusolve"` (default), `"jacobi"`, `"frontal"`, and `"jacobi-gpu"` with
-`solveAsync()`. Coefficient functions are supported by all of them. See [Solvers](../fundamentals/solvers.md).
+`solveAsync()`. Coefficient functions are supported by all of them. See [Solvers](../fundamentals/solvers.mdx).
 
 ## Results
 

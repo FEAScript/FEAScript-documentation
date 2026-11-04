@@ -2,6 +2,8 @@
 sidebar_position: 4
 ---
 
+import ConvergencePlot from "@site/src/components/ConvergencePlot";
+
 # Solvers
 
 The linear system solver is selected with `model.setSolverMethod(solverMethod)`. If it is not set, FEAScript uses
@@ -120,3 +122,63 @@ norm of an increment exceeds $10^2$, the iterations are stopped and an error is 
 For `generalFormPDEScript`, these options apply to the Newton–Raphson iterations and the inner linear system
 uses the defaults of the selected method. For `frontPropagationScript`, see the
 [model page](../models/front-propagation.md#solution-procedure).
+
+## Performance
+
+The time FEAScript takes to assemble and solve a problem depends on the solver and on the size of the mesh. The
+plot shows it for `"frontal"` and `"lusolve"` on the [fin in 2D](../examples/heat-conduction.md#fin-in-2d), with
+linear quadrilaterals on meshes from 20 × 10 to 320 × 160 elements.
+
+<ConvergencePlot
+  title="Fin in 2D: assembly and solve time"
+  xLabel="Number of nodes"
+  yLabel="Time (s)"
+  series={[
+    {
+      name: "frontal",
+      points: [
+        [231, 0.04767],
+        [861, 0.2346],
+        [3321, 0.3007],
+        [13041, 0.885],
+        [51681, 6.442],
+      ],
+    },
+    {
+      name: "lusolve",
+      points: [
+        [231, 0.1473],
+        [861, 0.26],
+        [3321, 0.4755],
+        [13041, 1.265],
+        [51681, 5.143],
+      ],
+    },
+  ]}
+/>
+
+| Mesh      | Nodes  | `"frontal"` | `"lusolve"` | Elmer (UMFPACK) |
+| --------- | ------ | ----------- | ----------- | --------------- |
+| 20 × 10   | 231    | 0.048 s     | 0.15 s      | < 0.01 s        |
+| 40 × 20   | 861    | 0.23 s      | 0.26 s      | 0.01 s          |
+| 80 × 40   | 3,321  | 0.30 s      | 0.48 s      | 0.02 s          |
+| 160 × 80  | 13,041 | 0.89 s      | 1.27 s      | 0.10 s          |
+| 320 × 160 | 51,681 | 6.44 s      | 5.14 s      | 0.55 s          |
+
+`"frontal"` is the faster solver up to about 13,000 nodes, and `"lusolve"` on the largest mesh. Both give the
+same temperatures, to within 1e-10.
+
+Creeping flow is solved with `"lusolve"` only, and its time grows faster with the mesh: on the
+[lid-driven cavity](../examples/creeping-flow.mdx#comparison-with-elmer), 20 s on a 32 × 32 mesh (4,225 nodes)
+and 6 min on a 64 × 64 mesh (16,641 nodes). The pressure rows of its matrix have zeros on the diagonal, which makes
+the LU decomposition fill in heavily.
+
+These times are from FEAScript-core 0.4.0 (RC), loaded from its built bundle in Node.js 18, on one core of an
+Intel N100. Each is the median of 5 runs and includes mesh generation. On another computer, or in a browser other
+than Chrome, the times differ, but the comparison between the solvers holds.
+
+The last column gives the time of [Elmer](https://www.elmerfem.org/), the open-source finite element software of
+CSC – IT Center for Science, on the same meshes, as a reference. Elmer was run on one core, as a single MPI
+process, so that both programs solve on the same terms. Elmer is a parallel program built for much larger problems,
+typically in 3D, and this setup does not show its parallel performance. The benchmarks, with the Elmer setups, are
+in [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
