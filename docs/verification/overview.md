@@ -26,6 +26,16 @@ in the version dropdown.
 FEAScript-core also has regression tests (`tests/regression`). They compare against values that FEAScript itself
 produced, so they guard against unintended changes, but they are not verification and are not listed here.
 
+## Comparison with Elmer
+
+Two examples are also solved with [Elmer](https://www.elmerfem.org/), the open-source finite element software of
+CSC – IT Center for Science, on the same meshes, and the two programs are compared node by node: the
+[fin in 2D](../examples/heat-conduction#comparison-with-elmer), which also has an exact solution, and the
+[lid-driven cavity](../examples/creeping-flow#comparison-with-elmer), which has none. These comparisons are not
+part of the test suite; they are run with
+[FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark), which also times both programs (see
+[Solvers](../fundamentals/solvers#performance)).
+
 ## Cases
 
 | Model                | Case                                                                             | Reference            | Elements                     | Result                                                         |

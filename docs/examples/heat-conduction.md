@@ -95,6 +95,45 @@ Source:
 The lowest temperature, 81.3187 °C, is at the top left corner, farthest from the heated edges. The example
 prints the node coordinates and the solution vector.
 
+### Comparison with Elmer
+
+The fin was also solved with [Elmer](https://www.elmerfem.org/), the open-source finite element software of CSC –
+IT Center for Science, on the same structured meshes, with linear and quadratic quadrilaterals from 231 to 51,681
+nodes. The problem has an exact solution, a Fourier series,
+
+$$
+T(x, y) = 200 + \sum_{n=1}^{\infty} A_n \cos(\lambda_n x) \sinh(\lambda_n y), \qquad
+\lambda_n = \frac{(2n-1)\pi}{8},
+$$
+
+so both programs are compared with it at every node, and with each other:
+
+| Elements  | Mesh      | Nodes  | Largest error (°C) | RMS error (°C) | Difference from Elmer (°C) |
+| --------- | --------- | ------ | ------------------ | -------------- | -------------------------- |
+| Linear    | 20 × 10   | 231    | 1.0e0              | 1.1e-1         | 5.0e-6                     |
+| Linear    | 40 × 20   | 861    | 5.7e-1             | 3.2e-2         | 5.0e-6                     |
+| Linear    | 80 × 40   | 3,321  | 3.1e-1             | 8.8e-3         | 5.0e-6                     |
+| Linear    | 160 × 80  | 13,041 | 1.6e-1             | 2.4e-3         | 5.0e-6                     |
+| Linear    | 320 × 160 | 51,681 | 8.1e-2             | 6.7e-4         | 5.0e-6                     |
+| Quadratic | 10 × 5    | 231    | 8.0e-1             | 6.7e-2         | 5.0e-6                     |
+| Quadratic | 20 × 10   | 861    | 3.9e-1             | 1.7e-2         | 5.0e-6                     |
+| Quadratic | 40 × 20   | 3,321  | 2.0e-1             | 4.3e-3         | 5.0e-6                     |
+| Quadratic | 80 × 40   | 13,041 | 9.7e-2             | 1.1e-3         | 5.0e-6                     |
+| Quadratic | 160 × 80  | 51,681 | 4.9e-2             | 2.7e-4         | 5.0e-6                     |
+
+![Fin in 2D: largest error against the exact solution against element size, for linear and quadratic elements, logarithmic axes](/assets/examples/fin-elmer-comparison.svg)
+
+The errors of Elmer are the same to the digits shown, and the temperatures of the two programs differ by at most
+5.0e-6 °C on every mesh, the rounding of the 8 significant digits that Elmer writes its results with. The
+largest error is at the node next to the top right corner, where the fixed temperature of the right edge meets the
+convection of the top edge and the exact solution is not smooth. There it falls only in proportion to the element
+size $h$, with either element; the RMS error over all the nodes falls about as $h^2$.
+
+FEAScript-core 0.4.0 (RC) was used, with `"frontal"` and `"lusolve"`, which give the same temperatures. Elmer used
+its `HeatSolver` with the UMFPACK direct solver, run on one core as a single MPI process. For the solve times, see
+[Solvers](../fundamentals/solvers.mdx#performance). The benchmark, with the Elmer setup, is in
+[FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
+
 ## Fin in 2D, Gmsh mesh
 
 The fin of the previous example on an unstructured mesh made with [Gmsh](https://gmsh.info/), read from

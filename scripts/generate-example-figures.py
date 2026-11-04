@@ -18,9 +18,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS = os.path.join(ROOT, "scripts", ".example-results")
 OUTPUT = os.path.join(ROOT, "static", "assets", "examples")
 
-HALO = 'stroke="#fff" stroke-width="4" stroke-linejoin="round" paint-order="stroke"'
-
-
 def load(name):
     with open(os.path.join(RESULTS, f"{name}-0.json")) as handle:
         return json.load(handle)

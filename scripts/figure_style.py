@@ -4,11 +4,15 @@ Black line art on a transparent background (inverted in dark mode by src/css/cus
 boundary keys in grey 12 px, dashed dimension lines with arrows, and thin grey mesh edges.
 """
 
+import math
+
 DEFS = """  <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
     </marker>
   </defs>"""
+
+HALO = 'stroke="#fff" stroke-width="4" stroke-linejoin="round" paint-order="stroke"'  # white outline behind labels
 
 MESH_STYLE = 'fill="none" stroke="#000" stroke-width="0.6" stroke-opacity="0.45" stroke-linejoin="round"'
 
@@ -146,3 +150,63 @@ def gmsh_mesh(frame, polygons):
 
 def rectangle(frame, width, height):
     return outline([frame(0, 0), frame(width, 0), frame(width, height), frame(0, height)])
+
+
+def log_plot(series, x_label, y_label, comment, width=640, height=360, padding=0.25):
+    """Log-log plot with a legend in the top left corner.
+
+    Gridlines and ticks are at the decades, labelled as powers of ten; an axis that spans less than two decades
+    gets ticks at 1, 2 and 5 times the decades instead, labelled as plain numbers.
+
+    series: list of (name, points), at most two. The first is a solid line with open markers, the second a
+    dashed line with filled markers, as in the line plots of the example pages.
+    """
+    left, right, top, bottom = 90, width - 40, 30, height - 60
+    xs = [math.log10(x) for _, points in series for x, _ in points]
+    ys = [math.log10(y) for _, points in series for _, y in points]
+    x_min, x_max = min(xs) - padding, max(xs) + padding
+    y_min, y_max = min(ys) - padding, max(ys) + padding
+
+    def px(x):
+        return left + (math.log10(x) - x_min) / (x_max - x_min) * (right - left)
+
+    def py(y):
+        return bottom - (math.log10(y) - y_min) / (y_max - y_min) * (bottom - top)
+
+    def power(value):
+        e = round(math.log10(value))
+        if e == 0:
+            return "1"
+        if e == 1:
+            return "10"
+        return f'10<tspan dy="-6" font-size="10">{str(e).replace("-", "−")}</tspan>'
+
+    def ticks(low, high):
+        """Tick values and their labels between 10**low and 10**high."""
+        decades = range(math.floor(low), math.ceil(high) + 1)
+        if sum(1 for e in decades if low <= e <= high) >= 2:
+            return [(10**e, power(10**e)) for e in decades if low <= e <= high]
+        values = [m * 10**e for e in decades for m in (1, 2, 5)]
+        return [(v, f"{v:g}") for v in values if low <= math.log10(v) <= high]
+
+    x_ticks, y_ticks = ticks(x_min, x_max), ticks(y_min, y_max)
+    body = ['<g stroke="#000" stroke-width="0.6" stroke-opacity="0.25">']
+    body += [f'  <line x1="{fmt(px(v))}" y1="{top}" x2="{fmt(px(v))}" y2="{bottom}"/>' for v, _ in x_ticks]
+    body += [f'  <line x1="{left}" y1="{fmt(py(v))}" x2="{right}" y2="{fmt(py(v))}"/>' for v, _ in y_ticks]
+    body += ["</g>"]
+    body += [f'<line x1="{left}" y1="{bottom}" x2="{right}" y2="{bottom}" stroke="#000" stroke-width="1"/>']
+    body += [f'<line x1="{left}" y1="{top}" x2="{left}" y2="{bottom}" stroke="#000" stroke-width="1"/>']
+    body += [text(px(v), bottom + 20, label, 13) for v, label in x_ticks]
+    body += [text(left - 8, py(v) + 4, label, 13, anchor="end") for v, label in y_ticks]
+    body += [text((left + right) / 2, height - 14, x_label)]
+    body += [text(24, (top + bottom) / 2, y_label, rotate=-90)]
+    for k, (name, points) in enumerate(series):
+        dash = ' stroke-dasharray="5 4"' if k else ""
+        path = " ".join(f"{fmt(px(x))},{fmt(py(y))}" for x, y in points)
+        body.append(f'<polyline points="{path}" fill="none" stroke="#000" stroke-width="1.5"{dash}/>')
+        body += [dot(px(x), py(y), 3.5, filled=bool(k)) for x, y in points]
+        ly = top + 18 + 22 * k
+        body.append(f'<line x1="{left + 18}" y1="{ly}" x2="{left + 50}" y2="{ly}" stroke="#000" stroke-width="1.5"{dash}/>')
+        body.append(dot(left + 34, ly, 3.5, filled=bool(k)))
+        body.append(f'<text x="{left + 60}" y="{ly + 4}" font-size="13" {HALO}>{name}</text>')
+    return svg(width, height, body, comment)

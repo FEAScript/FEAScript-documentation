@@ -2,8 +2,6 @@
 sidebar_position: 5
 ---
 
-import ConvergencePlot from "@site/src/components/ConvergencePlot";
-
 # Creeping flow
 
 Node.js examples of [`creepingFlowScript`](../models/creeping-flow), in
@@ -64,35 +62,7 @@ no exact solution, so the two programs are compared with each other, on two quan
 | 48 × 48 | −0.1000                 | −0.1000             | 3.2e-6                     | 1.0e-4                 |
 | 64 × 64 | −0.1000                 | −0.1000             | 1.3e-6                     | 4.9e-5                 |
 
-<ConvergencePlot
-  title="Lid-driven cavity: difference between FEAScript and Elmer"
-  xLabel="Element size h"
-  yLabel="Difference"
-  series={[
-    {
-      name: "Velocity",
-      points: [
-        [0.125, 0.08007],
-        [0.0625, 0.01158],
-        [0.04167, 0.005279],
-        [0.03125, 0.001053],
-        [0.02083, 0.0001008],
-        [0.01563, 0.00004933],
-      ],
-    },
-    {
-      name: "ψ_min",
-      points: [
-        [0.125, 0.0001202],
-        [0.0625, 0.0000364],
-        [0.04167, 0.00001865],
-        [0.03125, 0.000009628],
-        [0.02083, 0.000003159],
-        [0.01563, 0.000001252],
-      ],
-    },
-  ]}
-/>
+![Lid-driven cavity: difference between FEAScript and Elmer in velocity and in ψ_min against element size, logarithmic axes](/assets/examples/cavity-elmer-comparison.svg)
 
 Both programs converge to the same flow: on the $64 \times 64$ mesh, $\psi_{min} = -0.1000$ at $y = 0.7646$ in
 both, and the velocities differ by less than 5e-5 away from the lid corners. Next to the two lid corners, where

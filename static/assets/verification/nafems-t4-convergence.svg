@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" font-family="sans-serif" font-size="15" fill="#000">
+  <!-- NAFEMS T4: error at point E -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+    </marker>
+  </defs>
+  <g stroke="#000" stroke-width="0.6" stroke-opacity="0.25">
+    <line x1="135.82" y1="30" x2="135.82" y2="300"/>
+    <line x1="435.09" y1="30" x2="435.09" y2="300"/>
+    <line x1="90" y1="287.74" x2="600" y2="287.74"/>
+    <line x1="90" y1="238.55" x2="600" y2="238.55"/>
+    <line x1="90" y1="189.35" x2="600" y2="189.35"/>
+    <line x1="90" y1="140.16" x2="600" y2="140.16"/>
+    <line x1="90" y1="90.96" x2="600" y2="90.96"/>
+    <line x1="90" y1="41.77" x2="600" y2="41.77"/>
+  </g>
+  <line x1="90" y1="300" x2="600" y2="300" stroke="#000" stroke-width="1"/>
+  <line x1="90" y1="30" x2="90" y2="300" stroke="#000" stroke-width="1"/>
+  <text x="135.82" y="320" font-size="13" text-anchor="middle">10<tspan dy="-6" font-size="10">−2</tspan></text>
+  <text x="435.09" y="320" font-size="13" text-anchor="middle">10<tspan dy="-6" font-size="10">−1</tspan></text>
+  <text x="82" y="291.74" font-size="13" text-anchor="end">10<tspan dy="-6" font-size="10">−4</tspan></text>
+  <text x="82" y="242.55" font-size="13" text-anchor="end">10<tspan dy="-6" font-size="10">−3</tspan></text>
+  <text x="82" y="193.35" font-size="13" text-anchor="end">10<tspan dy="-6" font-size="10">−2</tspan></text>
+  <text x="82" y="144.16" font-size="13" text-anchor="end">10<tspan dy="-6" font-size="10">−1</tspan></text>
+  <text x="82" y="94.96" font-size="13" text-anchor="end">1</text>
+  <text x="82" y="45.77" font-size="13" text-anchor="end">10</text>
+  <text x="345" y="346" text-anchor="middle">Element size <tspan font-style="italic">h</tspan> (m)</text>
+  <text x="24" y="165" text-anchor="middle" transform="rotate(-90 24 165)">|<tspan font-style="italic">T</tspan>(E) − 18.2538| (°C)</text>
+  <polyline points="525.18,42.3 435.09,116.7 345,129.98 254.91,159.68 164.82,189.36" fill="none" stroke="#000" stroke-width="1.5"/>
+  <circle cx="525.18" cy="42.3" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="435.09" cy="116.7" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="345" cy="129.98" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="254.91" cy="159.68" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="164.82" cy="189.36" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <line x1="108" y1="48" x2="140" y2="48" stroke="#000" stroke-width="1.5"/>
+  <circle cx="124" cy="48" r="3.5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="150" y="52" font-size="13" stroke="#fff" stroke-width="4" stroke-linejoin="round" paint-order="stroke">Linear</text>
+  <polyline points="525.18,65.66 435.09,132.28 345,222.85 254.91,287.7" fill="none" stroke="#000" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="525.18" cy="65.66" r="3.5" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="435.09" cy="132.28" r="3.5" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="345" cy="222.85" r="3.5" fill="#000" stroke="#000" stroke-width="1"/>
+  <circle cx="254.91" cy="287.7" r="3.5" fill="#000" stroke="#000" stroke-width="1"/>
+  <line x1="108" y1="70" x2="140" y2="70" stroke="#000" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="124" cy="70" r="3.5" fill="#000" stroke="#000" stroke-width="1"/>
+  <text x="150" y="74" font-size="13" stroke="#fff" stroke-width="4" stroke-linejoin="round" paint-order="stroke">Quadratic</text>
+</svg>

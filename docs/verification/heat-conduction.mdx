@@ -2,8 +2,6 @@
 sidebar_position: 2
 ---
 
-import ConvergencePlot from "@site/src/components/ConvergencePlot";
-
 # Heat conduction
 
 Verification of [`heatConductionScript`](../models/heat-conduction) against published benchmarks and closed-form
@@ -36,32 +34,7 @@ Both element orders converge to 18.254 °C, which agrees with 18.25 °C and roun
 error against the finest quadratic result (18.2538 °C). Linear elements
 converge at second order on the finer meshes, quadratic elements at fourth order or faster.
 
-<ConvergencePlot
-  title="NAFEMS T4: error at point E"
-  xLabel="Element size h (m)"
-  yLabel="|T(E) − 18.2538| (°C)"
-  series={[
-    {
-      name: "Linear",
-      points: [
-        [0.2, 9.754],
-        [0.1, 0.2998],
-        [0.05, 0.161],
-        [0.025, 0.04011],
-        [0.0125, 0.009997],
-      ],
-    },
-    {
-      name: "Quadratic",
-      points: [
-        [0.2, 3.269],
-        [0.1, 0.1446],
-        [0.05, 0.002085],
-        [0.025, 0.0001002],
-      ],
-    },
-  ]}
-/>
+![NAFEMS T4: error at point E against element size, for linear and quadratic elements, logarithmic axes](/assets/verification/nafems-t4-convergence.svg)
 
 The test checks the 12 × 20 quadratic mesh against 18.3 °C with a tolerance of 0.1 °C:
 [`heatConduction2DNafemsT4`](https://github.com/FEAScript/FEAScript-core/tree/main/tests/verification/benchmark/heatConduction2DNafemsT4).
@@ -107,31 +80,7 @@ The convergence study measures the largest error at the seven points against the
 Linear elements converge at second order. Quadratic elements converge at fourth order or faster at these
 points: nodal values of quadratic elements often converge faster than the solution between the nodes.
 
-<ConvergencePlot
-  title="Code_Aster TPLP302: largest error at the seven reference points"
-  xLabel="Element size h (m)"
-  yLabel="Largest error (°C)"
-  series={[
-    {
-      name: "Linear",
-      points: [
-        [0.05, 6.893],
-        [0.025, 1.629],
-        [0.0125, 0.3514],
-        [0.00625, 0.08533],
-      ],
-    },
-    {
-      name: "Quadratic",
-      points: [
-        [0.05, 0.6381],
-        [0.025, 0.01277],
-        [0.0125, 0.0001638],
-        [0.00625, 0.00000994],
-      ],
-    },
-  ]}
-/>
+![Code_Aster TPLP302: largest error at the seven reference points against element size, for linear and quadratic elements, logarithmic axes](/assets/verification/tplp302-convergence.svg)
 
 The test checks the 8 × 80 quadratic mesh against the reference values (relative tolerance `1e-3`) and the
 16 × 160 quadratic mesh against the series (tolerance `2e-3` °C):
