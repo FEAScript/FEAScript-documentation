@@ -182,8 +182,24 @@ on the diagonal, so its LU decomposition fills in more than that of heat conduct
 suits it (see [LU decomposition](#lu-decomposition-lusolve)).
 
 These numbers are from FEAScript-core 0.4.0 (RC), loaded from its built bundle in Node.js 18, on one core of an
-AMD Ryzen 5 9600X. Each is the median of 5 runs, and the times include mesh generation. On another computer, or in
-a browser other than Chrome, the times differ, but the comparison between the solvers holds.
+AMD Ryzen 5 9600X. Each is the median of 5 runs, and the times include mesh generation. On another computer the
+times differ, but the comparison between the solvers holds in Node.js and Chrome.
+
+### In the browser
+
+The browser you use matters as much as the solver. The table gives the first solve on the largest mesh of each
+case, in fresh headless browsers on the same core:
+
+| Case                           | Nodes  | Node.js | Chromium | Firefox |
+| ------------------------------ | ------ | ------- | -------- | ------- |
+| Fin, `"frontal"`               | 51,681 | 2.4 s   | 1.6 s    | 3.1 s   |
+| Fin, `"lusolve"`               | 51,681 | 2.0 s   | 1.5 s    | 22 s    |
+| Lid-driven cavity, `"lusolve"` | 16,641 | 9.9 s   | 8.0 s    | 220 s   |
+
+Chromium, whose V8 JavaScript engine Node.js also uses, is as fast as Node.js or faster on these meshes. In Firefox,
+`"frontal"` is close to the others, but `"lusolve"` is 11 to 22 times slower than in Node.js on the largest meshes,
+so for heat conduction in Firefox, prefer `"frontal"`. Creeping flow needs `"lusolve"`, so keep its meshes small
+there. The solutions are the same in all three, to the last bit. Chromium 156 and Firefox 159 were used.
 
 The last column of each table gives the time and memory of [Elmer](https://www.elmerfem.org/), the open-source finite element
 software of CSC – IT Center for Science, on the same meshes, as a reference. Elmer was run on one core, as a single
@@ -193,4 +209,4 @@ problems, typically in 3D, and this setup does not show its parallel performance
 The same problems were also run with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library for Python
 whose heavy work runs in the compiled code of NumPy and SciPy, with its default direct solver. On one core, it took
 0.24 s and 212 MB on the 320 × 160 fin, and 0.93 s and 364 MB on the $64 \times 64$ cavity. The benchmarks, with the
-Elmer and scikit-fem setups, are in [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
+Elmer, scikit-fem and browser setups, are in [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).

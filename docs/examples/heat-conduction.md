@@ -165,6 +165,18 @@ Source:
 The lowest temperature is 81.3207 °C, against 81.3187 °C on the structured mesh. The example prints the node
 coordinates and the solution vector.
 
+### Comparison on unstructured meshes
+
+The fin was also solved with Elmer and scikit-fem on 16 unstructured meshes made with Gmsh, read by all three
+programs: linear and quadratic triangles and quadrilaterals, up to 89,209 nodes. The temperatures of FEAScript and
+scikit-fem differ by at most 1.2e-10 °C when scikit-fem uses the same Gauss rules, and those of FEAScript and Elmer
+by at most 5.0e-6 °C, the rounding of the digits that Elmer writes.
+
+On a distorted quadrilateral, these rules do not integrate exactly: FEAScript uses 2 × 2 points on linear elements
+and 3 × 3 on quadratic ones. With a much finer rule in scikit-fem, the RMS error against the exact solution is only
+1.2% to 2.1% lower. On triangles with straight sides, the rules are exact. The benchmark is in
+[FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
+
 ## Rhomboid fin in 2D, Gmsh mesh
 
 A fin whose top edge is shifted by 1 m, so the left and right edges slant. The boundary conditions are those of

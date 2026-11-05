@@ -42,6 +42,7 @@ The same two examples are also solved with [scikit-fem](https://github.com/kinna
 for Python, on the same meshes. FEAScript and scikit-fem agree to within 1.8e-10 °C on the
 [fin in 2D](../examples/heat-conduction#comparison-with-scikit-fem), and to within 4.0e-13 in velocity and 2.4e-10 in
 pressure on the [lid-driven cavity](../examples/creeping-flow#comparison-with-scikit-fem), lid corners included.
+They also agree on [unstructured Gmsh meshes](../examples/heat-conduction#comparison-on-unstructured-meshes).
 
 ## Cases
 
