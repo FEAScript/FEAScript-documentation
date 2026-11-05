@@ -124,10 +124,11 @@ const config = {
           {
             title: "Community",
             items: [
-              { label: "Discord", href: "https://discord.gg/3DVjNcuW4f" },
               { label: "GitHub", href: "https://github.com/FEAScript/FEAScript-core" },
+              { label: "Discord", href: "https://discord.gg/3DVjNcuW4f" },
               { label: "YouTube", href: "https://www.youtube.com/@FEAScript" },
               { label: "LinkedIn", href: "https://www.linkedin.com/company/feascript/" },
+              { label: "Bluesky", href: "https://bsky.app/profile/feascript.com" },
             ],
           },
         ],
