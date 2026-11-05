@@ -143,9 +143,9 @@ on the larger meshes it does not converge with its default settings (see below).
 
 | Mesh      | Nodes  | `"frontal"` | `"lusolve"` | `"jacobi"`    | Elmer (UMFPACK) |
 | --------- | ------ | ----------- | ----------- | ------------- | --------------- |
-| 20 × 10   | 231    | 0.019 s     | 0.050 s     | 0.016 s       | < 0.01 s        |
-| 40 × 20   | 861    | 0.092 s     | 0.10 s      | 0.063 s       | < 0.01 s        |
-| 80 × 40   | 3,321  | 0.13 s      | 0.18 s      | not converged | 0.01 s          |
+| 20 × 10   | 231    | 0.022 s     | 0.055 s     | 0.016 s       | < 0.01 s        |
+| 40 × 20   | 861    | 0.091 s     | 0.10 s      | 0.062 s       | < 0.01 s        |
+| 80 × 40   | 3,321  | 0.13 s      | 0.19 s      | not converged | 0.01 s          |
 | 160 × 80  | 13,041 | 0.37 s      | 0.51 s      | not converged | 0.04 s          |
 | 320 × 160 | 51,681 | 2.4 s       | 2.0 s       | not converged | 0.21 s          |
 
@@ -166,11 +166,11 @@ which includes about 60 MB for Node.js and FEAScript themselves:
 
 | Mesh      | Nodes  | `"frontal"` | `"lusolve"` | `"jacobi"`    | Elmer (UMFPACK) |
 | --------- | ------ | ----------- | ----------- | ------------- | --------------- |
-| 20 × 10   | 231    | 61 MB       | 66 MB       | 57 MB         | 30 MB           |
-| 40 × 20   | 861    | 70 MB       | 67 MB       | 63 MB         | 31 MB           |
-| 80 × 40   | 3,321  | 72 MB       | 82 MB       | not converged | 35 MB           |
-| 160 × 80  | 13,041 | 97 MB       | 140 MB      | not converged | 51 MB           |
-| 320 × 160 | 51,681 | 255 MB      | 346 MB      | not converged | 121 MB          |
+| 20 × 10   | 231    | 61 MB       | 65 MB       | 57 MB         | 29 MB           |
+| 40 × 20   | 861    | 69 MB       | 66 MB       | 62 MB         | 30 MB           |
+| 80 × 40   | 3,321  | 71 MB       | 83 MB       | not converged | 34 MB           |
+| 160 × 80  | 13,041 | 97 MB       | 143 MB      | not converged | 50 MB           |
+| 320 × 160 | 51,681 | 251 MB      | 346 MB      | not converged | 120 MB          |
 
 From about 3,000 nodes, `"frontal"` needs less memory than `"lusolve"`, about three quarters of it on the
 largest mesh.
@@ -188,5 +188,9 @@ a browser other than Chrome, the times differ, but the comparison between the so
 The last column of each table gives the time and memory of [Elmer](https://www.elmerfem.org/), the open-source finite element
 software of CSC – IT Center for Science, on the same meshes, as a reference. Elmer was run on one core, as a single
 MPI process, so that both programs solve on the same terms. Elmer is a parallel program built for much larger
-problems, typically in 3D, and this setup does not show its parallel performance. The benchmarks, with the Elmer
-setups, are in [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
+problems, typically in 3D, and this setup does not show its parallel performance.
+
+The same problems were also run with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library for Python
+whose heavy work runs in the compiled code of NumPy and SciPy, with its default direct solver. On one core, it took
+0.24 s and 212 MB on the 320 × 160 fin, and 0.93 s and 364 MB on the $64 \times 64$ cavity. The benchmarks, with the
+Elmer and scikit-fem setups, are in [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).

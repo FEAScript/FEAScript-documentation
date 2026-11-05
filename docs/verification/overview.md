@@ -36,6 +36,13 @@ part of the test suite; they are run with
 [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark), which also times both programs (see
 [Solvers](../fundamentals/solvers#performance)).
 
+## Comparison with scikit-fem
+
+The same two examples are also solved with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library
+for Python, on the same meshes. FEAScript and scikit-fem agree to within 1.8e-10 °C on the
+[fin in 2D](../examples/heat-conduction#comparison-with-scikit-fem), and to within 4.0e-13 in velocity and 2.4e-10 in
+pressure on the [lid-driven cavity](../examples/creeping-flow#comparison-with-scikit-fem), lid corners included.
+
 ## Cases
 
 | Model                | Case                                                                             | Reference            | Elements                     | Result                                                         |

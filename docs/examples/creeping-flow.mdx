@@ -75,6 +75,24 @@ run on one core as a single MPI process. For the solve times, see [Solvers](../f
 The benchmark, with the Elmer setup, is in
 [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
 
+### Comparison with scikit-fem
+
+The same cavity was also solved with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library for Python,
+on the same meshes, with Taylor-Hood Q2-Q1 elements and its default direct solver. scikit-fem sets the lid velocity
+the same way as FEAScript, at every lid node except the corners, so the two programs can be compared at every node,
+including those next to the lid corners:
+
+| Mesh    | Largest difference in velocity | Largest difference in pressure |
+| ------- | ------------------------------ | ------------------------------ |
+| 8 × 8   | 5.1e-14                        | 1.2e-11                        |
+| 16 × 16 | 1.3e-13                        | 1.8e-11                        |
+| 24 × 24 | 9.3e-14                        | 2.2e-11                        |
+| 32 × 32 | 4.0e-13                        | 1.0e-10                        |
+| 48 × 48 | 2.4e-13                        | 2.4e-10                        |
+| 64 × 64 | 2.6e-13                        | 1.1e-10                        |
+
+The velocity is compared at all the nodes, and the pressure at the mesh vertices, where it is defined.
+
 ## Couette flow in 2D
 
 A 4 m × 2 m channel, $\mu = 1$, whose top wall moves at 1 m/s over a fixed bottom wall, with stress-free (open)

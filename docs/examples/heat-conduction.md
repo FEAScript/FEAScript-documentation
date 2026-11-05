@@ -134,6 +134,13 @@ its `HeatSolver` with the UMFPACK direct solver, run on one core as a single MPI
 [Solvers](../fundamentals/solvers.mdx#performance). The benchmark, with the Elmer setup, is in
 [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
 
+### Comparison with scikit-fem
+
+The fin was also solved with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library for Python, on the
+same meshes, with the same elements and its default direct solver. The temperatures of FEAScript and scikit-fem
+differ by at most 1.8e-10 °C on every mesh, from 231 to 51,681 nodes. This comparison is closer than the one with
+Elmer because scikit-fem's results are kept to full double precision.
+
 ## Fin in 2D, Gmsh mesh
 
 The fin of the previous example on an unstructured mesh made with [Gmsh](https://gmsh.info/), read from
