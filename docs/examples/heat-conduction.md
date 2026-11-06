@@ -138,7 +138,7 @@ its `HeatSolver` with the UMFPACK direct solver, run on one core as a single MPI
 
 The fin was also solved with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library for Python, on the
 same meshes, with the same elements and its default direct solver. The temperatures of FEAScript and scikit-fem
-differ by at most 1.8e-10 °C on every mesh, from 231 to 51,681 nodes. This comparison is closer than the one with
+differ by at most 1.7e-10 °C on every mesh, from 231 to 51,681 nodes. This comparison is closer than the one with
 Elmer because scikit-fem's results are kept to full double precision.
 
 ## Fin in 2D, Gmsh mesh
@@ -169,7 +169,7 @@ coordinates and the solution vector.
 
 The fin was also solved with Elmer and scikit-fem on 16 unstructured meshes made with Gmsh, read by all three
 programs: linear and quadratic triangles and quadrilaterals, up to 89,209 nodes. The temperatures of FEAScript and
-scikit-fem differ by at most 1.2e-10 °C when scikit-fem uses the same Gauss rules, and those of FEAScript and Elmer
+scikit-fem differ by at most 1.1e-10 °C when scikit-fem uses the same Gauss rules, and those of FEAScript and Elmer
 by at most 5.0e-6 °C, the rounding of the digits that Elmer writes.
 
 On a distorted quadrilateral, these rules do not integrate exactly: FEAScript uses 2 × 2 points on linear elements

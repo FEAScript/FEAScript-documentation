@@ -39,8 +39,8 @@ part of the test suite; they are run with
 ## Comparison with scikit-fem
 
 The same two examples are also solved with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library
-for Python, on the same meshes. FEAScript and scikit-fem agree to within 1.8e-10 °C on the
-[fin in 2D](../examples/heat-conduction#comparison-with-scikit-fem), and to within 4.0e-13 in velocity and 2.4e-10 in
+for Python, on the same meshes. FEAScript and scikit-fem agree to within 1.7e-10 °C on the
+[fin in 2D](../examples/heat-conduction#comparison-with-scikit-fem), and to within 4.0e-13 in velocity and 2.2e-10 in
 pressure on the [lid-driven cavity](../examples/creeping-flow#comparison-with-scikit-fem), lid corners included.
 They also agree on [unstructured Gmsh meshes](../examples/heat-conduction#comparison-on-unstructured-meshes).
 
