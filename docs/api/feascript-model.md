@@ -145,7 +145,16 @@ with WebGPU support. For other models or solver methods, it returns an empty sol
 
 ## Error handling
 
-FEAScript reports configuration problems (for example an unsupported mesh for a model, or a solver that did not
-converge) as `[ERROR]` messages in the console, and in most cases continues instead of throwing an exception.
-Check the console output when a result looks wrong. See [Logging](./utilities.md#logsystem) to control the
-amount of output.
+A solve that would return an empty or a wrong result throws a `FEAScriptError`, exported by the library, with one
+of these codes in `error.code`:
+
+| Code                 | Meaning                                                                                 |
+| -------------------- | --------------------------------------------------------------------------------------- |
+| `UNSUPPORTED_SOLVER` | The model does not support the solver method, or `solveAsync()` cannot run the model    |
+| `NOT_CONVERGED`      | A Jacobi solve, a front propagation or a nonlinear general form PDE did not converge    |
+| `SINGULAR_MATRIX`    | The system has no unique solution, for example with a zero conductivity                 |
+
+Through `FEAScriptWorker` the error keeps its `name` and `message`, but not its `code`.
+
+Other configuration problems (for example an unsupported mesh for a model) are reported as `[ERROR]` messages in
+the console. See [Logging](./utilities.md#logsystem) to control the amount of output.

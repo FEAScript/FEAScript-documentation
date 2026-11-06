@@ -27,7 +27,12 @@ model.setSolverMethod("frontal");
 | `generalFormPDEScript`, nonlinear |      ✓      |     ✓      |             |                |
 | `frontPropagationScript`          |      ✓      |     ✓      |      ✓      |                |
 | `creepingFlowScript`              |      ✓      |            |             |                |
-| `eulerBernoulliBeamScript`        |      ✓      |     ✓      |             |                |
+| `eulerBernoulliBeamScript`        |      ✓      |     *      |             |                |
+
+\* `"jacobi"` runs, but beam stiffness matrices are not diagonally dominant, so it usually fails with `NOT_CONVERGED`.
+Use `"lusolve"`.
+
+Any other combination throws a `FEAScriptError` with the code `UNSUPPORTED_SOLVER`.
 
 For the nonlinear models (`frontPropagationScript`, and `generalFormPDEScript` with `nonlinear: true`), the
 selected method solves the linear system of each Newton–Raphson iteration.

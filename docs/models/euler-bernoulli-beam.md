@@ -132,7 +132,7 @@ instead of `[["fixed"]]`), is reported as an error.
 ### Solvers
 
 Use `"lusolve"`. The frontal solver is not supported for this model. `"jacobi"` can be selected, but beam
-stiffness matrices are generally not diagonally dominant, so it may not converge.
+stiffness matrices are generally not diagonally dominant, so it usually fails with `NOT_CONVERGED`.
 
 ## Results
 
