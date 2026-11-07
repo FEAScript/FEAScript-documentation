@@ -4,6 +4,8 @@ sidebar_position: 4
 
 # Creeping flow
 
+<img className="physics-logo" src="/assets/physics/creeping-flow.svg" alt="" />
+
 `creepingFlowScript` solves steady, incompressible creeping (Stokes) flow in 2D, for velocity and pressure,
 with Taylor–Hood mixed elements.
 

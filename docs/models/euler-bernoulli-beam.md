@@ -4,6 +4,8 @@ sidebar_position: 5
 
 # Euler–Bernoulli beam
 
+<img className="physics-logo" src="/assets/physics/structural-mechanics.svg" alt="" />
+
 `eulerBernoulliBeamScript` solves the bending of a straight beam under transverse loads, with Euler–Bernoulli
 beam theory, on a 1D mesh. It supports variable bending stiffness, an elastic foundation, distributed loads, and
 supports, springs, point forces and point moments at any node.

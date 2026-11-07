@@ -23,11 +23,11 @@ const sidebars = {
       type: "category",
       label: "Models",
       items: [
-        "models/heat-conduction",
-        "models/general-form-pde",
-        "models/front-propagation",
-        "models/creeping-flow",
-        "models/euler-bernoulli-beam",
+        { type: "doc", id: "models/heat-conduction", className: "physics-item physics-heat-transfer" },
+        { type: "doc", id: "models/general-form-pde", className: "physics-item physics-general-form-pde" },
+        { type: "doc", id: "models/front-propagation", className: "physics-item physics-front-propagation" },
+        { type: "doc", id: "models/creeping-flow", className: "physics-item physics-creeping-flow" },
+        { type: "doc", id: "models/euler-bernoulli-beam", className: "physics-item physics-structural-mechanics" },
       ],
     },
     {

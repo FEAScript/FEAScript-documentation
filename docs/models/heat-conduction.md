@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Heat conduction
 
+<img className="physics-logo" src="/assets/physics/heat-transfer.svg" alt="" />
+
 `heatConductionScript` solves steady-state heat conduction in 1D and 2D, with spatially varying thermal
 conductivity and heat source.
 

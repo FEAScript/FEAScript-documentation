@@ -4,6 +4,8 @@ sidebar_position: 2
 
 # General form PDE
 
+<img className="physics-logo" src="/assets/physics/general-form-pde.svg" alt="" />
+
 `generalFormPDEScript` solves a general second-order, one-dimensional PDE, defined by four coefficient functions.
 It covers diffusion, advection–diffusion and reaction–diffusion problems, in linear or nonlinear form.
 

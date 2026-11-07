@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="FEAScript general form PDE">
+  <title>FEAScript general form PDE</title>
+  <rect width="512" height="512" fill="#4d4d4d"/>
+  <g fill="none" stroke="#d4aa00" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 362 142 C 352 112 322 100 298 108 C 272 116 262 142 256 174 L 226 340 C 220 376 202 404 172 406 C 150 408 136 398 130 380"/>
+    <path d="M 196 214 L 330 214"/>
+  </g>
+</svg>

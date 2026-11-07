@@ -789,3 +789,46 @@ code {
 [data-theme="dark"] .markdown img[src$=".svg"] {
   filter: invert(0.88);
 }
+
+/* The physics logos: on the page of each model, and beside its name in the sidebar */
+.markdown img.physics-logo {
+  float: right;
+  width: 72px;
+  height: 72px;
+  margin: -4.25rem 0 1rem 1.5rem;
+  border-radius: 14px;
+}
+
+[data-theme="dark"] .markdown img.physics-logo {
+  filter: none;
+}
+
+.physics-item > .menu__link::before {
+  content: "";
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  background-size: cover;
+}
+
+.physics-heat-transfer > .menu__link::before {
+  background-image: url("/assets/physics/heat-transfer.svg");
+}
+
+.physics-general-form-pde > .menu__link::before {
+  background-image: url("/assets/physics/general-form-pde.svg");
+}
+
+.physics-front-propagation > .menu__link::before {
+  background-image: url("/assets/physics/front-propagation.svg");
+}
+
+.physics-creeping-flow > .menu__link::before {
+  background-image: url("/assets/physics/creeping-flow.svg");
+}
+
+.physics-structural-mechanics > .menu__link::before {
+  background-image: url("/assets/physics/structural-mechanics.svg");
+}

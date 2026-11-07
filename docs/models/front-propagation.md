@@ -4,6 +4,8 @@ sidebar_position: 3
 
 # Front propagation
 
+<img className="physics-logo" src="/assets/physics/front-propagation.svg" alt="" />
+
 `frontPropagationScript` computes how a front (for example a solidification interface) advances from a part of
 the boundary into the domain, by solving the eikonal equation in 1D and 2D. The solution $u(\bar{x})$ is the
 arrival time of the front at every point, which for a unit speed equals the distance from the initial front.
