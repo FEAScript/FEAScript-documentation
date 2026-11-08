@@ -4,6 +4,8 @@ sidebar_position: 5
 
 # Utilities
 
+<img className="topic-logo" src="/assets/topics/utilities.svg" alt="" />
+
 ## `logSystem`
 
 ```javascript

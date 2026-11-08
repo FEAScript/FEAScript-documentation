@@ -4,6 +4,8 @@ sidebar_position: 2
 
 # Mesh
 
+<img className="topic-logo" src="/assets/topics/mesh.svg" alt="" />
+
 The mesh is defined with `model.setMeshConfig(meshConfig)`. FEAScript can either generate a structured mesh
 from a few geometric parameters, or use an unstructured 2D mesh imported from [Gmsh](https://gmsh.info/).
 

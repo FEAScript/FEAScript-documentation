@@ -4,6 +4,8 @@ sidebar_position: 4
 
 # Front propagation
 
+<img className="physics-logo" src="/assets/physics/front-propagation.svg" alt="" />
+
 Node.js example of [`frontPropagationScript`](../models/front-propagation), in
 [`examples/frontPropagationScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/frontPropagationScript).
 Run the command below from that folder (see [running an example](overview#running-an-example)). The results are

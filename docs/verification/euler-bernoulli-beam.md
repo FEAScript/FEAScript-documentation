@@ -4,6 +4,8 @@ sidebar_position: 5
 
 # Euler–Bernoulli beam
 
+<img className="physics-logo" src="/assets/physics/structural-mechanics.svg" alt="" />
+
 Verification of [`eulerBernoulliBeamScript`](../models/euler-bernoulli-beam) against closed-form solutions. All
 results are from FEAScript-core 0.4.0 (RC).
 

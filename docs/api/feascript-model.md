@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # FEAScriptModel
 
+<img className="topic-logo" src="/assets/topics/model.svg" alt="" />
+
 `FEAScriptModel` is the main class of FEAScript. It holds the configuration of a simulation (model, mesh,
 boundary conditions and solver) and solves it.
 

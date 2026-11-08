@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Verification overview
 
+<img className="topic-logo" src="/assets/topics/verification.svg" alt="" />
+
 Verification checks that FEAScript solves its equations correctly: that the computed solution matches a known
 answer for the same problem. Each case on these pages is an automated test in
 [FEAScript-core](https://github.com/FEAScript/FEAScript-core/tree/main/tests), runs on every pull request, and

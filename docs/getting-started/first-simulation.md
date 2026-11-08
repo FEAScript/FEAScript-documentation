@@ -4,6 +4,8 @@ sidebar_position: 2
 
 # Your first simulation
 
+<img className="topic-logo" src="/assets/topics/first-simulation.svg" alt="" />
+
 This page walks through a complete simulation: steady-state heat conduction in a 2D fin, solved in the browser and
 plotted with Plotly. The same steps apply to every model.
 

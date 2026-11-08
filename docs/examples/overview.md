@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Examples overview
 
+<img className="topic-logo" src="/assets/topics/examples.svg" alt="" />
+
 FEAScript-core ships with Node.js examples for every model, in the
 [`examples`](https://github.com/FEAScript/FEAScript-core/tree/main/examples) folder. Each example is a single
 script that sets up a model in the five steps of [your first simulation](../getting-started/first-simulation),

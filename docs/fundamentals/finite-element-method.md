@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Finite element method in FEAScript
 
+<img className="topic-logo" src="/assets/topics/finite-element.svg" alt="" />
+
 This page summarizes how FEAScript discretizes a boundary value problem. It uses the notation of the
 [Finite Element Method Notes](https://blog.feascript.com/tutorial/2023/12/01/finite-element-method-notes.html)
 on the FEAScript blog, which explains each step in more detail.

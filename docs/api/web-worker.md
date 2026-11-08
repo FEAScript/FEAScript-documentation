@@ -4,6 +4,8 @@ sidebar_position: 4
 
 # FEAScriptWorker
 
+<img className="topic-logo" src="/assets/topics/web-worker.svg" alt="" />
+
 `FEAScriptWorker` runs a `FEAScriptModel` in a [web worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
 so a long simulation does not block the page. It has the same configuration methods as `FEAScriptModel`, but every
 method is asynchronous and returns a `Promise`.

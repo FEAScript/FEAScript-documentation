@@ -4,6 +4,8 @@ sidebar_position: 3
 
 # Boundary conditions
 
+<img className="topic-logo" src="/assets/topics/boundary-conditions.svg" alt="" />
+
 Boundary conditions are added with `model.addBoundaryCondition(boundaryKey, condition)`:
 
 ```javascript

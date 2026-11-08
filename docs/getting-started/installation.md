@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Installation
 
+<img className="topic-logo" src="/assets/topics/installation.svg" alt="" />
+
 ## In the browser
 
 Import the ES module build from the jsDelivr CDN or from the hosted build:

@@ -4,6 +4,8 @@ sidebar_position: 2
 
 # importGmshMesh
 
+<img className="topic-logo" src="/assets/topics/mesh-import.svg" alt="" />
+
 ```javascript
 const parsedMesh = await importGmshMesh(file);
 ```

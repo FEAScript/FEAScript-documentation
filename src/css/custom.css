@@ -790,20 +790,47 @@ code {
   filter: invert(0.88);
 }
 
-/* The physics logos: on the page of each model, and beside its name in the sidebar */
-.markdown img.physics-logo {
-  float: right;
+/* The physics logos (on the page of each model and beside its name in the sidebar) and the topic logos */
+/* Pinned beside the page title, so it never overlaps a table or code block that follows the title */
+.theme-doc-markdown {
+  position: relative;
+}
+
+.markdown img.physics-logo,
+.markdown img.topic-logo {
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 72px;
   height: 72px;
-  margin: -4.25rem 0 1rem 1.5rem;
+  margin: 0;
   border-radius: 14px;
 }
 
-[data-theme="dark"] .markdown img.physics-logo {
+.markdown:has(> img.physics-logo, > img.topic-logo) > header h1 {
+  padding-right: 5.5rem;
+}
+
+@media (max-width: 996px) {
+  .markdown img.physics-logo,
+  .markdown img.topic-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+  }
+
+  .markdown:has(> img.physics-logo, > img.topic-logo) > header h1 {
+    padding-right: 4rem;
+  }
+}
+
+[data-theme="dark"] .markdown img.physics-logo,
+[data-theme="dark"] .markdown img.topic-logo {
   filter: none;
 }
 
-.physics-item > .menu__link::before {
+/* Sidebar logos: the physics logos on the models, examples and verification pages, topic logos elsewhere */
+.logo-item > .menu__link::before {
   content: "";
   flex: none;
   width: 1.2rem;
@@ -831,4 +858,56 @@ code {
 
 .physics-structural-mechanics > .menu__link::before {
   background-image: url("/assets/physics/structural-mechanics.svg");
+}
+
+.topic-installation > .menu__link::before {
+  background-image: url("/assets/topics/installation.svg");
+}
+
+.topic-first-simulation > .menu__link::before {
+  background-image: url("/assets/topics/first-simulation.svg");
+}
+
+.topic-finite-element > .menu__link::before {
+  background-image: url("/assets/topics/finite-element.svg");
+}
+
+.topic-mesh > .menu__link::before {
+  background-image: url("/assets/topics/mesh.svg");
+}
+
+.topic-boundary-conditions > .menu__link::before {
+  background-image: url("/assets/topics/boundary-conditions.svg");
+}
+
+.topic-solver > .menu__link::before {
+  background-image: url("/assets/topics/solver.svg");
+}
+
+.topic-examples > .menu__link::before {
+  background-image: url("/assets/topics/examples.svg");
+}
+
+.topic-verification > .menu__link::before {
+  background-image: url("/assets/topics/verification.svg");
+}
+
+.topic-model > .menu__link::before {
+  background-image: url("/assets/topics/model.svg");
+}
+
+.topic-mesh-import > .menu__link::before {
+  background-image: url("/assets/topics/mesh-import.svg");
+}
+
+.topic-visualization > .menu__link::before {
+  background-image: url("/assets/topics/visualization.svg");
+}
+
+.topic-web-worker > .menu__link::before {
+  background-image: url("/assets/topics/web-worker.svg");
+}
+
+.topic-utilities > .menu__link::before {
+  background-image: url("/assets/topics/utilities.svg");
 }

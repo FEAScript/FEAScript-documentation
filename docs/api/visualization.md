@@ -4,6 +4,8 @@ sidebar_position: 3
 
 # Visualization
 
+<img className="topic-logo" src="/assets/topics/visualization.svg" alt="" />
+
 FEAScript can plot results with [Plotly](https://plotly.com/javascript/) or [vtk.js](https://kitware.github.io/vtk-js/),
 and export them for other tools. Both libraries are optional peer dependencies: load only the one you use.
 
