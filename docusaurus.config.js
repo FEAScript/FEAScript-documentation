@@ -116,19 +116,19 @@ const config = {
           {
             title: "FEAScript",
             items: [
-              { label: "Website", href: "https://feascript.com" },
-              { label: "FEAScript Studio", href: "https://feascript.com/studio.html" },
-              { label: "Blog", href: "https://blog.feascript.com" },
+              { label: "Website", icon: "website", href: "https://feascript.com" },
+              { label: "FEAScript Studio", icon: "studio", href: "https://feascript.com/studio.html" },
+              { label: "Blog", icon: "blog", href: "https://blog.feascript.com" },
             ],
           },
           {
             title: "Community",
             items: [
-              { label: "GitHub", href: "https://github.com/FEAScript/FEAScript-core" },
-              { label: "Discord", href: "https://discord.gg/3DVjNcuW4f" },
-              { label: "YouTube", href: "https://www.youtube.com/@FEAScript" },
-              { label: "LinkedIn", href: "https://www.linkedin.com/company/feascript/" },
-              { label: "Bluesky", href: "https://bsky.app/profile/feascript.com" },
+              { label: "GitHub", icon: "github", href: "https://github.com/FEAScript/FEAScript-core" },
+              { label: "Discord", icon: "discord", href: "https://discord.gg/3DVjNcuW4f" },
+              { label: "YouTube", icon: "youtube", href: "https://www.youtube.com/@FEAScript" },
+              { label: "LinkedIn", icon: "linkedin", href: "https://www.linkedin.com/company/feascript/" },
+              { label: "Bluesky", icon: "bluesky", href: "https://bsky.app/profile/feascript.com" },
             ],
           },
         ],

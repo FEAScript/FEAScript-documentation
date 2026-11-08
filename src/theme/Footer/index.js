@@ -6,11 +6,11 @@ function FooterLink({ item }) {
   const className = "footer__link-item";
 
   return item.href ? (
-    <a className={className} href={item.href}>
+    <a className={className} href={item.href} data-icon={item.icon}>
       {item.label}
     </a>
   ) : (
-    <Link className={className} to={item.to}>
+    <Link className={className} to={item.to} data-icon={item.icon}>
       {item.label}
     </Link>
   );
@@ -40,7 +40,7 @@ export default function Footer() {
             <p className="footer-brand__tagline">
               Finite element simulation in JavaScript, for the browser and Node.js.
             </p>
-            <a className="footer-brand__email" href="mailto:info@feascript.com">
+            <a className="footer-brand__email" data-icon="mail" href="mailto:info@feascript.com">
               info@feascript.com
             </a>
           </div>
