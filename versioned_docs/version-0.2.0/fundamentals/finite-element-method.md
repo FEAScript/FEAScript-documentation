@@ -85,7 +85,7 @@ $$
 I_{ij}^k = \int_{E_0} \phi_i(\bar{\xi}) \, L_{\bar{\xi}} \phi_j(\bar{\xi}) \, \det \bar{\bar{J}} \, d\bar{\xi}.
 $$
 
-![Reference elements with the local node numbering and the side numbering](/assets/reference-elements.svg)
+![Reference elements of FEAScript 0.2.0 with the local node numbering and the side numbering](/assets/reference-elements-1d-quad.svg)
 
 The local node numbering above is the one used by the nodal numbering (NOP) array of every mesh, and the side
 numbers are the ones stored in the boundary elements of the mesh (see [Mesh](./mesh.md)). FEAScript 0.2.0 supports
