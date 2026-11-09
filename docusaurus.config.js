@@ -45,6 +45,8 @@ const config = {
           editUrl: "https://github.com/FEAScript/FEAScript-documentation/tree/main/",
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
+          // Also gives the sitemap its <lastmod> dates
+          showLastUpdateTime: true,
           // "current" holds the docs of the latest minor version; older minor versions are snapshots (see README)
           lastVersion: "current",
           versions: {
@@ -54,6 +56,12 @@ const config = {
           },
         },
         blog: false,
+        // <lastmod> comes from each page's last git commit (showLastUpdateTime in docs), so the deploy workflow
+        // checks out the full history. The search page is left out of the sitemap
+        sitemap: {
+          lastmod: "date",
+          ignorePatterns: ["/search"],
+        },
         theme: {
           customCss: "./src/css/custom.css",
         },

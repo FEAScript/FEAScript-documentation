@@ -69,6 +69,8 @@ Fixes to an old version are made directly in its `versioned_docs/version-x.y.z/`
 
 Pushing to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds the site and deploys it to `docs.feascript.com`.
 
+The build also writes `sitemap.xml`, with every page and a `<lastmod>` from the page's last git commit (the same date as the "Last updated" line under each page), so it needs no manual editing. The workflow checks out the full git history for these dates; a shallow clone would give every page the date of the last commit. `static/robots.txt` points search engines to the sitemap.
+
 ## License
 
 The content of the FEAScript documentation is licensed under [CC BY 4.0](LICENSE). Note that the core library of FEAScript is distributed under the terms of the [MIT license](https://github.com/FEAScript/FEAScript-core/blob/main/LICENSE).

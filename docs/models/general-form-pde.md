@@ -173,12 +173,10 @@ condition behaves as `"zeroGradient"`.
 
 ### Solvers
 
-| Form      | Supported methods                               |
-| --------- | ----------------------------------------------- |
-| Linear    | `"lusolve"`, `"jacobi"`, `"frontal"`            |
-| Nonlinear | `"lusolve"`, `"jacobi"` (inside Newton–Raphson) |
-
-The frontal solver is not supported for the nonlinear form.
+| Form      | Supported methods                                            |
+| --------- | ------------------------------------------------------------ |
+| Linear    | `"lusolve"`, `"jacobi"`, `"frontal"`                         |
+| Nonlinear | `"lusolve"`, `"jacobi"`, `"frontal"` (inside Newton–Raphson) |
 
 ## Results
 
