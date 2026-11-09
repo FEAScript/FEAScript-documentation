@@ -2,6 +2,13 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
+// Icon-only links under the mail address, same as the feascript.com footer
+const social = [
+  { label: "YouTube", icon: "youtube", href: "https://www.youtube.com/@FEAScript" },
+  { label: "LinkedIn", icon: "linkedin", href: "https://www.linkedin.com/company/feascript/" },
+  { label: "Bluesky", icon: "bluesky", href: "https://bsky.app/profile/feascript.com" },
+];
+
 function FooterLink({ item }) {
   const className = "footer__link-item";
 
@@ -43,6 +50,11 @@ export default function Footer() {
             <a className="footer-brand__email" data-icon="mail" href="mailto:info@feascript.com">
               info@feascript.com
             </a>
+            <div className="footer-social">
+              {social.map(({ label, icon, href }) => (
+                <a key={icon} href={href} data-icon={icon} aria-label={label} title={label} />
+              ))}
+            </div>
           </div>
           {links.map((column) => (
             <div className="footer__col" key={column.title}>

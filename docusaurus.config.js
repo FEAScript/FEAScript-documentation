@@ -122,21 +122,34 @@ const config = {
         style: "light",
         links: [
           {
-            title: "FEAScript",
+            title: "Learn",
             items: [
-              { label: "Website", icon: "website", href: "https://feascript.com" },
+              { label: "Tutorials", icon: "tutorials", href: "https://feascript.com/#tutorials" },
+              { label: "CodePen", icon: "codepen", href: "https://codepen.io/FEAScript" },
+              {
+                label: "Scribbler",
+                icon: "scribbler",
+                href: "https://hub.scribbler.live/portfolio/#!nikoscham/FEAScript-Scribbler-examples",
+              },
+              { label: "Documentation", icon: "documentation", href: "https://docs.feascript.com" },
+            ],
+          },
+          {
+            title: "Build",
+            items: [
               { label: "FEAScript Studio", icon: "studio", href: "https://feascript.com/studio.html" },
-              { label: "Blog", icon: "blog", href: "https://blog.feascript.com" },
+              { label: "Tri's Lab", icon: "tris-lab", href: "https://lab.feascript.com/" },
+              { label: "npm package", icon: "npm", href: "https://www.npmjs.com/package/feascript" },
+              { label: "GitHub", icon: "github", href: "https://github.com/FEAScript/FEAScript-core" },
             ],
           },
           {
             title: "Community",
             items: [
-              { label: "GitHub", icon: "github", href: "https://github.com/FEAScript/FEAScript-core" },
+              { label: "Blog", icon: "blog", href: "https://blog.feascript.com" },
               { label: "Discord", icon: "discord", href: "https://discord.gg/3DVjNcuW4f" },
-              { label: "YouTube", icon: "youtube", href: "https://www.youtube.com/@FEAScript" },
-              { label: "LinkedIn", icon: "linkedin", href: "https://www.linkedin.com/company/feascript/" },
-              { label: "Bluesky", icon: "bluesky", href: "https://bsky.app/profile/feascript.com" },
+              { label: "Support", icon: "support", href: "https://github.com/FEAScript/FEAScript-core/issues" },
+              { label: "Sponsors", icon: "sponsors", href: "https://feascript.com/sponsors.html" },
             ],
           },
         ],
