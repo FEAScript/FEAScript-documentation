@@ -902,6 +902,14 @@ code {
   color: var(--faint);
 }
 
+.footer__copyright a {
+  color: var(--muted);
+}
+
+.footer__copyright a:hover {
+  color: var(--ink-strong);
+}
+
 @media (max-width: 996px) {
   .footer__links {
     grid-template-columns: repeat(2, minmax(0, 1fr));
