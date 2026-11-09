@@ -134,7 +134,7 @@ size $h$, with either element; the RMS error over all the nodes falls about as $
 FEAScript-core 0.4.0 (RC) was used, with `"frontal"` and `"lusolve"`, which give the same temperatures. Elmer used
 its `HeatSolver` with the UMFPACK direct solver, run on one core as a single MPI process. For the solve times, see
 [Solvers](../fundamentals/solvers.mdx#performance). The benchmark, with the Elmer setup, is in
-[FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
+[FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark/tree/main/heatConduction2DFin).
 
 ### Comparison with scikit-fem
 
@@ -177,7 +177,7 @@ by at most 5.0e-6 °C, the rounding of the digits that Elmer writes.
 On a distorted quadrilateral, these rules do not integrate exactly: FEAScript uses 2 × 2 points on linear elements
 and 3 × 3 on quadratic ones. With a much finer rule in scikit-fem, the RMS error against the exact solution is only
 1.2% to 2.1% lower. On triangles with straight sides, the rules are exact. The benchmark is in
-[FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark).
+[FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark/tree/main/heatConduction2DFinGmsh).
 
 ## Rhomboid fin in 2D, Gmsh mesh
 
