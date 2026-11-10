@@ -151,6 +151,49 @@ The refinement always ends for a `minAngle` below 20.7 degrees, and in practice 
 angle, or a very small `maxArea`, can make it pass `maxNodes` (default 100,000 vertices), which stops it with a
 `FEAScriptError` of code `"MESH_TOO_FINE"`. The node and element counts are logged at the `"basic"` level.
 
+### How the mesh is built
+
+The generator starts from the points given, triangulates them (a constrained Delaunay triangulation, with the
+edges of the polygon and of the holes forced in) and then inserts vertices one pass at a time: a boundary edge
+is split at its midpoint when a vertex lies inside its diametral circle, and a triangle that is too skinny or
+too large gets a vertex near its short edge (its off-center). The triangulation is rebuilt after each pass, so
+the result is always a proper triangulation: every edge is shared by two triangles, or by one on the boundary,
+and no vertex lies in the middle of another triangle's edge. The algorithm, the software it uses and the
+references are on the [`generateTriangleMesh`](../api/triangle-mesh.md#algorithm-and-software) page.
+
+Because the boundary edges are split at their midpoints, a rectangle given by its four corners is meshed with
+a symmetric pattern of right triangles, built from halves and quarters of its sides: a valid mesh, with all
+angles at 45 or 90 degrees, but a very regular one. For a mesh of well-shaped triangles of varied orientation,
+give the polygon points along its edges at about the element size, with the same name repeated for the edges
+of one side; the refinement then starts from a boundary that already has the right size:
+
+```javascript
+// The 4 by 2 rectangle with a point every 0.5 along its edges
+const h = 0.5;
+const points = [];
+const boundaries = [];
+for (let x = 0; x < 4; x += h) {
+  points.push([x, 0]);
+  boundaries.push("bottom");
+}
+for (let y = 0; y < 2; y += h) {
+  points.push([4, y]);
+  boundaries.push("right");
+}
+for (let x = 4; x > 0; x -= h) {
+  points.push([x, 2]);
+  boundaries.push("top");
+}
+for (let y = 2; y > 0; y -= h) {
+  points.push([0, y]);
+  boundaries.push("left");
+}
+const parsedMesh = generateTriangleMesh({ polygon: { points, boundaries }, maxArea: 0.1, minAngle: 30 });
+```
+
+For a rectangle or a trapezoid, a [structured mesh](#structured-meshes) of quadrilaterals is the simpler
+choice; the triangle generator is for the shapes a structured mesh cannot cover.
+
 ### Boundaries of a generated mesh
 
 Each edge of the polygon and of the holes has a name, given in `boundaries` as one name for all the edges or as

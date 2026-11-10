@@ -23,7 +23,8 @@ expects through its `parsedMesh` property, the same as [`importGmshMesh`](./gmsh
 [Mesh](../fundamentals/mesh.md#generated-triangle-meshes) for how the boundaries are named and for examples.
 
 The mesh is a constrained Delaunay triangulation of the input points, refined by Ruppert's algorithm until every
-element has angles of at least `minAngle` and an area of at most `maxArea`.
+element has angles of at least `minAngle` and an area of at most `maxArea`. See
+[Algorithm and software](#algorithm-and-software) below.
 
 | Parameter      | Type                   | Required | Description                                                                                                                                                                                                                                                                                               |
 | -------------- | ---------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -88,3 +89,44 @@ const { solutionVector, nodesCoordinates } = model.solve();
 ```
 
 The function works the same in the browser and in Node.js; it reads no files.
+
+## Algorithm and software
+
+The generator works in two stages:
+
+1. **Constrained Delaunay triangulation** of the input points. The Delaunay triangulation is computed with
+   [Delaunator](https://github.com/mapbox/delaunator) (ISC license), and the edges of the polygon and of the
+   holes are then forced into it with [Constrainautor](https://github.com/kninnug/Constrainautor) (ISC
+   license), by flipping the edges that cross them. Triangles outside the polygon or inside a hole are
+   removed.
+2. **Delaunay refinement**, Ruppert's algorithm [1]: a boundary edge that has a vertex inside its diametral
+   circle is split at its midpoint, and a triangle that is too skinny or too large gets a new vertex. The
+   new vertex is the off-center of the triangle [2], which lies closer to its short edge than the
+   circumcenter and gives fewer vertices; a vertex that would fall inside the diametral circle of a boundary
+   edge splits that edge instead, as in Triangle [3]. Where two edges of the input meet at a small angle, they
+   are split at the same distances from the corner, in powers of two, and the skinny triangles between them
+   are accepted, so that the refinement ends [4]. The vertices are inserted in passes, and the triangulation is
+   rebuilt after each pass.
+
+The orientation and in-circle tests use the exact, adaptive-precision predicates of Shewchuk [5], through
+[robust-predicates](https://github.com/mourner/robust-predicates) (Unlicense), so a point exactly on an edge
+or on a circle is decided correctly. The libraries are listed with their licenses in the
+[NOTICE](https://github.com/FEAScript/FEAScript-core/blob/main/NOTICE.md) file of FEAScript-core.
+
+The quality guarantees are those of the algorithm: the refinement always ends for a `minAngle` below 20.7
+degrees, and usually up to about 33, apart from the triangles at the small input angles, which keep their
+angles.
+
+### References
+
+1. J. Ruppert, "A Delaunay refinement algorithm for quality 2-dimensional mesh generation," _Journal of
+   Algorithms_, vol. 18, no. 3, pp. 548–585, 1995.
+2. A. Üngör, "Off-centers: A new type of Steiner points for computing size-optimal quality-guaranteed
+   Delaunay triangulations," in _LATIN 2004: Theoretical Informatics_, Lecture Notes in Computer Science,
+   vol. 2976, pp. 152–161, 2004.
+3. J. R. Shewchuk, "Delaunay refinement algorithms for triangular mesh generation," _Computational Geometry:
+   Theory and Applications_, vol. 22, no. 1–3, pp. 21–74, 2002.
+4. G. L. Miller, S. E. Pav and N. J. Walkington, "When and why Ruppert's algorithm works," in _Proceedings of
+   the 12th International Meshing Roundtable_, pp. 91–102, 2003.
+5. J. R. Shewchuk, "Adaptive precision floating-point arithmetic and fast robust geometric predicates,"
+   _Discrete & Computational Geometry_, vol. 18, no. 3, pp. 305–363, 1997.
