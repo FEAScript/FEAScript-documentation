@@ -65,11 +65,6 @@ const config = {
         theme: {
           customCss: "./src/css/custom.css",
         },
-        // Same GA4 property as feascript.com, the blog and Studio
-        gtag: {
-          trackingID: "G-1JPK0KLEC9",
-          anonymizeIP: true,
-        },
       }),
     ],
   ],
@@ -79,6 +74,15 @@ const config = {
     {
       tagName: "link",
       attributes: { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
+    },
+  ],
+
+  // Cloudflare Web Analytics (no cookies); it follows client-side page changes on its own
+  scripts: [
+    {
+      src: "https://static.cloudflareinsights.com/beacon.min.js",
+      defer: true,
+      "data-cf-beacon": '{"token": "491db947f23147048bcc5e6c1521834a"}',
     },
   ],
 
@@ -153,7 +157,7 @@ const config = {
             ],
           },
         ],
-        copyright: `<span>&#169; 2024-${new Date().getFullYear()} FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a></span><span>Core: MIT license &middot; Docs: CC BY 4.0</span>`,
+        copyright: `<span>&#169; 2024-${new Date().getFullYear()} FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a> &middot; <span data-icon="no-cookies">This site uses no cookies</span></span><span>Core: MIT license &middot; Docs: CC BY 4.0</span>`,
       },
       prism: {
         theme: darkCode,
