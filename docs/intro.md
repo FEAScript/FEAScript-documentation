@@ -8,12 +8,12 @@ sidebar_position: 1
 **FEAScript** is a finite element simulation library developed in JavaScript. It enables engineering simulations in both browser-based and server-side (Node.js) environments, without the overhead of traditional desktop software.
 
 :::caution
-FEAScript is under heavy development. Its functionality and interfaces may change rapidly. Use the version selector in the navigation bar to read the documentation that matches the release you are using.
+FEAScript is in development, and its API may change between minor releases. Use the version selector in the navigation bar to read the documentation that matches the release you are using.
 :::
 
 ## Features
 
-- **Physics models:** creeping (Stokes) flow, Euler-Bernoulli beam bending, front propagation, heat conduction, general form PDE (linear and nonlinear)
+- **Physics models:** creeping (Stokes) flow, Euler–Bernoulli beam bending, front propagation, heat conduction, general-form PDE (linear and nonlinear)
 - **Meshing:** simple 1D/2D mesh generation, unstructured mesh import from Gmsh (`.msh`) with quadrilateral and triangular elements (linear and quadratic)
 - **Solvers:** frontal, Jacobi (CPU/WebGPU) and LU, Newton–Raphson for nonlinear systems
 - **Performance:** web worker support for multi-threaded computation

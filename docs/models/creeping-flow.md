@@ -165,7 +165,7 @@ plotSolution(model, result, "contour", "vVelocityCanvas", { field: "v" });
 The fields can also be post-processed directly, for example `Math.max(...result.fields.velocityMagnitude)`.
 
 The pressure is solved at the corner nodes of the elements (Q1/P1) and interpolated linearly to the mid-side
-(and, on quadrilaterals, centre) nodes, so that `p` has a value at every mesh node.
+(and, on quadrilaterals, center) nodes, so that `p` has a value at every mesh node.
 
 `result.solutionVector` holds the raw unknowns of the mixed formulation, in three consecutive blocks:
 

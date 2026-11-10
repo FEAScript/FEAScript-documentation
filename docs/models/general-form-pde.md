@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# General form PDE
+# General-form PDE
 
 <img className="physics-logo" src="/assets/physics/general-form-pde.svg" alt="" />
 
@@ -10,7 +10,7 @@ sidebar_position: 2
 It covers diffusion, advection–diffusion and reaction–diffusion problems, in linear or nonlinear form.
 
 :::caution
-The general form PDE model currently supports **1D meshes only**.
+The general-form PDE model currently supports **1D meshes only**.
 :::
 
 ## Governing equation

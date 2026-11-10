@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# General form PDE
+# General-form PDE
 
 <img className="physics-logo" src="/assets/physics/general-form-pde.svg" alt="" />
 

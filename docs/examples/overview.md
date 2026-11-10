@@ -24,8 +24,8 @@ were computed with **FEAScript-core 0.4.0 (RC)**, by running the examples unchan
 | [Heat conduction](heat-conduction)           | [Fin in 2D, Gmsh mesh](heat-conduction#fin-in-2d-gmsh-mesh)                                          | 30 quadratic quadrilaterals (Gmsh) |
 | [Heat conduction](heat-conduction)           | [Rhomboid fin in 2D, Gmsh mesh](heat-conduction#rhomboid-fin-in-2d-gmsh-mesh)                        | 24 quadratic quadrilaterals (Gmsh) |
 | [Heat conduction](heat-conduction)           | [Fin in 2D with spatially varying k and Q](heat-conduction#fin-in-2d-with-spatially-varying-k-and-q) | 8 × 4 quadratic quadrilaterals     |
-| [General form PDE](general-form-pde)         | [Advection-diffusion in 1D](general-form-pde#advection-diffusion-in-1d)                              | 20 quadratic elements              |
-| [General form PDE](general-form-pde)         | [Nonlinear reaction-diffusion in 1D](general-form-pde#nonlinear-reaction-diffusion-in-1d)            | 20 linear elements                 |
+| [General-form PDE](general-form-pde)         | [Advection-diffusion in 1D](general-form-pde#advection-diffusion-in-1d)                              | 20 quadratic elements              |
+| [General-form PDE](general-form-pde)         | [Nonlinear reaction-diffusion in 1D](general-form-pde#nonlinear-reaction-diffusion-in-1d)            | 20 linear elements                 |
 | [Front propagation](front-propagation)       | [Solidification front in 2D](front-propagation#solidification-front-in-2d)                           | 12 × 8 quadratic quadrilaterals    |
 | [Creeping flow](creeping-flow)               | [Lid-driven cavity in 2D](creeping-flow#lid-driven-cavity-in-2d)                                     | 12 × 6 Q2-Q1 quadrilaterals        |
 | [Creeping flow](creeping-flow)               | [Couette flow in 2D](creeping-flow#couette-flow-in-2d)                                               | 4 × 2 Q2-Q1 quadrilaterals         |

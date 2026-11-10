@@ -141,5 +141,5 @@ Run it with `node fin.js` (with `"type": "module"` in your `package.json`, see
 - Import an unstructured mesh with [`importGmshMesh`](../api/gmsh-import.md).
 - Run the simulation in a [web worker](../api/web-worker.md), or on the GPU with the
   [`"jacobi-gpu"` solver](../fundamentals/solvers.mdx#jacobi-method-on-the-gpu-jacobi-gpu).
-- Explore the [tutorials](https://feascript.com/#tutorials) on the FEAScript website and the
+- Explore the [tutorials](https://feascript.com/tutorials/) on the FEAScript website and the
   [examples](https://github.com/FEAScript/FEAScript-core/tree/main/examples) of FEAScript-core.

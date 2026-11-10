@@ -12,8 +12,8 @@ function ColorModeToggle({ className, value, onChange }) {
       type="button"
       onClick={() => onChange(value === "dark" ? "light" : "dark")}
       disabled={!isBrowser}
-      title="Toggle colour theme"
-      aria-label="Toggle colour theme"
+      title="Toggle color theme"
+      aria-label="Toggle color theme"
     >
       <svg
         className="icon-moon"

@@ -41,15 +41,15 @@ Selects the physical model and sets its options.
 | `modelConfig`                | Model                                                     | Dimensions |
 | ---------------------------- | --------------------------------------------------------- | ---------- |
 | `"heatConductionScript"`     | [Heat conduction](../models/heat-conduction.md)           | 1D, 2D     |
-| `"generalFormPDEScript"`     | [General form PDE](../models/general-form-pde.md)         | 1D         |
+| `"generalFormPDEScript"`     | [General-form PDE](../models/general-form-pde.md)         | 1D         |
 | `"frontPropagationScript"`   | [Front propagation](../models/front-propagation.md)       | 1D, 2D     |
 | `"creepingFlowScript"`       | [Creeping flow](../models/creeping-flow.md)               | 2D         |
 | `"eulerBernoulliBeamScript"` | [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md) | 1D         |
 
 | Option                 | Type      | Used by                                                                | Description                                            |
 | ---------------------- | --------- | ---------------------------------------------------------------------- | ------------------------------------------------------ |
-| `coefficientFunctions` | `object`  | Heat conduction, general form PDE, creeping flow, Euler–Bernoulli beam | Coefficients of the equation; see each model page      |
-| `nonlinear`            | `boolean` | General form PDE                                                       | Solve with the Newton–Raphson method (default `false`) |
+| `coefficientFunctions` | `object`  | Heat conduction, general-form PDE, creeping flow, Euler–Bernoulli beam | Coefficients of the equation; see each model page      |
+| `nonlinear`            | `boolean` | General-form PDE                                                       | Solve with the Newton–Raphson method (default `false`) |
 | `maxIterations`        | `number`  | All                                                                    | Maximum iterations of the iterative method in use      |
 | `tolerance`            | `number`  | All                                                                    | Convergence tolerance of the iterative method in use   |
 
@@ -119,7 +119,7 @@ Returns an object with:
 | `nodesCoordinates.nodesYCoordinates` | `number[]`     | $y$ coordinates of the mesh nodes (2D meshes)                            |
 | `fields`                             | `object`       | Named fields, one value per node (models with several unknowns per node) |
 
-For scalar models (heat conduction, general form PDE, front propagation), `solutionVector` has one value per
+For scalar models (heat conduction, general-form PDE, front propagation), `solutionVector` has one value per
 node, in the order of `nodesCoordinates`, and there is no `fields` property. The
 [creeping flow](../models/creeping-flow.md#results) (`velocityMagnitude`, `u`, `v`, `p`) and
 [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md#results) (`w`, `theta`) models have more unknowns per
@@ -153,7 +153,7 @@ of these codes in `error.code`:
 | Code                 | Meaning                                                                                 |
 | -------------------- | --------------------------------------------------------------------------------------- |
 | `UNSUPPORTED_SOLVER` | The model does not support the solver method, or `solveAsync()` cannot run the model    |
-| `NOT_CONVERGED`      | A Jacobi solve, a front propagation or a nonlinear general form PDE did not converge    |
+| `NOT_CONVERGED`      | A Jacobi solve, a front propagation or a nonlinear general-form PDE did not converge    |
 | `SINGULAR_MATRIX`    | The system has no unique solution, for example with a zero conductivity                 |
 
 Through `FEAScriptWorker` the error keeps its `name` and `message`, but not its `code`.

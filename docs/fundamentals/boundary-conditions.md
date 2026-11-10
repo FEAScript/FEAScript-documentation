@@ -31,7 +31,7 @@ and each node takes an array of conditions. See the model page for details.
 | [Heat conduction](../models/heat-conduction.md)           | `["constantTemperature", T]`           | Dirichlet         | $T = T_b$ on the boundary                                   |
 |                                                           | `["convection", h, Tinf]`              | Robin             | $-k \, \partial T / \partial n = h (T - T_\infty)$          |
 |                                                           | `["symmetry"]`                         | Neumann (natural) | $-k \, \partial T / \partial n = 0$ (insulated or symmetry) |
-| [General form PDE](../models/general-form-pde.md)         | `["constantValue", value]`             | Dirichlet         | $u = u_b$ on the boundary                                   |
+| [General-form PDE](../models/general-form-pde.md)         | `["constantValue", value]`             | Dirichlet         | $u = u_b$ on the boundary                                   |
 |                                                           | `["zeroGradient"]`                     | Neumann (natural) | $A \, du/dx = 0$                                            |
 | [Front propagation](../models/front-propagation.md)       | `["constantValue", value]`             | Dirichlet         | Arrival time of the front, $u = u_b$ (`0`: initial front)   |
 |                                                           | `["zeroGradient"]`                     | Neumann (natural) | $\partial u / \partial n = 0$                               |

@@ -128,7 +128,7 @@ const config = {
           {
             title: "Learn",
             items: [
-              { label: "Tutorials", icon: "tutorials", href: "https://feascript.com/#tutorials" },
+              { label: "Tutorials", icon: "tutorials", href: "https://feascript.com/tutorials/" },
               { label: "CodePen", icon: "codepen", href: "https://codepen.io/FEAScript" },
               {
                 label: "Scribbler",
@@ -157,7 +157,7 @@ const config = {
             ],
           },
         ],
-        copyright: `<span>&#169; 2024-${new Date().getFullYear()} FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a> &middot; <span data-icon="no-cookies">This site uses no cookies</span></span><span>Core: MIT license &middot; Docs: CC BY 4.0</span>`,
+        copyright: `<span>&#169; 2023–${new Date().getFullYear()} FEAScript &middot; <a href="https://feascript.com/privacy.html">Privacy</a> &middot; <span data-icon="no-cookies">This site uses no cookies</span></span><span>Core: MIT license &middot; Docs: CC BY 4.0</span>`,
       },
       prism: {
         theme: darkCode,
