@@ -138,7 +138,8 @@ Run it with `node fin.js` (with `"type": "module"` in your `package.json`, see
 ## Next steps
 
 - Read about the [physical models](../models/heat-conduction.md) and their equations.
-- Import an unstructured mesh with [`importGmshMesh`](../api/gmsh-import.md).
+- Mesh a polygon with holes with [`generateTriangleMesh`](../api/triangle-mesh.md), or import an unstructured
+  mesh with [`importGmshMesh`](../api/gmsh-import.md).
 - Run the simulation in a [web worker](../api/web-worker.md), or on the GPU with the
   [`"jacobi-gpu"` solver](../fundamentals/solvers.mdx#jacobi-method-on-the-gpu-jacobi-gpu).
 - Explore the [tutorials](https://feascript.com/tutorials/) on the FEAScript website and the

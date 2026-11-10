@@ -14,7 +14,7 @@ FEAScript is in development, and its API may change between minor releases. Use 
 ## Features
 
 - **Physics models:** creeping (Stokes) flow, Euler–Bernoulli beam bending, front propagation, heat conduction, general-form PDE (linear and nonlinear)
-- **Meshing:** simple 1D/2D mesh generation, unstructured mesh import from Gmsh (`.msh`) with quadrilateral and triangular elements (linear and quadratic)
+- **Meshing:** simple 1D/2D mesh generation, triangle mesh generation in a polygon with holes (Delaunay refinement, with named boundaries), unstructured mesh import from Gmsh (`.msh`) with quadrilateral and triangular elements (linear and quadratic)
 - **Solvers:** frontal, Jacobi (CPU/WebGPU) and LU, Newton–Raphson for nonlinear systems
 - **Performance:** web worker support for multi-threaded computation
 - **Visualization:** interactive rendering with vtk.js and Plotly

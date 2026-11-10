@@ -67,8 +67,9 @@ A condition without parameters may also be given as a plain string, for example 
 Following the [Galerkin formulation](./finite-element-method.md#boundary-conditions):
 
 - **Dirichlet conditions** replace the residual of every node on the boundary: the row of the Jacobian matrix is
-  cleared, its diagonal entry is set to one, and the residual entry is set to the prescribed value. With the
-  frontal solver, the nodes are flagged as constrained before the elimination.
+  cleared, its diagonal entry is set to one, and the residual entry is set to the prescribed value. The column of
+  the node is eliminated as well, by moving the known value to the residual of the other rows, so a symmetric
+  matrix stays symmetric. With the frontal solver, the nodes are flagged as constrained before the elimination.
 - **Robin conditions** (`"convection"`) add the boundary integral of the condition to the Jacobian matrix and
   the residual vector. In 2D, this integral is computed with Gauss quadrature along each element side on the
   boundary, so curved sides of quadratic elements are taken into account.

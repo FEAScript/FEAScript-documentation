@@ -48,6 +48,9 @@ The default method. The assembled sparse matrix is factorized with the sparse LU
 (with partial pivoting) and the system is solved directly. It works for every model and needs no tuning, so it
 is a good first choice.
 
+The matrix is assembled directly in compressed sparse row (CSR) storage, in typed arrays: the sparsity pattern
+is computed once from the element connectivity, and the element contributions are added at fixed positions.
+
 Before factorizing, the columns are reordered to limit the fill-in, the new nonzero entries that the
 decomposition creates. Each model uses the ordering that suits its matrix: an approximate minimum degree
 ordering of $\mathcal{J} + \mathcal{J}^T$ for the symmetric-like matrices of most models, and of

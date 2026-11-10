@@ -6,8 +6,9 @@ sidebar_position: 2
 
 <img className="topic-logo" src="/assets/topics/mesh.svg" alt="" />
 
-The mesh is defined with `model.setMeshConfig(meshConfig)`. FEAScript can either generate a structured mesh
-from a few geometric parameters, or use an unstructured 2D mesh imported from [Gmsh](https://gmsh.info/).
+The mesh is defined with `model.setMeshConfig(meshConfig)`. FEAScript can generate a structured mesh from a few
+geometric parameters, generate a triangle mesh of a polygon with holes, or use an unstructured 2D mesh imported
+from [Gmsh](https://gmsh.info/).
 
 ## Structured meshes
 
@@ -101,6 +102,66 @@ $$
 where $n_y$ is the number of nodes along $y$ ($n_y = numElementsY + 1$ for linear elements and
 $n_y = 2 \cdot numElementsY + 1$ for quadratic elements). In 1D, the nodes are numbered from left to right.
 This is also the order of the entries of the solution vector returned by `solve()`.
+
+## Generated triangle meshes
+
+[`generateTriangleMesh`](../api/triangle-mesh.md) meshes a polygon, with or without holes, with linear or
+quadratic triangles, and returns the mesh in the same form as a Gmsh mesh, so it is passed to the model in the
+same way:
+
+```javascript
+import { FEAScriptModel, generateTriangleMesh } from "feascript";
+
+// An L-shaped domain, elements of area 0.005 at most, with angles of at least 25 degrees
+const parsedMesh = generateTriangleMesh({
+  polygon: {
+    points: [
+      [0, 0],
+      [2, 0],
+      [2, 1],
+      [1, 1],
+      [1, 2],
+      [0, 2],
+    ],
+    boundaries: ["bottom", "right", "step", "step", "top", "left"],
+  },
+  maxArea: 0.005,
+  minAngle: 25,
+  elementOrder: "quadratic",
+});
+model.setMeshConfig({ parsedMesh });
+```
+
+The polygon is given by its points, in either direction around the domain, and the edge $i$ goes from point $i$
+to point $i + 1$, the last edge closing the polygon. Holes are polygons in the same form, listed in `holes`.
+Points that must be nodes, for example where a result is read, are listed in `points`.
+
+The elements are refined until each has angles of at least `minAngle` (default 20 degrees) and an area of at
+most `maxArea`. For elements of side about $h$, use `maxArea: 0.433 * h ** 2`, the area of the equilateral
+triangle of side $h$. A function of position grades the mesh, for example towards a corner where the solution
+varies fast:
+
+```javascript
+// Element side 0.01 at the re-entrant corner (1, 1), growing to 0.05 away from it
+const sizeAt = (x, y) => Math.min(0.05, 0.01 + 0.2 * Math.hypot(x - 1, y - 1));
+const parsedMesh = generateTriangleMesh({ polygon, maxArea: (x, y) => 0.433 * sizeAt(x, y) ** 2 });
+```
+
+The refinement always ends for a `minAngle` below 20.7 degrees, and in practice up to about 33. A larger
+angle, or a very small `maxArea`, can make it pass `maxNodes` (default 100,000 vertices), which stops it with a
+`FEAScriptError` of code `"MESH_TOO_FINE"`. The node and element counts are logged at the `"basic"` level.
+
+### Boundaries of a generated mesh
+
+Each edge of the polygon and of the holes has a name, given in `boundaries` as one name for all the edges or as
+one name per edge. The edges with the same name form one boundary. The boundaries are numbered in the order their
+names first appear, the outer polygon first and then the holes, and the boundary keys are `"0"`, `"1"`, `"2"`,
+... in that order. In the example above, `"bottom"` is `"0"`, `"right"` is `"1"`, `"step"` is `"2"` (both edges
+of the step), `"top"` is `"3"` and `"left"` is `"4"`. Without names, every edge of the polygon is in the boundary
+`"boundary"`, and every edge of a hole in `"hole"`.
+
+The nodes are numbered in the order the mesh generator creates them. This is the order of the entries of the
+solution vector; the coordinates of the nodes are in `nodesCoordinates`.
 
 ## Gmsh meshes
 
