@@ -304,4 +304,4 @@ and the mesh configuration if needed, so a mesh can be inspected, plotted or reu
 of FEAScript 0.3 keeps working with a deprecation warning: it is translated into a line, a rectangle or a
 four-point shape (the trapezoid of `angleLeft` and `angleRight`) with `divisions`, and its numeric boundary keys
 stay as aliases. `setMeshConfig({ parsedMesh })` is translated into `setMesh(parsedMesh)`. Both forms are
-removed in 0.6.0 at the earliest.
+removed in 0.7.0 at the earliest.
