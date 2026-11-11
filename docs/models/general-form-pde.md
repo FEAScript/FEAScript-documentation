@@ -19,7 +19,7 @@ The general-form PDE model currently supports **1D meshes only**.
 
 $$
 \frac{d}{dx}\left( A(x) \, \frac{du}{dx} \right) + B(x) \, \frac{du}{dx} + C(x) \, u = D(x),
-\qquad 0 \le x \le maxX,
+\qquad 0 \le x \le L,
 $$
 
 where $A$ is the diffusion coefficient, $B$ the advection coefficient, $C$ the reaction coefficient and $D$ the
@@ -90,16 +90,12 @@ model.setModelConfig("generalFormPDEScript", {
 });
 
 // 2. Define the mesh
-model.setMeshConfig({
-  meshDimension: "1D",
-  elementOrder: "quadratic",
-  numElementsX: 20,
-  maxX: 1.0,
-});
+model.setGeometry({ line: 1.0 });
+model.setMeshConfig({ elementOrder: "quadratic", divisions: 20 });
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("0", ["constantValue", 1]); // Left, x = 0
-model.addBoundaryCondition("1", ["zeroGradient"]); // Right, x = 1
+model.addBoundaryCondition("left", ["constantValue", 1]); // x = 0
+model.addBoundaryCondition("right", ["zeroGradient"]); // x = 1
 
 // 4. Solve
 model.setSolverMethod("lusolve");
@@ -125,10 +121,11 @@ model.setModelConfig("generalFormPDEScript", {
   },
 });
 
-model.setMeshConfig({ meshDimension: "1D", elementOrder: "linear", numElementsX: 20, maxX: 10.0 });
+model.setGeometry({ line: 10.0 });
+model.setMeshConfig({ elementOrder: "linear", divisions: 20 });
 
-model.addBoundaryCondition("0", ["constantValue", 1]);
-model.addBoundaryCondition("1", ["zeroGradient"]);
+model.addBoundaryCondition("left", ["constantValue", 1]);
+model.addBoundaryCondition("right", ["zeroGradient"]);
 
 model.setSolverMethod("lusolve");
 
@@ -168,8 +165,8 @@ iterate at that point.
 | `["constantValue", value]` | $u_b$      | Dirichlet         |
 | `["zeroGradient"]`         | –          | Neumann (natural) |
 
-The boundary keys are `"0"` (left end, $x = 0$) and `"1"` (right end, $x = maxX$). A boundary without a
-condition behaves as `"zeroGradient"`.
+The boundaries of a line are `"left"` ($x = 0$) and `"right"` ($x = length$). A boundary without a condition
+behaves as `"zeroGradient"`.
 
 ### Solvers
 

@@ -62,7 +62,7 @@ const sidebars = {
       items: [
         { type: "doc", id: "api/feascript-model", className: "logo-item topic-model" },
         { type: "doc", id: "api/gmsh-import", className: "logo-item topic-mesh-import" },
-        { type: "doc", id: "api/triangle-mesh", className: "logo-item topic-mesh" },
+        { type: "doc", id: "api/mesh-generators", className: "logo-item topic-mesh" },
         { type: "doc", id: "api/visualization", className: "logo-item topic-visualization" },
         { type: "doc", id: "api/web-worker", className: "logo-item topic-web-worker" },
         { type: "doc", id: "api/utilities", className: "logo-item topic-utilities" },

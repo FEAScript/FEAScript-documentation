@@ -9,11 +9,12 @@ sidebar_position: 3
 Boundary conditions are added with `model.addBoundaryCondition(boundaryKey, condition)`:
 
 ```javascript
-model.addBoundaryCondition("0", ["constantTemperature", 200]);
+model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
 ```
 
-- `boundaryKey` is a string that identifies the boundary: `"0"`, `"1"`, ... (see
-  [Mesh](./mesh.md#boundaries-of-a-structured-mesh) for the keys of structured and Gmsh meshes).
+- `boundaryKey` is the name of the boundary: `"left"` and `"right"` for a line, `"bottom"`, `"right"`, `"top"`
+  and `"left"` for a rectangle, the names given to the edges of a polygon, or the names of the physical groups
+  of a Gmsh mesh (see [Boundary names](./mesh.md#boundary-names)).
 - `condition` is an array whose first entry is the condition type, followed by its parameters.
 
 Each boundary holds one condition: calling `addBoundaryCondition` again with the same key replaces the previous

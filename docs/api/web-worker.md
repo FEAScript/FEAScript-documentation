@@ -24,20 +24,14 @@ await model.ping(); // Wait until the worker is ready
 await model.setModelConfig("frontPropagationScript");
 
 // 2. Define the mesh
-await model.setMeshConfig({
-  meshDimension: "2D",
-  elementOrder: "quadratic",
-  numElementsX: 12,
-  numElementsY: 8,
-  maxX: 4,
-  maxY: 2,
-});
+await model.setGeometry({ rectangle: [4, 2] });
+await model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [12, 8] });
 
 // 3. Apply the boundary conditions
-await model.addBoundaryCondition("0", ["constantValue", 0]); // Bottom: initial front
-await model.addBoundaryCondition("1", ["constantValue", 0]); // Left: initial front
-await model.addBoundaryCondition("2", ["zeroGradient"]); // Top
-await model.addBoundaryCondition("3", ["constantValue", 0]); // Right: initial front
+await model.addBoundaryCondition("bottom", ["constantValue", 0]); // Initial front
+await model.addBoundaryCondition("left", ["constantValue", 0]); // Initial front
+await model.addBoundaryCondition("top", ["zeroGradient"]);
+await model.addBoundaryCondition("right", ["constantValue", 0]); // Initial front
 
 // 4. Solve
 await model.setSolverMethod("lusolve");
@@ -53,16 +47,18 @@ model.terminate();
 
 ## Methods
 
-| Method                                         | Returns            | Description                                                      |
-| ---------------------------------------------- | ------------------ | ---------------------------------------------------------------- |
-| `setModelConfig(modelConfig, options)`         | `Promise<boolean>` | Selects the model and its options, as `FEAScriptModel`           |
-| `setMeshConfig(meshConfig)`                    | `Promise<boolean>` | Sets the mesh, as `FEAScriptModel.setMeshConfig`                 |
-| `addBoundaryCondition(boundaryKey, condition)` | `Promise<boolean>` | Adds a boundary condition                                        |
-| `setSolverMethod(solverMethod)`                | `Promise<boolean>` | Selects the solver method                                        |
-| `solve(options)`                               | `Promise<object>`  | Solves the model in the worker (`maxIterations`, `tolerance`)    |
-| `getModelInfo()`                               | `Promise<object>`  | `{ solverConfig, meshConfig, boundaryConditions, solverMethod }` |
-| `ping()`                                       | `Promise<boolean>` | Resolves to `true` when the worker is ready                      |
-| `terminate()`                                  | –                  | Stops the worker                                                 |
+| Method                                         | Returns            | Description                                                                                                  |
+| ---------------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `setModelConfig(modelConfig, options)`         | `Promise<boolean>` | Selects the model and its options, as `FEAScriptModel`                                                       |
+| `setGeometry(geometry)`                        | `Promise<boolean>` | Sets the geometry, as `FEAScriptModel.setGeometry`                                                           |
+| `setMeshConfig(meshConfig)`                    | `Promise<boolean>` | Sets how the geometry is meshed, as `FEAScriptModel.setMeshConfig` (a `size` function is sent as its source) |
+| `setMesh(mesh)`                                | `Promise<boolean>` | Sets a mesh object directly, as `FEAScriptModel.setMesh`                                                     |
+| `addBoundaryCondition(boundaryKey, condition)` | `Promise<boolean>` | Adds a boundary condition                                                                                    |
+| `setSolverMethod(solverMethod)`                | `Promise<boolean>` | Selects the solver method                                                                                    |
+| `solve(options)`                               | `Promise<object>`  | Solves the model in the worker (`maxIterations`, `tolerance`)                                                |
+| `getModelInfo()`                               | `Promise<object>`  | `{ solverConfig, geometry, meshConfig, meshDimension, boundaryConditions, solverMethod }`                    |
+| `ping()`                                       | `Promise<boolean>` | Resolves to `true` when the worker is ready                                                                  |
+| `terminate()`                                  | –                  | Stops the worker                                                                                             |
 
 `solve()` resolves to `{ solutionVector, nodesCoordinates, solverConfig, meshDimension }`, plus `fields` for the
 creeping flow and Euler–Bernoulli beam models (see [Visualization](./visualization.md)). The object returned by

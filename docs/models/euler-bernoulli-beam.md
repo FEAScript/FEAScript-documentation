@@ -73,12 +73,8 @@ model.setModelConfig("eulerBernoulliBeamScript", {
 });
 
 // 2. Define the mesh
-model.setMeshConfig({
-  meshDimension: "1D",
-  elementOrder: "linear", // Required
-  numElementsX: 2, // Nodes "1", "2", "3" at x = 0, 5, 10
-  maxX: 10,
-});
+model.setGeometry({ line: 10 });
+model.setMeshConfig({ elementOrder: "linear", divisions: 2 }); // Required: linear; nodes "1", "2", "3" at x = 0, 5, 10
 
 // 3. Apply the boundary conditions
 model.addBoundaryCondition("1", [["fixed"]]); // Clamped end
@@ -109,8 +105,8 @@ evaluated at the integration points of every element.
 Unlike the other models, the beam model keys its conditions by **node number**, so supports and loads can be
 placed at interior nodes as well as at the ends:
 
-- The key is the 1-based node number as a string. With $n_e$ = `numElementsX` elements, node $j$ is at
-  $x = (j - 1) \cdot maxX / n_e$, from `"1"` at $x = 0$ to `"n_e + 1"` at $x = maxX$.
+- The key is the 1-based node number as a string. With $n_e$ = `divisions` elements on a line of length $L$,
+  node $j$ is at $x = (j - 1) \cdot L / n_e$, from `"1"` at $x = 0$ to `"n_e + 1"` at $x = L$.
 - The condition is an **array of conditions**, since a node can carry more than one (for example a support and
   a load): `[["pinned"], ["moment", 1250]]`. Always wrap the conditions in an outer array, even a single one:
   `[["fixed"]]`.

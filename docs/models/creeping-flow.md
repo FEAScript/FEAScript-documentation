@@ -86,20 +86,18 @@ model.setModelConfig("creepingFlowScript", {
 });
 
 // 2. Define the mesh
+model.setGeometry({ rectangle: [4, 2] });
 model.setMeshConfig({
-  meshDimension: "2D",
+  elements: "quadrilaterals",
   elementOrder: "quadratic", // Required (Taylor–Hood elements)
-  numElementsX: 12,
-  numElementsY: 6,
-  maxX: 4,
-  maxY: 2,
+  divisions: [12, 6],
 });
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("0", ["constantVelocity", 0, 0]); // Bottom wall
-model.addBoundaryCondition("1", ["constantVelocity", 0, 0]); // Left wall
-model.addBoundaryCondition("2", ["constantVelocity", 1, 0]); // Moving lid
-model.addBoundaryCondition("3", ["constantVelocity", 0, 0]); // Right wall
+model.addBoundaryCondition("bottom", ["constantVelocity", 0, 0]); // Wall
+model.addBoundaryCondition("left", ["constantVelocity", 0, 0]); // Wall
+model.addBoundaryCondition("top", ["constantVelocity", 1, 0]); // Moving lid
+model.addBoundaryCondition("right", ["constantVelocity", 0, 0]); // Wall
 
 // 4. Solve
 model.setSolverMethod("lusolve");

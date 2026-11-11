@@ -62,7 +62,7 @@ See [Visualization](../api/visualization.md) for the details.
 | Feature                            | Browser             | Node.js                                   |
 | ---------------------------------- | ------------------- | ----------------------------------------- |
 | Models, meshes, `solve()`          | ✓                   | ✓                                         |
-| `generateTriangleMesh`             | ✓                   | ✓                                         |
+| `generateTriangleMesh`, `generateQuadrilateralMesh` | ✓      | ✓                                         |
 | `importGmshMesh`                   | ✓                   | ✓ (pass an object with a `text()` method) |
 | Plotting with Plotly or vtk.js     | ✓                   |                                           |
 | `FEAScriptWorker`                  | ✓                   |                                           |

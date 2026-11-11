@@ -257,8 +257,9 @@ def velocity_arrows(record, spacing=1, length_per_speed=0.8):
 
     def draw(fit):
         xs, ys, u, v = record["x"], record["y"], record["fields"]["u"], record["fields"]["v"]
-        nx, ny = record["meshConfig"]["numElementsX"], record["meshConfig"]["numElementsY"]
-        dx, dy = record["meshConfig"]["maxX"] / nx, record["meshConfig"]["maxY"] / ny
+        nx, ny = record["meshConfig"]["divisions"]
+        width, height = record["geometry"]["rectangle"]
+        dx, dy = width / nx, height / ny
         lines = []
         for k in range(len(xs)):
             i, j = round(xs[k] / dx), round(ys[k] / dy)

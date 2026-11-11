@@ -22,21 +22,21 @@
 
   <!-- Angles -->
   <path d="M125,260 A45,45 0 0 0 102.5,221.03" fill="none" stroke="#000" stroke-width="1"/>
-  <text x="130" y="246" font-size="13" font-style="italic">angleLeft</text>
+  <text x="130" y="246" font-size="13" font-style="italic">60°</text>
   <path d="M435,260 A45,45 0 0 1 468.35,216.53" fill="none" stroke="#000" stroke-width="1"/>
-  <text x="428" y="246" font-size="13" font-style="italic" text-anchor="end">angleRight</text>
+  <text x="428" y="246" font-size="13" font-style="italic" text-anchor="end">75°</text>
 
   <!-- Dimensions -->
   <line x1="80" y1="300" x2="480" y2="300" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-  <text x="280" y="322" text-anchor="middle" font-style="italic">maxX</text>
+  <text x="280" y="322" text-anchor="middle" font-style="italic">4</text>
   <line x1="437.13" y1="100" x2="535" y2="100" stroke="#000" stroke-width="0.6" stroke-dasharray="2 2"/>
   <line x1="480" y1="260" x2="535" y2="260" stroke="#000" stroke-width="0.6" stroke-dasharray="2 2"/>
   <line x1="525" y1="100" x2="525" y2="260" stroke="#000" stroke-width="1" stroke-dasharray="4 3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-  <text x="545" y="185" font-style="italic">maxY</text>
+  <text x="545" y="185" font-style="italic">2</text>
 
   <!-- Origin -->
   <circle cx="80" cy="260" r="3"/>
   <text x="62" y="282" font-size="13" text-anchor="middle">(0, 0)</text>
 
-  <text x="300" y="50" text-anchor="middle" font-size="14" fill="#555">Both angles are measured inside the domain from the bottom side (90° = vertical side)</text>
+  <text x="300" y="50" text-anchor="middle" font-size="14" fill="#555">A four-point shape: the sides lean at 60° and 75° to the bottom side, which is 4 long; the height is 2</text>
 </svg>

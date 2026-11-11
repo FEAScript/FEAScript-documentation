@@ -12,8 +12,10 @@ const originalSolve = FEAScriptModel.prototype.solve;
 
 FEAScriptModel.prototype.solve = function (...args) {
   const result = originalSolve.apply(this, args);
-  const meshData = prepareMesh(this.meshConfig);
-  const { parsedMesh, ...meshConfig } = this.meshConfig;
+  const meshData = prepareMesh(this);
+  // A geometry with its mesh configuration, or a mesh given with setMesh (e.g. imported from Gmsh)
+  const geometry = this.geometry ? { kind: this.geometry.kind, length: this.geometry.length } : null;
+  const rectangle = this.geometry?.kind === "rectangle" ? this.geometry.shapes[0].points[2] : null;
   const fields = result.fields
     ? Object.fromEntries(Object.entries(result.fields).map(([name, values]) => [name, Array.from(values)]))
     : null;
@@ -22,8 +24,9 @@ FEAScriptModel.prototype.solve = function (...args) {
     `${process.env.EXAMPLE_RESULT}-${solveCount++}.json`,
     JSON.stringify({
       solverConfig: this.solverConfig,
-      meshConfig,
-      gmsh: Boolean(parsedMesh),
+      geometry: geometry && { ...geometry, rectangle },
+      meshConfig: this.meshConfig,
+      gmsh: !this.geometry,
       boundaryConditions: this.boundaryConditions,
       elementOrder: meshData.elementOrder,
       elementShape: meshData.elementShape,

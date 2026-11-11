@@ -15,12 +15,12 @@ A $4 \times 2$ fin is heated at its bottom and right sides, cooled by convection
 about its left side. The temperature $T$ satisfies $\nabla^2 T = 0$ (heat conduction with $k = 1$ and no heat
 source), with:
 
-| Side   | Boundary key | Condition                            |
-| ------ | ------------ | ------------------------------------ |
-| Bottom | `"0"`        | Constant temperature, $T = 200$      |
-| Left   | `"1"`        | Symmetry (zero heat flux)            |
-| Top    | `"2"`        | Convection, $h = 1$, $T_\infty = 20$ |
-| Right  | `"3"`        | Constant temperature, $T = 200$      |
+| Side   | Boundary name | Condition                            |
+| ------ | ------------- | ------------------------------------ |
+| Bottom | `"bottom"`    | Constant temperature, $T = 200$      |
+| Left   | `"left"`      | Symmetry (zero heat flux)            |
+| Top    | `"top"`       | Convection, $h = 1$, $T_\infty = 20$ |
+| Right  | `"right"`     | Constant temperature, $T = 200$      |
 
 ## The code
 
@@ -44,21 +44,15 @@ Save the following as an `.html` file and open it through a local web server (fo
       const model = new FEAScriptModel();
       model.setModelConfig("heatConductionScript");
 
-      // 2. Define the mesh: 8 × 4 quadratic quadrilaterals on 0 ≤ x ≤ 4, 0 ≤ y ≤ 2
-      model.setMeshConfig({
-        meshDimension: "2D",
-        elementOrder: "quadratic",
-        numElementsX: 8,
-        numElementsY: 4,
-        maxX: 4,
-        maxY: 2,
-      });
+      // 2. Define the geometry and the mesh: a 4 by 2 rectangle, 8 × 4 quadratic quadrilaterals
+      model.setGeometry({ rectangle: [4, 2] });
+      model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [8, 4] });
 
       // 3. Apply the boundary conditions
-      model.addBoundaryCondition("0", ["constantTemperature", 200]); // Bottom
-      model.addBoundaryCondition("1", ["symmetry"]); // Left
-      model.addBoundaryCondition("2", ["convection", 1, 20]); // Top
-      model.addBoundaryCondition("3", ["constantTemperature", 200]); // Right
+      model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
+      model.addBoundaryCondition("left", ["symmetry"]);
+      model.addBoundaryCondition("top", ["convection", 1, 20]);
+      model.addBoundaryCondition("right", ["constantTemperature", 200]);
 
       // 4. Solve
       model.setSolverMethod("lusolve");
@@ -76,11 +70,12 @@ Save the following as an `.html` file and open it through a local web server (fo
 1. **Create the model and select the physics.** [`FEAScriptModel`](../api/feascript-model.md) holds the whole
    configuration of the simulation. `setModelConfig` takes the model name and, optionally, its coefficients. Here the
    defaults of the [heat conduction](../models/heat-conduction.md) model are used ($k = 1$, $Q = 0$).
-2. **Define the mesh.** `setMeshConfig` generates a structured mesh from the size of the domain and the number of
-   elements (see [Mesh](../fundamentals/mesh.md)), or uses a mesh imported from Gmsh.
-3. **Apply the boundary conditions.** The sides of a structured 2D mesh have the keys `"0"` (bottom), `"1"`
-   (left), `"2"` (top) and `"3"` (right). See [Boundary conditions](../fundamentals/boundary-conditions.md) for the
-   condition types of every model.
+2. **Define the geometry and the mesh.** `setGeometry` describes the domain, here a rectangle, and
+   `setMeshConfig` how it is meshed: quadrilaterals or triangles, their order and their size or number (see
+   [Mesh](../fundamentals/mesh.md)). A mesh imported from Gmsh is given with `setMesh` instead.
+3. **Apply the boundary conditions.** The sides of a rectangle are named `"bottom"`, `"right"`, `"top"` and
+   `"left"`. See [Boundary conditions](../fundamentals/boundary-conditions.md) for the condition types of every
+   model.
 4. **Solve.** `setSolverMethod` is optional (the default is `"lusolve"`). `solve()` returns the
    `solutionVector` and the `nodesCoordinates` of the mesh (see [Solvers](../fundamentals/solvers.mdx)).
 5. **Plot the results.** [`plotSolution`](../api/visualization.md) draws the result in the `resultsCanvas` element.
@@ -108,21 +103,15 @@ import { FEAScriptModel } from "feascript";
 const model = new FEAScriptModel();
 model.setModelConfig("heatConductionScript");
 
-// 2. Define the mesh
-model.setMeshConfig({
-  meshDimension: "2D",
-  elementOrder: "quadratic",
-  numElementsX: 8,
-  numElementsY: 4,
-  maxX: 4,
-  maxY: 2,
-});
+// 2. Define the geometry and the mesh
+model.setGeometry({ rectangle: [4, 2] });
+model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [8, 4] });
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("0", ["constantTemperature", 200]); // Bottom
-model.addBoundaryCondition("1", ["symmetry"]); // Left
-model.addBoundaryCondition("2", ["convection", 1, 20]); // Top
-model.addBoundaryCondition("3", ["constantTemperature", 200]); // Right
+model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
+model.addBoundaryCondition("left", ["symmetry"]);
+model.addBoundaryCondition("top", ["convection", 1, 20]);
+model.addBoundaryCondition("right", ["constantTemperature", 200]);
 
 // 4. Solve
 const { solutionVector, nodesCoordinates } = model.solve();
@@ -138,8 +127,8 @@ Run it with `node fin.js` (with `"type": "module"` in your `package.json`, see
 ## Next steps
 
 - Read about the [physical models](../models/heat-conduction.md) and their equations.
-- Mesh a polygon with holes with [`generateTriangleMesh`](../api/triangle-mesh.md), or import an unstructured
-  mesh with [`importGmshMesh`](../api/gmsh-import.md).
+- Mesh a polygon with holes with triangles (see [Mesh](../fundamentals/mesh.md#polygon-with-holes)), or import
+  an unstructured mesh with [`importGmshMesh`](../api/gmsh-import.md).
 - Run the simulation in a [web worker](../api/web-worker.md), or on the GPU with the
   [`"jacobi-gpu"` solver](../fundamentals/solvers.mdx#jacobi-method-on-the-gpu-jacobi-gpu).
 - Explore the [tutorials](https://feascript.com/tutorials/) on the FEAScript website and the

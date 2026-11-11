@@ -6,220 +6,278 @@ sidebar_position: 2
 
 <img className="topic-logo" src="/assets/topics/mesh.svg" alt="" />
 
-The mesh is defined with `model.setMeshConfig(meshConfig)`. FEAScript can generate a structured mesh from a few
-geometric parameters, generate a triangle mesh of a polygon with holes, or use an unstructured 2D mesh imported
-from [Gmsh](https://gmsh.info/).
-
-## Structured meshes
-
-A structured mesh covers a line ($0 \le x \le maxX$) in 1D, or a rectangle
-($0 \le x \le maxX$, $0 \le y \le maxY$) in 2D, which can optionally be skewed into a trapezoid. 2D structured
-meshes always consist of quadrilateral elements.
+A domain is set up in two steps: `model.setGeometry(geometry)` describes the domain and names its boundaries,
+and `model.setMeshConfig(meshConfig)` says how to mesh it, with quadrilateral or triangle elements of a given
+order and size. The mesh is generated at the first solve. A mesh made elsewhere, imported from
+[Gmsh](https://gmsh.info/) or generated with the [mesh generators](../api/mesh-generators.md), is given directly
+with `model.setMesh(mesh)`.
 
 ```javascript
-// 1D: 20 quadratic elements on 0 ≤ x ≤ 0.15
-model.setMeshConfig({
-  meshDimension: "1D",
-  elementOrder: "quadratic",
-  numElementsX: 20,
-  maxX: 0.15,
-});
-
-// 2D: 8 × 4 quadratic quadrilaterals on 0 ≤ x ≤ 4, 0 ≤ y ≤ 2
-model.setMeshConfig({
-  meshDimension: "2D",
-  elementOrder: "quadratic",
-  numElementsX: 8,
-  numElementsY: 4,
-  maxX: 4,
-  maxY: 2,
-});
+// A 4 by 2 rectangle, meshed with 8 × 4 quadratic quadrilaterals
+model.setGeometry({ rectangle: [4, 2] });
+model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [8, 4] });
+model.addBoundaryCondition("top", ["convection", 1, 20]);
 ```
 
-| Property        | Type     | Required     | Description                                                   |
-| --------------- | -------- | ------------ | ------------------------------------------------------------- |
-| `meshDimension` | `string` | Yes          | `"1D"` or `"2D"`                                              |
-| `elementOrder`  | `string` | No           | `"linear"` (default) or `"quadratic"`                         |
-| `numElementsX`  | `number` | Yes          | Number of elements along $x$                                  |
-| `maxX`          | `number` | Yes          | Length of the domain along $x$ (the domain starts at $x = 0$) |
-| `numElementsY`  | `number` | 2D only      | Number of elements along $y$                                  |
-| `maxY`          | `number` | 2D only      | Height of the domain along $y$ (the domain starts at $y = 0$) |
-| `angleLeft`     | `number` | No (2D only) | Interior angle of the left side in degrees (default `90`)     |
-| `angleRight`    | `number` | No (2D only) | Interior angle of the right side in degrees (default `90`)    |
+The boundary conditions are keyed by the names of the boundaries, which the geometry defines.
 
-### Boundaries of a structured mesh
+## Geometry
 
-The boundaries of a structured mesh are identified by the following keys, which are the first argument of
-`addBoundaryCondition`:
+### Line
 
-![Boundary keys of the structured 1D and 2D meshes](/assets/mesh-boundaries.svg)
+`{ line: length }` is a 1D domain from $x = 0$ to $x = length$. Its boundaries are `"left"` ($x = 0$) and
+`"right"` ($x = length$).
 
-| Mesh | Key   | Boundary              |
-| ---- | ----- | --------------------- |
-| 1D   | `"0"` | Left end, $x = 0$     |
-| 1D   | `"1"` | Right end, $x = maxX$ |
-| 2D   | `"0"` | Bottom side, $y = 0$  |
-| 2D   | `"1"` | Left side             |
-| 2D   | `"2"` | Top side, $y = maxY$  |
-| 2D   | `"3"` | Right side            |
+```javascript
+model.setGeometry({ line: 0.15 });
+model.setMeshConfig({ elementOrder: "quadratic", divisions: 20 }); // 20 quadratic elements
+```
+
+### Rectangle
+
+`{ rectangle: [width, height] }` is the rectangle $0 \le x \le width$, $0 \le y \le height$. Its boundaries are
+`"bottom"` ($y = 0$), `"right"` ($x = width$), `"top"` ($y = height$) and `"left"` ($x = 0$).
+
+![Boundary names of the line and the rectangle](/assets/mesh-boundaries.svg)
+
+### Polygon with holes
+
+`{ shapes: [polygon], holes: [polygon, ...], points: [[x, y], ...] }` is any 2D domain. A polygon is a list of
+its boundaries, each a named polyline of points, **chained in order**: a boundary starts where the previous one
+ends, and the last one ends where the first one starts. Two boundaries with the same name form one boundary of
+the model, so a side made of several segments, or two opposite sides with the same condition, can share a name.
+
+```javascript
+// An L-shaped domain: a 2 by 2 square without its top right quarter
+model.setGeometry({
+  shapes: [
+    [
+      {
+        name: "bottom",
+        points: [
+          [0, 0],
+          [2, 0],
+        ],
+      },
+      {
+        name: "right",
+        points: [
+          [2, 0],
+          [2, 1],
+        ],
+      },
+      {
+        name: "step",
+        points: [
+          [2, 1],
+          [1, 1],
+          [1, 2],
+        ],
+      }, // Two segments, one boundary
+      {
+        name: "top",
+        points: [
+          [1, 2],
+          [0, 2],
+        ],
+      },
+      {
+        name: "left",
+        points: [
+          [0, 2],
+          [0, 0],
+        ],
+      },
+    ],
+  ],
+});
+model.setMeshConfig({ elements: "triangles", elementOrder: "quadratic", size: 0.1 });
+```
+
+- `shapes` holds the outer polygon. One shape is supported in this version; several shapes, meeting edge to
+  edge as blocks, come in 0.5.0.
+- `holes` are polygons in the same form, inside the shape. A hole must lie inside the shape and not inside
+  another hole; otherwise `setGeometry` throws a `FEAScriptError` of code `"INVALID_INPUT"` that says which point
+  is outside. The edges of a hole given as a plain list of points are in the boundary `"hole"`.
+- `points` are points inside the domain, or on its boundary, that must become nodes, for example where a result
+  is read. A point outside the domain is an error.
+- A polygon may also be a plain list of `[x, y]` points, all in one boundary named `"boundary"`. The points may
+  run in either direction around the domain.
+- The polygons must be simple: an edge that crosses or touches another one, a repeated edge, or two boundaries
+  that do not chain, stop `setGeometry` with an `"INVALID_INPUT"` error listing every problem.
+
+### Boundary names
+
+The boundary conditions are keyed by name, for every kind of geometry and mesh:
+
+| Geometry or mesh          | Boundary names                                                              |
+| ------------------------- | --------------------------------------------------------------------------- |
+| `{ line }`                | `"left"`, `"right"`                                                         |
+| `{ rectangle }`           | `"bottom"`, `"right"`, `"top"`, `"left"`                                    |
+| `{ shapes, holes }`       | The names given to the boundaries (`"boundary"` and `"hole"` without names) |
+| [Gmsh mesh](#gmsh-meshes) | The names of the 1D physical groups                                         |
 
 :::note
-The [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md) model does not use these keys: its boundary
+The [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md) model does not use these names: its boundary
 conditions are keyed by node number, so that supports and loads can also be placed at interior nodes.
 :::
 
-### Skewed (trapezoidal) domains
+The numeric keys of FEAScript 0.3 keep working as aliases, with a deprecation warning: `"0"` and `"1"` for the
+ends of a line, `"0"` (bottom), `"1"` (left), `"2"` (top) and `"3"` (right) for a rectangle, and the physical tag
+minus one for a Gmsh mesh. They are removed in a later release; use the names.
 
-`angleLeft` and `angleRight` turn the rectangle into a trapezoid. Both angles are measured inside the domain,
-from the bottom side, so `90` keeps the side vertical, a smaller angle leans the side towards the inside of the
-domain and a larger one leans it outwards. The bottom side always spans $0 \le x \le maxX$, and the nodes of
-every row are spaced uniformly between the left and right sides.
+## Mesh configuration
 
-![Skewed 2D structured mesh defined by angleLeft and angleRight](/assets/skewed-mesh.svg)
+`setMeshConfig` takes how the geometry is meshed:
+
+| Property       | Type                   | Description                                                                                                                                          |
+| -------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `elements`     | `string`               | `"quadrilaterals"` (default) or `"triangles"`. A line has 1D elements, whatever the value                                                            |
+| `elementOrder` | `string`               | `"linear"` (default) or `"quadratic"`                                                                                                                |
+| `size`         | `number` or `function` | The length of an element side. For triangles, also a function `(x, y)` of position, for a mesh size that varies                                      |
+| `divisions`    | `number` or `number[]` | Instead of `size`: the number of elements of a line, or `[nx, ny]` along the bottom and the left side of a quadrilateral, for an exact element count |
+| `minAngle`     | `number`               | Triangles: the smallest angle of the elements, in degrees (default `20`)                                                                             |
+| `maxNodes`     | `number`               | Triangles: the limit on the number of vertices before the refinement stops with a `"MESH_TOO_FINE"` error (default `100000`)                         |
+
+### Quadrilateral elements
+
+`elements: "quadrilaterals"` meshes a rectangle, or any convex shape of exactly four points, with a grid of
+`nx × ny` elements mapped onto the shape by its corners (a bilinear map): the rows of nodes run from the bottom
+side to the top side, and the columns from the left side to the right side. Each side is divided into
+`round(length / size)` elements, the longer of two opposite sides deciding, or into the `divisions` given. A
+shape with more than four points, with holes or with embedded points cannot be meshed with quadrilaterals in
+this version; use triangles, or split the domain into blocks (0.5.0).
+
+A trapezoid, or any convex four-sided shape, is a polygon of four points:
 
 ```javascript
-model.setMeshConfig({
-  meshDimension: "2D",
-  elementOrder: "linear",
-  numElementsX: 6,
-  numElementsY: 4,
-  maxX: 4,
-  maxY: 2,
-  angleLeft: 60,
-  angleRight: 75,
+// A trapezoid of base 4 and height 2, whose sides lean at 60° and 75° to the base
+model.setGeometry({
+  shapes: [
+    [
+      {
+        name: "bottom",
+        points: [
+          [0, 0],
+          [4, 0],
+        ],
+      },
+      {
+        name: "right",
+        points: [
+          [4, 0],
+          [3.464, 2],
+        ],
+      },
+      {
+        name: "top",
+        points: [
+          [3.464, 2],
+          [1.155, 2],
+        ],
+      },
+      {
+        name: "left",
+        points: [
+          [1.155, 2],
+          [0, 0],
+        ],
+      },
+    ],
+  ],
 });
+model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "linear", divisions: [6, 4] });
 ```
 
-### Node numbering
+![A 6 by 4 mesh of quadrilaterals mapped onto a trapezoid](/assets/skewed-mesh.svg)
 
-The nodes of a structured mesh are numbered column by column: along $y$ first (bottom to top), then along
-$x$ (left to right). In 2D, the node in column $i$ and row $j$ (both starting from zero) has the index
+#### Node numbering
+
+The nodes of a quadrilateral mesh are numbered column by column: along the left side first, then towards the
+right side. The node in column $i$ and row $j$ (both starting from zero) has the index
 
 $$
 \text{index} = i \cdot n_y + j,
 $$
 
-where $n_y$ is the number of nodes along $y$ ($n_y = numElementsY + 1$ for linear elements and
-$n_y = 2 \cdot numElementsY + 1$ for quadratic elements). In 1D, the nodes are numbered from left to right.
-This is also the order of the entries of the solution vector returned by `solve()`.
+where $n_y$ is the number of nodes along the left side ($n_y = ny + 1$ for linear elements and
+$n_y = 2 \cdot ny + 1$ for quadratic elements). In 1D, the nodes are numbered from left to right. This is also
+the order of the entries of the solution vector returned by `solve()`.
 
-## Generated triangle meshes
+### Triangle elements
 
-[`generateTriangleMesh`](../api/triangle-mesh.md) meshes a polygon, with or without holes, with linear or
-quadratic triangles, and returns the mesh in the same form as a Gmsh mesh, so it is passed to the model in the
-same way:
-
-```javascript
-import { FEAScriptModel, generateTriangleMesh } from "feascript";
-
-// An L-shaped domain, elements of area 0.005 at most, with angles of at least 25 degrees
-const parsedMesh = generateTriangleMesh({
-  polygon: {
-    points: [
-      [0, 0],
-      [2, 0],
-      [2, 1],
-      [1, 1],
-      [1, 2],
-      [0, 2],
-    ],
-    boundaries: ["bottom", "right", "step", "step", "top", "left"],
-  },
-  maxArea: 0.005,
-  minAngle: 25,
-  elementOrder: "quadratic",
-});
-model.setMeshConfig({ parsedMesh });
-```
-
-The polygon is given by its points, in either direction around the domain, and the edge $i$ goes from point $i$
-to point $i + 1$, the last edge closing the polygon. Holes are polygons in the same form, listed in `holes`.
-Points that must be nodes, for example where a result is read, are listed in `points`.
-
-The elements are refined until each has angles of at least `minAngle` (default 20 degrees) and an area of at
-most `maxArea`. For elements of side about $h$, use `maxArea: 0.433 * h ** 2`, the area of the equilateral
-triangle of side $h$. A function of position grades the mesh, for example towards a corner where the solution
-varies fast:
+`elements: "triangles"` meshes any shape, with holes and embedded points, by Delaunay refinement: the points of
+the geometry are triangulated, and vertices are inserted until every element has angles of at least `minAngle`
+and an area of at most that of the equilateral triangle of side `size`. A function of position grades the mesh,
+for example towards a corner where the solution varies fast:
 
 ```javascript
 // Element side 0.01 at the re-entrant corner (1, 1), growing to 0.05 away from it
-const sizeAt = (x, y) => Math.min(0.05, 0.01 + 0.2 * Math.hypot(x - 1, y - 1));
-const parsedMesh = generateTriangleMesh({ polygon, maxArea: (x, y) => 0.433 * sizeAt(x, y) ** 2 });
+model.setMeshConfig({
+  elements: "triangles",
+  elementOrder: "quadratic",
+  size: (x, y) => Math.min(0.05, 0.01 + 0.2 * Math.hypot(x - 1, y - 1)),
+  minAngle: 30,
+});
 ```
 
 The refinement always ends for a `minAngle` below 20.7 degrees, and in practice up to about 33. A larger
-angle, or a very small `maxArea`, can make it pass `maxNodes` (default 100,000 vertices), which stops it with a
+angle, or a very small `size`, can make it pass `maxNodes` (default 100,000 vertices), which stops it with a
 `FEAScriptError` of code `"MESH_TOO_FINE"`. The node and element counts are logged at the `"basic"` level.
 
-### How the mesh is built
+#### How the mesh is built
 
 The generator starts from the points given, triangulates them (a constrained Delaunay triangulation, with the
-edges of the polygon and of the holes forced in) and then inserts vertices one pass at a time: a boundary edge
+edges of the shape and of the holes forced in) and then inserts vertices one pass at a time: a boundary edge
 is split at its midpoint when a vertex lies inside its diametral circle, and a triangle that is too skinny or
 too large gets a vertex near its short edge (its off-center). The triangulation is rebuilt after each pass, so
 the result is always a proper triangulation: every edge is shared by two triangles, or by one on the boundary,
 and no vertex lies in the middle of another triangle's edge. The algorithm, the software it uses and the
-references are on the [`generateTriangleMesh`](../api/triangle-mesh.md#algorithm-and-software) page.
+references are on the [mesh generators](../api/mesh-generators.md#algorithm-and-software) page.
 
 Because the boundary edges are split at their midpoints, a rectangle given by its four corners is meshed with
 a symmetric pattern of right triangles, built from halves and quarters of its sides: a valid mesh, with all
 angles at 45 or 90 degrees, but a very regular one. For a mesh of well-shaped triangles of varied orientation,
-give the polygon points along its edges at about the element size, with the same name repeated for the edges
-of one side; the refinement then starts from a boundary that already has the right size:
+give the boundaries points along the sides at about the element size; the refinement then starts from a boundary
+that already has the right size:
 
 ```javascript
-// The 4 by 2 rectangle with a point every 0.5 along its edges
-const h = 0.5;
-const points = [];
-const boundaries = [];
-for (let x = 0; x < 4; x += h) {
-  points.push([x, 0]);
-  boundaries.push("bottom");
-}
-for (let y = 0; y < 2; y += h) {
-  points.push([4, y]);
-  boundaries.push("right");
-}
-for (let x = 4; x > 0; x -= h) {
-  points.push([x, 2]);
-  boundaries.push("top");
-}
-for (let y = 2; y > 0; y -= h) {
-  points.push([0, y]);
-  boundaries.push("left");
-}
-const parsedMesh = generateTriangleMesh({ polygon: { points, boundaries }, maxArea: 0.1, minAngle: 30 });
+// The 4 by 2 rectangle with a point every 0.5 along its sides
+const along = (from, to, count) =>
+  Array.from({ length: count + 1 }, (_, i) => [
+    from[0] + ((to[0] - from[0]) * i) / count,
+    from[1] + ((to[1] - from[1]) * i) / count,
+  ]);
+model.setGeometry({
+  shapes: [
+    [
+      { name: "bottom", points: along([0, 0], [4, 0], 8) },
+      { name: "right", points: along([4, 0], [4, 2], 4) },
+      { name: "top", points: along([4, 2], [0, 2], 8) },
+      { name: "left", points: along([0, 2], [0, 0], 4) },
+    ],
+  ],
+});
+model.setMeshConfig({ elements: "triangles", size: 0.5, minAngle: 30 });
 ```
 
-For a rectangle or a trapezoid, a [structured mesh](#structured-meshes) of quadrilaterals is the simpler
-choice; the triangle generator is for the shapes a structured mesh cannot cover.
+For a rectangle or a four-sided shape, quadrilaterals are the simpler choice; the triangle generator is for the
+shapes a grid cannot cover.
 
-### Boundaries of a generated mesh
-
-Each edge of the polygon and of the holes has a name, given in `boundaries` as one name for all the edges or as
-one name per edge. The edges with the same name form one boundary. The boundaries are numbered in the order their
-names first appear, the outer polygon first and then the holes, and the boundary keys are `"0"`, `"1"`, `"2"`,
-... in that order. In the example above, `"bottom"` is `"0"`, `"right"` is `"1"`, `"step"` is `"2"` (both edges
-of the step), `"top"` is `"3"` and `"left"` is `"4"`. Without names, every edge of the polygon is in the boundary
-`"boundary"`, and every edge of a hole in `"hole"`.
-
-The nodes are numbered in the order the mesh generator creates them. This is the order of the entries of the
-solution vector; the coordinates of the nodes are in `nodesCoordinates`.
+The nodes of a triangle mesh are numbered in the order the generator creates them. This is the order of the
+entries of the solution vector; the coordinates of the nodes are in `nodesCoordinates`.
 
 ## Gmsh meshes
 
-Unstructured 2D meshes made with Gmsh are read with [`importGmshMesh`](../api/gmsh-import.md) and passed to the
-model through the `parsedMesh` property:
+Unstructured 2D meshes made with Gmsh are read with [`importGmshMesh`](../api/gmsh-import.md) and given to the
+model with `setMesh`:
 
 ```javascript
-const parsedMesh = await importGmshMesh(meshFile);
-model.setMeshConfig({ parsedMesh });
+const mesh = await importGmshMesh(meshFile);
+model.setMesh(mesh);
 ```
 
-The mesh dimension and the element order are detected from the file, so `meshDimension` and `elementOrder` can
-be omitted. If they are given and differ from the mesh, FEAScript logs an error.
-
-Supported Gmsh meshes:
+The mesh dimension and the element order are detected from the file. Supported Gmsh meshes:
 
 - `.msh` file format version 4.1, ASCII
 - 2D meshes only
@@ -236,24 +294,28 @@ Supported Gmsh meshes:
 
 ### Boundaries of a Gmsh mesh
 
-Boundaries are taken from the **1D physical groups** (`Physical Curve` or `Physical Line` in a `.geo` file).
-They are numbered in increasing order of their physical tag, starting from key `"0"`. When the physical curves
-have the tags `1`, `2`, ..., the boundary key is the tag minus one. 2D physical groups (for example a
-`Physical Surface`) do not define boundaries.
-
-To get the same keys as a [structured mesh](#boundaries-of-a-structured-mesh), tag the sides in the order
-bottom, left, top, right. For a rectangle whose lines 1, 2, 3, 4 are the bottom, right, top and left sides:
+Boundaries are taken from the **1D physical groups** (`Physical Curve` or `Physical Line` in a `.geo` file),
+and keyed by their names. 2D physical groups (for example a `Physical Surface`) do not define boundaries, but
+one is needed: once any physical group is defined, Gmsh saves only the elements that belong to one, so without a
+`Physical Surface` the file has no 2D elements (unless `Mesh.SaveAll = 1`). For a rectangle whose lines 1, 2, 3,
+4 are the bottom, right, top and left sides:
 
 ```
-Physical Line("bottom", 1) = {1}; // tag 1 → boundary key "0"
-Physical Line("left", 2)   = {4}; // tag 2 → boundary key "1"
-Physical Line("top", 3)    = {3}; // tag 3 → boundary key "2"
-Physical Line("right", 4)  = {2}; // tag 4 → boundary key "3"
-Physical Surface("domain", 5) = {1};
+Physical Line("bottom") = {1};
+Physical Line("right") = {2};
+Physical Line("top") = {3};
+Physical Line("left") = {4};
+Physical Surface("domain") = {1};
 ```
 
-The second argument of `Physical Line` sets the tag explicitly. Without it, Gmsh numbers the groups in the order they
-are defined.
+```javascript
+model.setMesh(mesh);
+model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
+model.addBoundaryCondition("top", ["convection", 1, 20]);
+```
+
+A group without a name is keyed by its tag minus one. The tag minus one is also kept as a deprecated alias of
+every name, the key of FEAScript 0.3.
 
 Generate the mesh in the supported format with:
 
@@ -263,3 +325,20 @@ gmsh rect.geo -2 -format msh41 -o rect.msh
 
 Add `Recombine Surface{1};` in the `.geo` file for quadrilaterals, and `Mesh.ElementOrder = 2;` for quadratic
 elements.
+
+## Meshes as objects
+
+`importGmshMesh`, [`generateTriangleMesh` and `generateQuadrilateralMesh`](../api/mesh-generators.md) all return
+a mesh object, and `setMesh` takes one. The object holds the nodes (`nodesXCoordinates`, `nodesYCoordinates`),
+the elements (`nodalNumbering`, the node numbers of each element, from 1), the element sides on each boundary
+(`boundaryElements`, keyed by name), the aliases of the names, and `meshDimension`, `elementOrder` and
+`elementShape`. A model's own mesh is available through `model.getMesh()`, which generates it from the geometry
+and the mesh configuration if needed, so a mesh can be inspected, plotted or reused in another model.
+
+## Mesh settings of FEAScript 0.3
+
+`setMeshConfig({ meshDimension, elementOrder, numElementsX, maxX, numElementsY, maxY, angleLeft, angleRight })`
+of FEAScript 0.3 keeps working with a deprecation warning: it is translated into a line, a rectangle or a
+four-point shape (the trapezoid of `angleLeft` and `angleRight`) with `divisions`, and its numeric boundary keys
+stay as aliases. `setMeshConfig({ parsedMesh })` is translated into `setMesh(parsedMesh)`. Both forms are
+removed in 0.6.0 at the earliest.
