@@ -126,4 +126,4 @@ plot of the solution shows successive positions of the front.
 - [Solidification front in 2D](https://feascript.com/tutorials/solidification-front-2d.html)
 - [Solidification front in 2D with a web worker](https://feascript.com/tutorials/solidification-front-2d-worker.html)
 - Node.js script in
-  [`examples/frontPropagationScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/frontPropagationScript)
+  [`examples/frontPropagation`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/frontPropagation)

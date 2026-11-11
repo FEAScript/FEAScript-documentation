@@ -179,4 +179,4 @@ rather than slicing this vector.
 - [Lid-driven cavity creeping flow in 2D](https://feascript.com/tutorials/lid-driven-cavity-2d-creeping-flow.html)
 - [Lid-driven cavity creeping flow in 2D with a web worker](https://feascript.com/tutorials/lid-driven-cavity-2d-creeping-flow-worker.html)
 - Node.js script in
-  [`examples/creepingFlowScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/creepingFlowScript)
+  [`examples/creepingFlow`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/creepingFlow)

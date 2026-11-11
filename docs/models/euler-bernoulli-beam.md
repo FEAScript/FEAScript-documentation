@@ -161,4 +161,4 @@ extracting the values from this vector.
 
 - [Cantilever beam in 1D](https://feascript.com/tutorials/cantilever-beam-1d.html)
 - Node.js script in
-  [`examples/eulerBernoulliBeamScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/eulerBernoulliBeamScript)
+  [`examples/eulerBernoulliBeam`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/eulerBernoulliBeam)

@@ -183,5 +183,5 @@ right).
 
 - [Advection–diffusion in 1D](https://feascript.com/tutorials/advection-diffusion-1d.html)
 - Node.js scripts in
-  [`examples/generalFormPDEScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/generalFormPDEScript)
+  [`examples/generalFormPDE`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/generalFormPDE)
   (advection–diffusion and nonlinear reaction–diffusion)

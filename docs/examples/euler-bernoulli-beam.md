@@ -7,7 +7,7 @@ sidebar_position: 6
 <img className="physics-logo" src="/assets/physics/structural-mechanics.svg" alt="" />
 
 Node.js examples of [`eulerBernoulliBeam`](../models/euler-bernoulli-beam), in
-[`examples/eulerBernoulliBeamScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/eulerBernoulliBeamScript).
+[`examples/eulerBernoulliBeam`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/eulerBernoulliBeam).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
 from FEAScript-core 0.4.0 (RC).
 
@@ -26,7 +26,7 @@ node clampedSpringSupportedBeam1D/clampedSpringSupportedBeam1D.js
 ```
 
 Source:
-[`clampedSpringSupportedBeam1D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/eulerBernoulliBeamScript/clampedSpringSupportedBeam1D/clampedSpringSupportedBeam1D.js)
+[`clampedSpringSupportedBeam1D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/eulerBernoulliBeam/clampedSpringSupportedBeam1D/clampedSpringSupportedBeam1D.js)
 
 ### Geometry and mesh
 
@@ -61,7 +61,7 @@ node cantileverBeam1D/cantileverBeam1D.js
 ```
 
 Source:
-[`cantileverBeam1D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/eulerBernoulliBeamScript/cantileverBeam1D/cantileverBeam1D.js)
+[`cantileverBeam1D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/eulerBernoulliBeam/cantileverBeam1D/cantileverBeam1D.js)
 
 ### Geometry and mesh
 

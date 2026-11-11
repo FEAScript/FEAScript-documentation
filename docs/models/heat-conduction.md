@@ -139,5 +139,5 @@ const maxTemperature = Math.max(...solutionVector);
 - [Heat conduction in a 2D fin with a Gmsh mesh](https://feascript.com/tutorials/heat-conduction-2d-fin-gmsh.html)
 - [Heat conduction in a 2D rhomboid fin with a Gmsh mesh](https://feascript.com/tutorials/heat-conduction-2d-rhom-fin-gmsh.html)
 - Node.js scripts in
-  [`examples/heatConductionScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/heatConductionScript),
+  [`examples/heatConduction`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/heatConduction),
   including spatially varying $k(x)$ and $k(x, y)$, $Q(x, y)$

@@ -35,7 +35,7 @@ were computed with **FEAScript-core 0.4.0 (RC)**, by running the examples unchan
 ## Running an example
 
 The examples import FEAScript from npm. In the folder of a model (for example
-`examples/heatConductionScript`), or in an empty folder with a copy of the example:
+`examples/heatConduction`), or in an empty folder with a copy of the example:
 
 1. Create a `package.json` with ES module support:
 

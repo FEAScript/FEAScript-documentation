@@ -7,7 +7,7 @@ sidebar_position: 2
 <img className="physics-logo" src="/assets/physics/heat-transfer.svg" alt="" />
 
 Node.js examples of [`heatConduction`](../models/heat-conduction), in
-[`examples/heatConductionScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/heatConductionScript).
+[`examples/heatConduction`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/heatConduction).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
 from FEAScript-core 0.4.0 (RC).
 
@@ -21,7 +21,7 @@ node heatConduction1DWall/heatConduction1DWall.js
 ```
 
 Source:
-[`heatConduction1DWall.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConductionScript/heatConduction1DWall/heatConduction1DWall.js)
+[`heatConduction1DWall.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConduction/heatConduction1DWall/heatConduction1DWall.js)
 
 ### Geometry
 
@@ -51,7 +51,7 @@ node heatConduction1DWall/heatConduction1DVaryingK.js
 ```
 
 Source:
-[`heatConduction1DVaryingK.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConductionScript/heatConduction1DWall/heatConduction1DVaryingK.js)
+[`heatConduction1DVaryingK.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConduction/heatConduction1DWall/heatConduction1DVaryingK.js)
 
 ### Geometry
 
@@ -80,7 +80,7 @@ node heatConduction2DFin/heatConduction2DFin.js
 ```
 
 Source:
-[`heatConduction2DFin.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConductionScript/heatConduction2DFin/heatConduction2DFin.js)
+[`heatConduction2DFin.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConduction/heatConduction2DFin/heatConduction2DFin.js)
 
 ### Geometry
 
@@ -153,7 +153,7 @@ node heatConduction2DFin/heatConduction2DFinGmsh.js
 ```
 
 Source:
-[`heatConduction2DFinGmsh.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConductionScript/heatConduction2DFin/heatConduction2DFinGmsh.js)
+[`heatConduction2DFinGmsh.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConduction/heatConduction2DFin/heatConduction2DFinGmsh.js)
 
 ### Mesh
 
@@ -188,7 +188,7 @@ node heatConduction2DFin/heatConduction2DRhomFinGmsh.js
 ```
 
 Source:
-[`heatConduction2DRhomFinGmsh.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConductionScript/heatConduction2DFin/heatConduction2DRhomFinGmsh.js)
+[`heatConduction2DRhomFinGmsh.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConduction/heatConduction2DFin/heatConduction2DRhomFinGmsh.js)
 
 ### Geometry
 
@@ -217,7 +217,7 @@ node heatConduction2DFin/heatConduction2DVaryingKQ.js
 ```
 
 Source:
-[`heatConduction2DVaryingKQ.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConductionScript/heatConduction2DFin/heatConduction2DVaryingKQ.js)
+[`heatConduction2DVaryingKQ.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/heatConduction/heatConduction2DFin/heatConduction2DVaryingKQ.js)
 
 ### Geometry
 

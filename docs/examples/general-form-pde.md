@@ -7,7 +7,7 @@ sidebar_position: 3
 <img className="physics-logo" src="/assets/physics/general-form-pde.svg" alt="" />
 
 Node.js examples of [`generalFormPDE`](../models/general-form-pde), in
-[`examples/generalFormPDEScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/generalFormPDEScript).
+[`examples/generalFormPDE`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/generalFormPDE).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
 from FEAScript-core 0.4.0 (RC).
 
@@ -27,7 +27,7 @@ node advectionDiffusion1D/advectionDiffusion1D.js
 ```
 
 Source:
-[`advectionDiffusion1D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/generalFormPDEScript/advectionDiffusion1D/advectionDiffusion1D.js)
+[`advectionDiffusion1D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/generalFormPDE/advectionDiffusion1D/advectionDiffusion1D.js)
 
 ### Geometry
 
@@ -61,7 +61,7 @@ node nonlinearReactionDiffusion1D/nonlinearReactionDiffusion1D.js
 ```
 
 Source:
-[`nonlinearReactionDiffusion1D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/generalFormPDEScript/nonlinearReactionDiffusion1D/nonlinearReactionDiffusion1D.js)
+[`nonlinearReactionDiffusion1D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/generalFormPDE/nonlinearReactionDiffusion1D/nonlinearReactionDiffusion1D.js)
 
 ### Geometry
 

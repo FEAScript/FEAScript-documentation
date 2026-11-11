@@ -7,7 +7,7 @@ sidebar_position: 4
 <img className="physics-logo" src="/assets/physics/front-propagation.svg" alt="" />
 
 Node.js example of [`frontPropagation`](../models/front-propagation), in
-[`examples/frontPropagationScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/frontPropagationScript).
+[`examples/frontPropagation`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/frontPropagation).
 Run the command below from that folder (see [running an example](overview#running-an-example)). The results are
 from FEAScript-core 0.4.0 (RC).
 
@@ -22,7 +22,7 @@ node solidificationFront2D/solidificationFront2D.js
 ```
 
 Source:
-[`solidificationFront2D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/frontPropagationScript/solidificationFront2D/solidificationFront2D.js)
+[`solidificationFront2D.js`](https://github.com/FEAScript/FEAScript-core/blob/main/examples/frontPropagation/solidificationFront2D/solidificationFront2D.js)
 
 ### Geometry
 
