@@ -112,21 +112,21 @@ so both programs are compared with it at every node, and with each other:
 
 | Elements  | Mesh      | Nodes  | Largest error (°C) | RMS error (°C) | Difference from Elmer (°C) |
 | --------- | --------- | ------ | ------------------ | -------------- | -------------------------- |
-| Linear    | 20 × 10   | 231    | 1.0e0              | 1.1e-1         | 5.0e-6                     |
-| Linear    | 40 × 20   | 861    | 5.7e-1             | 3.2e-2         | 5.0e-6                     |
-| Linear    | 80 × 40   | 3,321  | 3.1e-1             | 8.8e-3         | 5.0e-6                     |
-| Linear    | 160 × 80  | 13,041 | 1.6e-1             | 2.4e-3         | 5.0e-6                     |
-| Linear    | 320 × 160 | 51,681 | 8.1e-2             | 6.7e-4         | 5.0e-6                     |
-| Quadratic | 10 × 5    | 231    | 8.0e-1             | 6.7e-2         | 5.0e-6                     |
-| Quadratic | 20 × 10   | 861    | 3.9e-1             | 1.7e-2         | 5.0e-6                     |
-| Quadratic | 40 × 20   | 3,321  | 2.0e-1             | 4.3e-3         | 5.0e-6                     |
-| Quadratic | 80 × 40   | 13,041 | 9.7e-2             | 1.1e-3         | 5.0e-6                     |
-| Quadratic | 160 × 80  | 51,681 | 4.9e-2             | 2.7e-4         | 5.0e-6                     |
+| Linear    | 20 × 10   | 231    | 1.0e0              | 1.1e-1         | 3.1e-13                    |
+| Linear    | 40 × 20   | 861    | 5.7e-1             | 3.2e-2         | 3.4e-12                    |
+| Linear    | 80 × 40   | 3,321  | 3.1e-1             | 8.8e-3         | 9.2e-12                    |
+| Linear    | 160 × 80  | 13,041 | 1.6e-1             | 2.4e-3         | 4.4e-11                    |
+| Linear    | 320 × 160 | 51,681 | 8.1e-2             | 6.7e-4         | 1.9e-10                    |
+| Quadratic | 10 × 5    | 231    | 8.0e-1             | 6.7e-2         | 5.4e-13                    |
+| Quadratic | 20 × 10   | 861    | 3.9e-1             | 1.7e-2         | 2.5e-12                    |
+| Quadratic | 40 × 20   | 3,321  | 2.0e-1             | 4.3e-3         | 6.3e-12                    |
+| Quadratic | 80 × 40   | 13,041 | 9.7e-2             | 1.1e-3         | 2.9e-11                    |
+| Quadratic | 160 × 80  | 51,681 | 4.9e-2             | 2.7e-4         | 1.0e-10                    |
 
 ![Fin in 2D: largest error against the exact solution against element size, for linear and quadratic elements, logarithmic axes](/assets/examples/fin-elmer-comparison.svg)
 
 The errors of Elmer are the same to the digits shown, and the temperatures of the two programs differ by at most
-5.0e-6 °C on every mesh, the rounding of the 8 significant digits that Elmer writes its results with. The
+1.9e-10 °C on every mesh, the round-off of double precision arithmetic, which grows with the size of the mesh. The
 largest error is at the node next to the top right corner, where the fixed temperature of the right edge meets the
 convection of the top edge and the exact solution is not smooth. There it falls only in proportion to the element
 size $h$, with either element; the RMS error over all the nodes falls about as $h^2$.
@@ -140,8 +140,7 @@ its `HeatSolver` with the UMFPACK direct solver, run on one core as a single MPI
 
 The fin was also solved with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library for Python, on the
 same meshes, with the same elements and its default direct solver. The temperatures of FEAScript and scikit-fem
-differ by at most 1.7e-10 °C on every mesh, from 231 to 51,681 nodes. This comparison is closer than the one with
-Elmer because scikit-fem's results are kept to full double precision.
+differ by at most 1.7e-10 °C on every mesh, from 231 to 51,681 nodes, as close as with Elmer.
 
 ## Fin in 2D, Gmsh mesh
 
@@ -172,7 +171,7 @@ coordinates and the solution vector.
 The fin was also solved with Elmer and scikit-fem on 16 unstructured meshes made with Gmsh, read by all three
 programs: linear and quadratic triangles and quadrilaterals, up to 89,209 nodes. The temperatures of FEAScript and
 scikit-fem differ by at most 1.1e-10 °C when scikit-fem uses the same Gauss rules, and those of FEAScript and Elmer
-by at most 5.0e-6 °C, the rounding of the digits that Elmer writes.
+by at most 2.8e-11 °C.
 
 On a distorted quadrilateral, these rules do not integrate exactly: FEAScript uses 2 × 2 points on linear elements
 and 3 × 3 on quadratic ones. With a much finer rule in scikit-fem, the RMS error against the exact solution is only
