@@ -14,13 +14,13 @@ model.setMesh(mesh);
 
 The two generators behind `setGeometry` and `setMeshConfig`, exported for a mesh that is inspected, plotted or
 reused before it is solved on. Both take a geometry, in the form of [`setGeometry`](../fundamentals/mesh.md#geometry)
-(`{ rectangle }` or `{ shapes, holes, points }`), and return a [mesh object](../fundamentals/mesh.md#meshes-as-objects),
+(`{ rectangle }` or `{ shape, holes, points }`), and return a [mesh object](../fundamentals/mesh.md#meshes-as-objects),
 the same as [`importGmshMesh`](./gmsh-import.md), for `model.setMesh(mesh)`. The boundaries of the mesh are keyed
 by the names of the geometry.
 
 Both throw a [`FEAScriptError`](./feascript-model.md#error-handling) with the code `"INVALID_INPUT"` for a
 polygon that is not simple (its edges cross), a hole outside the shape or inside another hole, a point outside
-the domain, boundaries that do not chain, or a setting out of range, listing every problem found.
+the domain, a path that does not end at its start, or a setting out of range, listing every problem found.
 
 ## `generateTriangleMesh(geometry, options)`
 
@@ -46,18 +46,15 @@ const mesh = generateTriangleMesh(
   {
     rectangle: [2, 1],
     holes: [
-      [
-        {
-          name: "hole",
-          points: [
-            [0.8, 0.4],
-            [1.2, 0.4],
-            [1.2, 0.6],
-            [0.8, 0.6],
-            [0.8, 0.4],
-          ],
-        },
-      ],
+      {
+        name: "hole",
+        points: [
+          [0.8, 0.4],
+          [1.2, 0.4],
+          [1.2, 0.6],
+          [0.8, 0.6],
+        ],
+      },
     ],
   },
   { size: 0.15, minAngle: 25, elementOrder: "quadratic" },

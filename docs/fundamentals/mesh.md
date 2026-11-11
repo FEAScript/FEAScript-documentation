@@ -42,69 +42,54 @@ model.setMeshConfig({ elementOrder: "quadratic", divisions: 20 }); // 20 quadrat
 
 ### Polygon with holes
 
-`{ shapes: [polygon], holes: [polygon, ...], points: [[x, y], ...] }` is any 2D domain. A polygon is a list of
-its boundaries, each a named polyline of points, **chained in order**: a boundary starts where the previous one
-ends, and the last one ends where the first one starts. Two boundaries with the same name form one boundary of
-the model, so a side made of several segments, or two opposite sides with the same condition, can share a name.
+`{ shape, holes: [polygon, ...], points: [[x, y], ...] }` is any 2D domain. The shape is written as a **path**: a
+`start` point and the list of its boundaries, each running from where the previous one ended to its `to` point.
+The last boundary may leave out `to`: it then closes the shape back to `start`. Every corner is written once.
 
 ```javascript
 // An L-shaped domain: a 2 by 2 square without its top right quarter
 model.setGeometry({
-  shapes: [
-    [
-      {
-        name: "bottom",
-        points: [
-          [0, 0],
-          [2, 0],
-        ],
-      },
-      {
-        name: "right",
-        points: [
-          [2, 0],
-          [2, 1],
-        ],
-      },
-      {
-        name: "step",
-        points: [
-          [2, 1],
-          [1, 1],
-          [1, 2],
-        ],
-      }, // Two segments, one boundary
-      {
-        name: "top",
-        points: [
-          [1, 2],
-          [0, 2],
-        ],
-      },
-      {
-        name: "left",
-        points: [
-          [0, 2],
-          [0, 0],
-        ],
-      },
+  shape: {
+    start: [0, 0],
+    boundaries: [
+      { name: "bottom", to: [2, 0] },
+      { name: "right", to: [2, 1] },
+      { name: "step", to: [1, 1] },
+      { name: "step", to: [1, 2] }, // The same name: one boundary of two segments
+      { name: "top", to: [0, 2] },
+      { name: "left" }, // No "to": closes the shape back to [0, 0]
     ],
-  ],
+  },
 });
 model.setMeshConfig({ elements: "triangles", elementOrder: "quadratic", size: 0.1 });
 ```
 
-- `shapes` holds the outer polygon. One shape is supported in this version; several shapes, meeting edge to
-  edge as blocks, come in 0.5.0.
-- `holes` are polygons in the same form, inside the shape. A hole must lie inside the shape and not inside
-  another hole; otherwise `setGeometry` throws a `FEAScriptError` of code `"INVALID_INPUT"` that says which point
-  is outside. The edges of a hole given as a plain list of points are in the boundary `"hole"`.
+- Boundaries with the same name form one boundary of the model, so a side made of several segments, or two
+  sides with the same condition, share a name. A `to` may also be a list of points, a polyline, for a side with
+  many points (`to: [[2, 1], [1, 1], [1, 2]]`).
+- A polygon whose edges all have one name is written `{ name, points: [[x, y], ...] }`; this is the usual form
+  of a hole. A plain list of `[x, y]` points is a polygon in the boundary `"boundary"` (a shape) or `"hole"` (a
+  hole). The points may run in either direction around the domain.
+- `holes` are polygons inside the shape. A hole must lie inside the shape and not inside another hole;
+  otherwise `setGeometry` throws a `FEAScriptError` of code `"INVALID_INPUT"` that says which point is outside.
 - `points` are points inside the domain, or on its boundary, that must become nodes, for example where a result
   is read. A point outside the domain is an error.
-- A polygon may also be a plain list of `[x, y]` points, all in one boundary named `"boundary"`. The points may
-  run in either direction around the domain.
-- The polygons must be simple: an edge that crosses or touches another one, a repeated edge, or two boundaries
-  that do not chain, stop `setGeometry` with an `"INVALID_INPUT"` error listing every problem.
+- The polygons must be simple: an edge that crosses or touches another one, a repeated edge, or a path that does
+  not end at its start, stop `setGeometry` with an `"INVALID_INPUT"` error listing every problem.
+- The domain is one shape in this version. Several shapes, meeting edge to edge as blocks, come in 0.5.0 with
+  a key of their own, and other kinds of boundary segments (arcs, for example) can be added to a boundary later;
+  the path form stays the same.
+
+A plate with a circular hole, approximated by 32 segments:
+
+```javascript
+const circle = (cx, cy, r, n) =>
+  Array.from({ length: n }, (_, i) => [
+    cx + r * Math.cos((2 * Math.PI * i) / n),
+    cy + r * Math.sin((2 * Math.PI * i) / n),
+  ]);
+model.setGeometry({ rectangle: [2, 1], holes: [{ name: "hole", points: circle(1, 0.5, 0.2, 32) }] });
+```
 
 ### Boundary names
 
@@ -114,7 +99,7 @@ The boundary conditions are keyed by name, for every kind of geometry and mesh:
 | ------------------------- | --------------------------------------------------------------------------- |
 | `{ line }`                | `"left"`, `"right"`                                                         |
 | `{ rectangle }`           | `"bottom"`, `"right"`, `"top"`, `"left"`                                    |
-| `{ shapes, holes }`       | The names given to the boundaries (`"boundary"` and `"hole"` without names) |
+| `{ shape, holes }`        | The names given to the boundaries (`"boundary"` and `"hole"` without names) |
 | [Gmsh mesh](#gmsh-meshes) | The names of the 1D physical groups                                         |
 
 :::note
@@ -153,38 +138,15 @@ A trapezoid, or any convex four-sided shape, is a polygon of four points:
 ```javascript
 // A trapezoid of base 4 and height 2, whose sides lean at 60° and 75° to the base
 model.setGeometry({
-  shapes: [
-    [
-      {
-        name: "bottom",
-        points: [
-          [0, 0],
-          [4, 0],
-        ],
-      },
-      {
-        name: "right",
-        points: [
-          [4, 0],
-          [3.464, 2],
-        ],
-      },
-      {
-        name: "top",
-        points: [
-          [3.464, 2],
-          [1.155, 2],
-        ],
-      },
-      {
-        name: "left",
-        points: [
-          [1.155, 2],
-          [0, 0],
-        ],
-      },
+  shape: {
+    start: [0, 0],
+    boundaries: [
+      { name: "bottom", to: [4, 0] },
+      { name: "right", to: [3.464, 2] },
+      { name: "top", to: [1.155, 2] },
+      { name: "left" },
     ],
-  ],
+  },
 });
 model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "linear", divisions: [6, 4] });
 ```
@@ -249,14 +211,15 @@ const along = (from, to, count) =>
     from[1] + ((to[1] - from[1]) * i) / count,
   ]);
 model.setGeometry({
-  shapes: [
-    [
-      { name: "bottom", points: along([0, 0], [4, 0], 8) },
-      { name: "right", points: along([4, 0], [4, 2], 4) },
-      { name: "top", points: along([4, 2], [0, 2], 8) },
-      { name: "left", points: along([0, 2], [0, 0], 4) },
+  shape: {
+    start: [0, 0],
+    boundaries: [
+      { name: "bottom", to: along([0, 0], [4, 0], 8).slice(1) },
+      { name: "right", to: along([4, 0], [4, 2], 4).slice(1) },
+      { name: "top", to: along([4, 2], [0, 2], 8).slice(1) },
+      { name: "left", to: along([0, 2], [0, 0], 4).slice(1) },
     ],
-  ],
+  },
 });
 model.setMeshConfig({ elements: "triangles", size: 0.5, minAngle: 30 });
 ```

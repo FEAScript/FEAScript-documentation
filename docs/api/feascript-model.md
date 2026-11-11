@@ -69,8 +69,7 @@ model.setModelConfig("heatConductionScript", {
 ### `setGeometry(geometry)`
 
 Sets the domain and names its boundaries: `{ line: length }`, `{ rectangle: [width, height] }` or
-`{ shapes: [polygon], holes, points }`, a polygon with holes whose boundaries are named polylines chained in
-order. See [Mesh](../fundamentals/mesh.md#geometry) for the forms and the boundary names. The geometry is
+`{ shape, holes, points }`, a polygon with holes whose boundaries are named, written as a path `{ start, boundaries: [{ name, to }] }`. See [Mesh](../fundamentals/mesh.md#geometry) for the forms and the boundary names. The geometry is
 checked at once: a polygon that is not simple, a hole outside the shape or inside another hole, or a point
 outside the domain throws a `FEAScriptError` of code `"INVALID_INPUT"` listing every problem.
 
