@@ -6,7 +6,7 @@ sidebar_position: 3
 
 <img className="physics-logo" src="/assets/physics/creeping-flow.svg" alt="" />
 
-Verification of [`creepingFlowScript`](../models/creeping-flow) against closed-form solutions. All results are from
+Verification of [`creepingFlow`](../models/creeping-flow) against closed-form solutions. All results are from
 FEAScript-core 0.4.0 (RC), solved with `lusolve`.
 
 ## Couette flow

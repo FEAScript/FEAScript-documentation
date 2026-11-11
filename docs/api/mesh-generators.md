@@ -61,13 +61,13 @@ const mesh = generateTriangleMesh(
 );
 
 const model = new FEAScriptModel();
-model.setModelConfig("heatConductionScript", { coefficientFunctions: { thermalConductivity: 1 } });
+model.setModelConfig("heatConduction", { coefficientFunctions: { thermalConductivity: 1 } });
 model.setMesh(mesh);
-model.addBoundaryCondition("bottom", ["constantTemperature", 100]);
-model.addBoundaryCondition("right", ["symmetry"]);
-model.addBoundaryCondition("top", ["constantTemperature", 0]);
-model.addBoundaryCondition("left", ["symmetry"]);
-model.addBoundaryCondition("hole", ["convection", 1, 20]);
+model.addBoundaryCondition("bottom", { type: "constantTemperature", temperature: 100 });
+model.addBoundaryCondition("right", { type: "symmetry" });
+model.addBoundaryCondition("top", { type: "constantTemperature", temperature: 0 });
+model.addBoundaryCondition("left", { type: "symmetry" });
+model.addBoundaryCondition("hole", { type: "convection", h: 1, ambientTemperature: 20 });
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 

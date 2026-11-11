@@ -36,7 +36,7 @@ From a file input:
     const mesh = await importGmshMesh(event.target.files[0]);
 
     const model = new FEAScriptModel();
-    model.setModelConfig("heatConductionScript");
+    model.setModelConfig("heatConduction");
     model.setMesh(mesh);
     // ...boundary conditions and solve
   });
@@ -61,7 +61,7 @@ import { FEAScriptModel, importGmshMesh } from "feascript";
 
 // 1. Create the model and select the physics
 const model = new FEAScriptModel();
-model.setModelConfig("heatConductionScript");
+model.setModelConfig("heatConduction");
 
 // 2. Load the Gmsh mesh
 const meshContent = fs.readFileSync("rect_quad.msh", "utf8");
@@ -69,10 +69,10 @@ const mesh = await importGmshMesh({ text: async () => meshContent });
 model.setMesh(mesh);
 
 // 3. Apply the boundary conditions, keyed by the names of the physical curves
-model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
-model.addBoundaryCondition("left", ["symmetry"]);
-model.addBoundaryCondition("top", ["convection", 1, 20]);
-model.addBoundaryCondition("right", ["constantTemperature", 200]);
+model.addBoundaryCondition("bottom", { type: "constantTemperature", temperature: 200 });
+model.addBoundaryCondition("left", { type: "symmetry" });
+model.addBoundaryCondition("top", { type: "convection", h: 1, ambientTemperature: 20 });
+model.addBoundaryCondition("right", { type: "constantTemperature", temperature: 200 });
 
 // 4. Solve
 const { solutionVector, nodesCoordinates } = model.solve();

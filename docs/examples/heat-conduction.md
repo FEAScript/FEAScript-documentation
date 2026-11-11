@@ -6,7 +6,7 @@ sidebar_position: 2
 
 <img className="physics-logo" src="/assets/physics/heat-transfer.svg" alt="" />
 
-Node.js examples of [`heatConductionScript`](../models/heat-conduction), in
+Node.js examples of [`heatConduction`](../models/heat-conduction), in
 [`examples/heatConductionScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/heatConductionScript).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
 from FEAScript-core 0.4.0 (RC).

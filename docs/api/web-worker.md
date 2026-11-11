@@ -21,20 +21,19 @@ import { FEAScriptWorker, plotSolution } from "https://core.feascript.com/dist/f
 // 1. Create the model in a web worker and select the physics
 const model = new FEAScriptWorker();
 await model.ping(); // Wait until the worker is ready
-await model.setModelConfig("frontPropagationScript");
+await model.setModelConfig("frontPropagation", { solver: { method: "lusolve" } });
 
 // 2. Define the mesh
 await model.setGeometry({ rectangle: [4, 2] });
 await model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [12, 8] });
 
 // 3. Apply the boundary conditions
-await model.addBoundaryCondition("bottom", ["constantValue", 0]); // Initial front
-await model.addBoundaryCondition("left", ["constantValue", 0]); // Initial front
-await model.addBoundaryCondition("top", ["zeroGradient"]);
-await model.addBoundaryCondition("right", ["constantValue", 0]); // Initial front
+await model.addBoundaryCondition("bottom", { type: "constantValue", value: 0 }); // Initial front
+await model.addBoundaryCondition("left", { type: "constantValue", value: 0 }); // Initial front
+await model.addBoundaryCondition("top", { type: "zeroGradient" });
+await model.addBoundaryCondition("right", { type: "constantValue", value: 0 }); // Initial front
 
 // 4. Solve
-await model.setSolverMethod("lusolve");
 const result = await model.solve();
 
 // 5. Plot the results in the main thread
@@ -54,7 +53,7 @@ model.terminate();
 | `setMeshConfig(meshConfig)`                    | `Promise<boolean>` | Sets how the geometry is meshed, as `FEAScriptModel.setMeshConfig` (a `size` function is sent as its source) |
 | `setMesh(mesh)`                                | `Promise<boolean>` | Sets a mesh object directly, as `FEAScriptModel.setMesh`                                                     |
 | `addBoundaryCondition(boundaryKey, condition)` | `Promise<boolean>` | Adds a boundary condition                                                                                    |
-| `setSolverMethod(solverMethod)`                | `Promise<boolean>` | Selects the solver method                                                                                    |
+| `setSolverMethod(solverMethod)`                | `Promise<boolean>` | Deprecated: use the `solver` option of `setModelConfig`                                                      |
 | `solve(options)`                               | `Promise<object>`  | Solves the model in the worker (`maxIterations`, `tolerance`)                                                |
 | `getModelInfo()`                               | `Promise<object>`  | `{ solverConfig, geometry, meshConfig, meshDimension, boundaryConditions, solverMethod }`                    |
 | `ping()`                                       | `Promise<boolean>` | Resolves to `true` when the worker is ready                                                                  |
@@ -70,7 +69,7 @@ creeping flow and Euler–Bernoulli beam models (see [Visualization](./visualiza
 `nonlinear`, `maxIterations` and `tolerance`:
 
 ```javascript
-await model.setModelConfig("generalFormPDEScript", {
+await model.setModelConfig("generalFormPDE", {
   coefficientFunctions: {
     A: (x) => 1, // Diffusion coefficient
     B: (x) => -10, // Advection coefficient

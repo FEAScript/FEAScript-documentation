@@ -6,7 +6,7 @@ sidebar_position: 4
 
 <img className="physics-logo" src="/assets/physics/creeping-flow.svg" alt="" />
 
-`creepingFlowScript` solves steady, incompressible creeping (Stokes) flow in 2D, for velocity and pressure,
+`creepingFlow` solves steady, incompressible creeping (Stokes) flow in 2D, for velocity and pressure,
 with Taylor–Hood mixed elements.
 
 ## Governing equations
@@ -79,7 +79,8 @@ import { FEAScriptModel } from "feascript";
 
 // 1. Create the model and select the physics
 const model = new FEAScriptModel();
-model.setModelConfig("creepingFlowScript", {
+model.setModelConfig("creepingFlow", {
+  solver: { method: "lusolve" },
   coefficientFunctions: {
     viscosity: 1, // μ
   },
@@ -94,13 +95,12 @@ model.setMeshConfig({
 });
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("bottom", ["constantVelocity", 0, 0]); // Wall
-model.addBoundaryCondition("left", ["constantVelocity", 0, 0]); // Wall
-model.addBoundaryCondition("top", ["constantVelocity", 1, 0]); // Moving lid
-model.addBoundaryCondition("right", ["constantVelocity", 0, 0]); // Wall
+model.addBoundaryCondition("bottom", { type: "constantVelocity", u: 0, v: 0 }); // Wall
+model.addBoundaryCondition("left", { type: "constantVelocity", u: 0, v: 0 }); // Wall
+model.addBoundaryCondition("top", { type: "constantVelocity", u: 1, v: 0 }); // Moving lid
+model.addBoundaryCondition("right", { type: "constantVelocity", u: 0, v: 0 }); // Wall
 
 // 4. Solve
-model.setSolverMethod("lusolve");
 const { solutionVector, nodesCoordinates, fields } = model.solve();
 ```
 
@@ -115,7 +115,7 @@ evaluated at every integration point, so regions of different viscosity are supp
 can be omitted entirely to use $\mu = 1$.
 
 ```javascript
-model.setModelConfig("creepingFlowScript", {
+model.setModelConfig("creepingFlow", {
   coefficientFunctions: {
     // A ten times more viscous fluid in the right half of the cavity
     viscosity: (x, y) => (x < 2 ? 1 : 10),
@@ -125,13 +125,13 @@ model.setModelConfig("creepingFlowScript", {
 
 ### Boundary conditions
 
-| Condition                      | Parameters                     | Kind              |
-| ------------------------------ | ------------------------------ | ----------------- |
-| `["constantVelocity", ux, uy]` | Velocity components $u_b, v_b$ | Dirichlet         |
-| `["stressFree"]`               | –                              | Neumann (natural) |
+| Condition                            | Parameters                               | Kind              |
+| ------------------------------------ | ---------------------------------------- | ----------------- |
+| `{ type: "constantVelocity", u, v }` | `u`, `v`: velocity components $u_b, v_b$ | Dirichlet         |
+| `{ type: "stressFree" }`             | –                                        | Neumann (natural) |
 
-Use `["constantVelocity", 0, 0]` for no-slip walls, a non-zero velocity for moving walls and inflows, and
-`["stressFree"]` for outflows. A boundary without a condition behaves as `"stressFree"`, but it does not prevent
+Use `{ type: "constantVelocity", u: 0, v: 0 }` for no-slip walls, a non-zero velocity for moving walls and inflows, and
+`{ type: "stressFree" }` for outflows. A boundary without a condition behaves as `"stressFree"`, but it does not prevent
 the pressure from being fixed at the first pressure node: mark open boundaries explicitly with `"stressFree"`.
 
 ### Solvers

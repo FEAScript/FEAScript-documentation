@@ -6,7 +6,7 @@ sidebar_position: 1
 
 <img className="physics-logo" src="/assets/physics/heat-transfer.svg" alt="" />
 
-`heatConductionScript` solves steady-state heat conduction in 1D and 2D, with spatially varying thermal
+`heatConduction` solves steady-state heat conduction in 1D and 2D, with spatially varying thermal
 conductivity and heat source.
 
 ## Governing equation
@@ -56,7 +56,8 @@ import { FEAScriptModel } from "feascript";
 
 // 1. Create the model and select the physics
 const model = new FEAScriptModel();
-model.setModelConfig("heatConductionScript", {
+model.setModelConfig("heatConduction", {
+  solver: { method: "lusolve" },
   coefficientFunctions: {
     thermalConductivity: 1, // k
     heatSource: 0, // Q
@@ -68,13 +69,12 @@ model.setGeometry({ rectangle: [4, 2] });
 model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [8, 4] });
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
-model.addBoundaryCondition("left", ["symmetry"]);
-model.addBoundaryCondition("top", ["convection", 1, 20]);
-model.addBoundaryCondition("right", ["constantTemperature", 200]);
+model.addBoundaryCondition("bottom", { type: "constantTemperature", temperature: 200 });
+model.addBoundaryCondition("left", { type: "symmetry" });
+model.addBoundaryCondition("top", { type: "convection", h: 1, ambientTemperature: 20 });
+model.addBoundaryCondition("right", { type: "constantTemperature", temperature: 200 });
 
 // 4. Solve
-model.setSolverMethod("lusolve");
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 
@@ -91,7 +91,7 @@ multi-material) and smooth variations are both supported. `coefficientFunctions`
 the defaults.
 
 ```javascript
-model.setModelConfig("heatConductionScript", {
+model.setModelConfig("heatConduction", {
   coefficientFunctions: {
     // High-conductivity metal on the left half, low-conductivity ceramic on the right half
     thermalConductivity: (x, y) => (x < 2 ? 10 : 1),
@@ -106,14 +106,15 @@ $k$, W/m³ for $Q$, W/(m²·K) for $h$, and °C or K for temperatures).
 
 ### Boundary conditions
 
-| Condition                    | Parameters                                                  | Kind                |
-| ---------------------------- | ----------------------------------------------------------- | ------------------- |
-| `["constantTemperature", T]` | Temperature $T_b$                                           | Dirichlet           |
-| `["convection", h, Tinf]`    | Heat transfer coefficient $h$, fluid temperature $T_\infty$ | Robin               |
-| `["symmetry"]`               | –                                                           | Neumann (zero flux) |
+| Condition                                       | Parameters                                                                             | Kind                |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------- |
+| `{ type: "constantTemperature", temperature }`  | `temperature`: $T_b$                                                                   | Dirichlet           |
+| `{ type: "convection", h, ambientTemperature }` | `h`: heat transfer coefficient $h$; `ambientTemperature`: fluid temperature $T_\infty$ | Robin               |
+| `{ type: "symmetry" }`                          | –                                                                                      | Neumann (zero flux) |
 
-`h` and `Tinf` are constants. A boundary without a condition is insulated (zero heat flux), exactly like
-`"symmetry"`. The deprecated name `"constantTemp"` is still accepted, with a warning.
+`h` and `ambientTemperature` are constants. A boundary without a condition is insulated (zero heat flux),
+exactly like `"symmetry"`. The type `"constantTemp"`, renamed `"constantTemperature"` in 0.3.0, was removed in
+0.4.0.
 
 ### Solvers
 

@@ -26,12 +26,16 @@ Errors (`[ERROR]`) and warnings (`[WARN]`) are always printed. Any other value f
 warning. The timings of the solution steps (`totalSolvingTime`, `systemSolving`) are printed with `console.time`
 at every level.
 
-## `printVersion`
+## `version`
 
 ```javascript
-import { printVersion } from "feascript";
+import { version } from "feascript";
 
-console.log("FEAScript version:", printVersion); // "0.4.0 (RC)"
+console.log("FEAScript version:", version); // "0.4.0"
 ```
 
-A string constant with the version of the library.
+A string constant with the version of the library, as in its npm package (`"0.4.0"`; a release candidate reads
+`"0.4.0-rc.1"`).
+
+`printVersion`, the name used up to FEAScript 0.3, is still exported but deprecated; use `version`. It will be
+removed in a future version.

@@ -16,7 +16,7 @@ with `model.setMesh(mesh)`.
 // A 4 by 2 rectangle, meshed with 8 × 4 quadratic quadrilaterals
 model.setGeometry({ rectangle: [4, 2] });
 model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [8, 4] });
-model.addBoundaryCondition("top", ["convection", 1, 20]);
+model.addBoundaryCondition("top", { type: "convection", h: 1, ambientTemperature: 20 });
 ```
 
 The boundary conditions are keyed by the names of the boundaries, which the geometry defines.
@@ -273,8 +273,8 @@ Physical Surface("domain") = {1};
 
 ```javascript
 model.setMesh(mesh);
-model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
-model.addBoundaryCondition("top", ["convection", 1, 20]);
+model.addBoundaryCondition("bottom", { type: "constantTemperature", temperature: 200 });
+model.addBoundaryCondition("top", { type: "convection", h: 1, ambientTemperature: 20 });
 ```
 
 A group without a name is keyed by its tag minus one. The tag minus one is also kept as a deprecated alias of

@@ -6,7 +6,7 @@ sidebar_position: 3
 
 <img className="physics-logo" src="/assets/physics/general-form-pde.svg" alt="" />
 
-Node.js examples of [`generalFormPDEScript`](../models/general-form-pde), in
+Node.js examples of [`generalFormPDE`](../models/general-form-pde), in
 [`examples/generalFormPDEScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/generalFormPDEScript).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
 from FEAScript-core 0.4.0 (RC).

@@ -13,12 +13,11 @@ boundary conditions and solver) and solves it.
 import { FEAScriptModel } from "feascript";
 
 const model = new FEAScriptModel();
-model.setModelConfig("heatConductionScript");
+model.setModelConfig("heatConduction", { solver: { method: "lusolve" } });
 model.setGeometry({ line: 0.15 });
 model.setMeshConfig({ elementOrder: "linear", divisions: 10 });
-model.addBoundaryCondition("left", ["convection", 1, 25]);
-model.addBoundaryCondition("right", ["constantTemperature", 5]);
-model.setSolverMethod("lusolve");
+model.addBoundaryCondition("left", { type: "convection", h: 1, ambientTemperature: 25 });
+model.addBoundaryCondition("right", { type: "constantTemperature", temperature: 5 });
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 
@@ -39,26 +38,43 @@ Selects the physical model and sets its options.
 | `modelConfig` | `string` | Name of the model (see below)      |
 | `options`     | `object` | Optional model options (see below) |
 
-| `modelConfig`                | Model                                                     | Dimensions |
-| ---------------------------- | --------------------------------------------------------- | ---------- |
-| `"heatConductionScript"`     | [Heat conduction](../models/heat-conduction.md)           | 1D, 2D     |
-| `"generalFormPDEScript"`     | [General-form PDE](../models/general-form-pde.md)         | 1D         |
-| `"frontPropagationScript"`   | [Front propagation](../models/front-propagation.md)       | 1D, 2D     |
-| `"creepingFlowScript"`       | [Creeping flow](../models/creeping-flow.md)               | 2D         |
-| `"eulerBernoulliBeamScript"` | [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md) | 1D         |
+| `modelConfig`          | Model                                                     | Dimensions |
+| ---------------------- | --------------------------------------------------------- | ---------- |
+| `"heatConduction"`     | [Heat conduction](../models/heat-conduction.md)           | 1D, 2D     |
+| `"generalFormPDE"`     | [General-form PDE](../models/general-form-pde.md)         | 1D         |
+| `"frontPropagation"`   | [Front propagation](../models/front-propagation.md)       | 1D, 2D     |
+| `"creepingFlow"`       | [Creeping flow](../models/creeping-flow.md)               | 2D         |
+| `"eulerBernoulliBeam"` | [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md) | 1D         |
 
-| Option                 | Type      | Used by                                                                | Description                                            |
-| ---------------------- | --------- | ---------------------------------------------------------------------- | ------------------------------------------------------ |
-| `coefficientFunctions` | `object`  | Heat conduction, general-form PDE, creeping flow, Euler–Bernoulli beam | Coefficients of the equation; see each model page      |
-| `nonlinear`            | `boolean` | General-form PDE                                                       | Solve with the Newton–Raphson method (default `false`) |
-| `maxIterations`        | `number`  | All                                                                    | Maximum iterations of the iterative method in use      |
-| `tolerance`            | `number`  | All                                                                    | Convergence tolerance of the iterative method in use   |
+| Option                 | Type      | Used by                                                                | Description                                                           |
+| ---------------------- | --------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `coefficientFunctions` | `object`  | Heat conduction, general-form PDE, creeping flow, Euler–Bernoulli beam | Coefficients of the equation; see each model page                     |
+| `nonlinear`            | `boolean` | General-form PDE                                                       | Solve with the Newton–Raphson method (default `false`)                |
+| `solver`               | `object`  | All                                                                    | The linear solver, `{ method, maxIterations, tolerance }` (see below) |
+| `maxIterations`        | `number`  | All                                                                    | Maximum iterations of the iterative method in use                     |
+| `tolerance`            | `number`  | All                                                                    | Convergence tolerance of the iterative method in use                  |
 
-`maxIterations` and `tolerance` apply to the Jacobi solvers in linear models and to the Newton–Raphson method in
-nonlinear models; see [Solvers](../fundamentals/solvers.mdx) for their defaults.
+The `solver` option selects the linear system solver and sets its iterations:
+
+| `solver` property | Type     | Description                                                                                                                                          |
+| ----------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `method`          | `string` | `"lusolve"` (default), `"jacobi"`, `"frontal"` or `"jacobi-gpu"` (with `solveAsync()`)                                                               |
+| `maxIterations`   | `number` | Maximum iterations of the Jacobi solvers, also inside Newton–Raphson                                                                                 |
+| `tolerance`       | `number` | Tolerance of the Jacobi solvers: on the residual relative to the right-hand side for `"jacobi"`, on the largest absolute residual for `"jacobi-gpu"` |
+
+An unknown method or property, or an iteration limit or tolerance that is not positive, throws a
+`FEAScriptError` with the code `INVALID_INPUT`. See [Solvers](../fundamentals/solvers.mdx) for the methods
+supported by each model.
+
+The top-level `maxIterations` and `tolerance` apply to the Newton–Raphson method in nonlinear models, and to the
+Jacobi solvers when `solver` does not set them; see [Solvers](../fundamentals/solvers.mdx) for their defaults.
+
+The model names of FEAScript 0.3, with a `Script` suffix (e.g. `"heatConductionScript"`), still work, with a
+warning; they will be removed in a future version, in 0.7.0 at the earliest.
 
 ```javascript
-model.setModelConfig("heatConductionScript", {
+model.setModelConfig("heatConduction", {
+  solver: { method: "frontal" },
   coefficientFunctions: {
     thermalConductivity: (x, y) => (x < 2 ? 10 : 1),
     heatSource: 0,
@@ -108,25 +124,29 @@ Adds a boundary condition, or replaces the condition of a boundary that already 
 | Parameter     | Type     | Description                                                                                                                                                                      |
 | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `boundaryKey` | `string` | The name of a boundary of the geometry or the mesh (e.g. `"top"`, see [Boundary names](../fundamentals/mesh.md#boundary-names)), or the node number for the Euler–Bernoulli beam |
-| `condition`   | `array`  | Condition type followed by its parameters, e.g. `["convection", 1, 20]`                                                                                                          |
+| `condition`   | `object` | The condition type and its named parameters, e.g. `{ type: "convection", h: 1, ambientTemperature: 20 }`; for the Euler–Bernoulli beam, one such object or a list of them        |
 
-See [Boundary conditions](../fundamentals/boundary-conditions.md) for the condition types of each model.
-Condition types that the selected model does not recognize are reported as errors when `solve()` runs (see
-[Checks](../fundamentals/boundary-conditions.md#checks)).
+See [Boundary conditions](../fundamentals/boundary-conditions.md) for the condition types of each model. A
+condition object with no or an unknown type, or with a missing or unknown parameter, throws a `FEAScriptError`
+with the code `INVALID_INPUT` when it is added; the other problems (a type that the selected model does not
+have, a value that is not a number, a boundary that is not in the mesh) are reported when `solve()` runs (see
+[Checks](../fundamentals/boundary-conditions.md#checks)). The array form of FEAScript 0.3, e.g.
+`["convection", 1, 20]`, still works, with a warning.
 
 ### `setSolverMethod(solverMethod)`
 
-Selects the linear system solver: `"lusolve"` (default), `"jacobi"`, `"frontal"` or `"jacobi-gpu"`. See
-[Solvers](../fundamentals/solvers.mdx) for the methods supported by each model.
+Deprecated: use the `solver` option of `setModelConfig`, e.g.
+`setModelConfig("heatConduction", { solver: { method: "jacobi" } })`. `setSolverMethod` still selects the
+linear system solver, with a warning, and will be removed in a future version.
 
 ### `solve(options)`
 
 Prepares the mesh, assembles the system, applies the boundary conditions and solves it. This method is
 synchronous.
 
-| Parameter | Type     | Description                                                                                 |
-| --------- | -------- | ------------------------------------------------------------------------------------------- |
-| `options` | `object` | Optional `{ maxIterations, tolerance }`; they take precedence over `setModelConfig` options |
+| Parameter | Type     | Description                                                                                                    |
+| --------- | -------- | -------------------------------------------------------------------------------------------------------------- |
+| `options` | `object` | Optional `{ maxIterations, tolerance }`; they take precedence over the `setModelConfig` options for this solve |
 
 Returns an object with:
 
@@ -149,7 +169,8 @@ Asynchronous version of `solve`, used with the `"jacobi-gpu"` solver method. It 
 to the same object as `solve()`.
 
 ```javascript
-model.setSolverMethod("jacobi-gpu");
+model.setModelConfig("heatConduction", { solver: { method: "jacobi-gpu" } });
+// ...mesh and boundary conditions...
 const { solutionVector, nodesCoordinates } = await model.solveAsync();
 ```
 
@@ -159,7 +180,7 @@ const { solutionVector, nodesCoordinates } = await model.solveAsync();
 | `options`       | `object` | Optional `{ maxIterations, tolerance }`                                                                                                                                                            |
 
 :::caution
-`solveAsync` currently supports only `heatConductionScript` with the `"jacobi-gpu"` solver method, in browsers
+`solveAsync` currently supports only `heatConduction` with the `"jacobi-gpu"` solver method, in browsers
 with WebGPU support. For other models or solver methods, it returns an empty solution vector.
 :::
 

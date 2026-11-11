@@ -6,14 +6,14 @@ sidebar_position: 4
 
 <img className="topic-logo" src="/assets/topics/solver.svg" alt="" />
 
-The linear system solver is selected with `model.setSolverMethod(solverMethod)`. If it is not set, FEAScript uses
-`"lusolve"`.
+The linear system solver is selected with the `solver` option of `setModelConfig`. If it is not set, FEAScript
+uses `"lusolve"`.
 
 ```javascript
-model.setSolverMethod("frontal");
+model.setModelConfig("heatConduction", { solver: { method: "frontal" } });
 ```
 
-| `solverMethod` | Method                                                                | Called with          |
+| `method`       | Method                                                                | Called with          |
 | -------------- | --------------------------------------------------------------------- | -------------------- |
 | `"lusolve"`    | Sparse LU decomposition (direct, from [math.js](https://mathjs.org/)) | `solve()`            |
 | `"jacobi"`     | Jacobi iteration on the CPU                                           | `solve()`            |
@@ -22,21 +22,27 @@ model.setSolverMethod("frontal");
 
 ## Supported combinations
 
-| Model                             | `"lusolve"` | `"jacobi"` | `"frontal"` | `"jacobi-gpu"` |
-| --------------------------------- | :---------: | :--------: | :---------: | :------------: |
-| `heatConductionScript`            |      ✓      |     ✓      |      ✓      |       ✓        |
-| `generalFormPDEScript`, linear    |      ✓      |     ✓      |      ✓      |                |
-| `generalFormPDEScript`, nonlinear |      ✓      |     ✓      |      ✓      |                |
-| `frontPropagationScript`          |      ✓      |     ✓      |      ✓      |                |
-| `creepingFlowScript`              |      ✓      |            |             |                |
-| `eulerBernoulliBeamScript`        |      ✓      |     *      |             |                |
+| Model                       | `"lusolve"` | `"jacobi"` | `"frontal"` | `"jacobi-gpu"` |
+| --------------------------- | :---------: | :--------: | :---------: | :------------: |
+| `heatConduction`            |      ✓      |     ✓      |      ✓      |       ✓        |
+| `generalFormPDE`, linear    |      ✓      |     ✓      |      ✓      |                |
+| `generalFormPDE`, nonlinear |      ✓      |     ✓      |      ✓      |                |
+| `frontPropagation`          |      ✓      |     ✓      |      ✓      |                |
+| `creepingFlow`              |      ✓      |            |             |                |
+| `eulerBernoulliBeam`        |      ✓      |     \*     |             |                |
 
 \* `"jacobi"` runs, but beam stiffness matrices are not diagonally dominant, so it usually fails with `NOT_CONVERGED`.
 Use `"lusolve"`.
 
 Any other combination throws a `FEAScriptError` with the code `UNSUPPORTED_SOLVER`.
+An unknown method, or an unknown option in `solver`, throws `INVALID_INPUT` when `setModelConfig` is called.
 
-For the nonlinear models (`frontPropagationScript`, and `generalFormPDEScript` with `nonlinear: true`), the
+:::note
+`model.setSolverMethod(method)` of FEAScript 0.3 still works, with a warning; use the `solver` option instead.
+It will be removed in a future version, in 0.7.0 at the earliest.
+:::
+
+For the nonlinear models (`frontPropagation`, and `generalFormPDE` with `nonlinear: true`), the
 selected method solves the linear system of each Newton–Raphson iteration.
 
 The creeping flow system has zero diagonal entries in its pressure rows, so the Jacobi method cannot be applied
@@ -95,24 +101,27 @@ an error and returns the last iterate.
 | `maxIterations` | `10000` | Maximum number of Jacobi iterations             |
 | `tolerance`     | `1e-8`  | Tolerance on the residual relative to $\bar{R}$ |
 
-These options can be passed to `solve()` or `setModelConfig()` (see
-[`FEAScriptModel`](../api/feascript-model.md)):
+These options are set with the solver method:
 
 ```javascript
-model.setSolverMethod("jacobi");
-const result = model.solve({ maxIterations: 200000, tolerance: 1e-8 });
+model.setModelConfig("heatConduction", {
+  solver: { method: "jacobi", maxIterations: 200000, tolerance: 1e-8 },
+});
 ```
+
+They can also be passed to `solve()`, where they take precedence for that solve, or as top-level options of
+`setModelConfig()`, which the linear solver uses when `solver` does not set them (see
+[`FEAScriptModel`](../api/feascript-model.md#setmodelconfigmodelconfig-options)).
 
 ## Jacobi method on the GPU (`"jacobi-gpu"`)
 
 The same Jacobi iteration, run on the GPU with [WebGPU](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API)
 through [taichi.js](https://taichi-js.com/), in a separate web worker. It is used through the asynchronous
-`solveAsync` method and is currently available for `heatConductionScript` only:
+`solveAsync` method and is currently available for `heatConduction` only:
 
 ```javascript
-model.setModelConfig("heatConductionScript");
+model.setModelConfig("heatConduction", { solver: { method: "jacobi-gpu" } });
 // ...mesh and boundary conditions...
-model.setSolverMethod("jacobi-gpu");
 const result = await model.solveAsync();
 ```
 
@@ -138,8 +147,9 @@ norm of an increment exceeds $10^2$, the iterations are stopped and an error is 
 | `maxIterations` | `100`   | Maximum number of Newton–Raphson iterations   |
 | `tolerance`     | `1e-4`  | Tolerance on $\lVert \Delta \bar{u} \rVert_2$ |
 
-For `generalFormPDEScript`, these options apply to the Newton–Raphson iterations and the inner linear system
-uses the defaults of the selected method. For `frontPropagationScript`, see the
+For `generalFormPDE`, the top-level `maxIterations` and `tolerance` of `setModelConfig` (or of `solve()`) apply
+to the Newton–Raphson iterations, and the linear system of each iteration takes those of the `solver` option, or
+else the defaults of the selected method. For `frontPropagation`, see the
 [model page](../models/front-propagation.md#solution-procedure).
 
 ## Performance

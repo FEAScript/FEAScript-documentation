@@ -6,7 +6,7 @@ sidebar_position: 6
 
 <img className="physics-logo" src="/assets/physics/structural-mechanics.svg" alt="" />
 
-Node.js examples of [`eulerBernoulliBeamScript`](../models/euler-bernoulli-beam), in
+Node.js examples of [`eulerBernoulliBeam`](../models/euler-bernoulli-beam), in
 [`examples/eulerBernoulliBeamScript`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/eulerBernoulliBeamScript).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
 from FEAScript-core 0.4.0 (RC).

@@ -6,7 +6,7 @@ sidebar_position: 5
 
 <img className="physics-logo" src="/assets/physics/structural-mechanics.svg" alt="" />
 
-Verification of [`eulerBernoulliBeamScript`](../models/euler-bernoulli-beam) against closed-form solutions. All
+Verification of [`eulerBernoulliBeam`](../models/euler-bernoulli-beam) against closed-form solutions. All
 results are from FEAScript-core 0.4.0 (RC).
 
 ## Cantilever beam

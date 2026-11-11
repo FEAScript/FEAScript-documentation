@@ -6,7 +6,7 @@ sidebar_position: 5
 
 <img className="physics-logo" src="/assets/physics/structural-mechanics.svg" alt="" />
 
-`eulerBernoulliBeamScript` solves the bending of a straight beam under transverse loads, with Euler–Bernoulli
+`eulerBernoulliBeam` solves the bending of a straight beam under transverse loads, with Euler–Bernoulli
 beam theory, on a 1D mesh. It supports variable bending stiffness, an elastic foundation, distributed loads, and
 supports, springs, point forces and point moments at any node.
 
@@ -65,7 +65,8 @@ import { FEAScriptModel } from "feascript";
 
 // 1. Create the model and select the physics
 const model = new FEAScriptModel();
-model.setModelConfig("eulerBernoulliBeamScript", {
+model.setModelConfig("eulerBernoulliBeam", {
+  solver: { method: "lusolve" },
   coefficientFunctions: {
     EI: (x) => 2.0e6, // Bending stiffness
     q: (x) => (x <= 5 ? -1000 : 0), // Distributed load over the first span
@@ -77,15 +78,14 @@ model.setGeometry({ line: 10 });
 model.setMeshConfig({ elementOrder: "linear", divisions: 2 }); // Required: linear; nodes "1", "2", "3" at x = 0, 5, 10
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("1", [["fixed"]]); // Clamped end
-model.addBoundaryCondition("2", [["pinned"], ["moment", 1250]]); // Roller with an applied moment
+model.addBoundaryCondition("1", { type: "fixed" }); // Clamped end
+model.addBoundaryCondition("2", [{ type: "pinned" }, { type: "moment", moment: 1250 }]); // Roller with an applied moment
 model.addBoundaryCondition("3", [
-  ["spring", 200],
-  ["force", -2500],
+  { type: "spring", stiffness: 200 },
+  { type: "force", force: -2500 },
 ]); // Spring support with an applied force
 
 // 4. Solve
-model.setSolverMethod("lusolve");
 const { solutionVector, nodesCoordinates, fields } = model.solve();
 ```
 
@@ -107,25 +107,26 @@ placed at interior nodes as well as at the ends:
 
 - The key is the 1-based node number as a string. With $n_e$ = `divisions` elements on a line of length $L$,
   node $j$ is at $x = (j - 1) \cdot L / n_e$, from `"1"` at $x = 0$ to `"n_e + 1"` at $x = L$.
-- The condition is an **array of conditions**, since a node can carry more than one (for example a support and
-  a load): `[["pinned"], ["moment", 1250]]`. Always wrap the conditions in an outer array, even a single one:
-  `[["fixed"]]`.
+- The condition is a condition object, e.g. `{ type: "fixed" }`, or a **list** of them, since a node can carry
+  more than one (for example a support and a load): `[{ type: "pinned" }, { type: "moment", moment: 1250 }]`.
 
-| Condition             | Kind      | Effect                                                                                  |
-| --------------------- | --------- | --------------------------------------------------------------------------------------- |
-| `["fixed"]`           | Essential | $w = 0$ and $\theta = 0$ (clamped support)                                              |
-| `["pinned"]`          | Essential | $w = 0$ (pin or roller support)                                                         |
-| `["deflection", w]`   | Essential | $w = w_b$ (prescribed deflection; default $0$)                                          |
-| `["rotationFixed"]`   | Essential | $\theta = 0$                                                                            |
-| `["rotation", θ]`     | Essential | $\theta = \theta_b$ (prescribed rotation; default $0$)                                  |
-| `["force", F]`        | Natural   | Point force $F$ at the node                                                             |
-| `["moment", M]`       | Natural   | Point moment $M$ at the node                                                            |
-| `["spring", k, wRef]` | Robin     | Transverse spring of stiffness $k$, force $-k \, (w - w_{ref})$; `wRef` defaults to $0$ |
+| Condition                                            | Kind      | Effect                                                                                                 |
+| ---------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------ |
+| `{ type: "fixed" }`                                  | Essential | $w = 0$ and $\theta = 0$ (clamped support)                                                             |
+| `{ type: "pinned" }`                                 | Essential | $w = 0$ (pin or roller support)                                                                        |
+| `{ type: "deflection", deflection }`                 | Essential | $w = w_b$, the prescribed `deflection` (default $0$)                                                   |
+| `{ type: "rotationFixed" }`                          | Essential | $\theta = 0$                                                                                           |
+| `{ type: "rotation", rotation }`                     | Essential | $\theta = \theta_b$, the prescribed `rotation` (default $0$)                                           |
+| `{ type: "force", force }`                           | Natural   | Point force $F$ at the node                                                                            |
+| `{ type: "moment", moment }`                         | Natural   | Point moment $M$ at the node                                                                           |
+| `{ type: "spring", stiffness, referenceDeflection }` | Robin     | Transverse spring of stiffness $k$, force $-k \, (w - w_{ref})$; `referenceDeflection` defaults to $0$ |
 
 A node without conditions is free (zero shear force and bending moment at the ends of the beam). If a node has
 both an essential condition and a load or spring on the same unknown, the essential condition takes precedence.
-An unknown condition type, or a condition that is not wrapped in the outer array (for example `["fixed"]`
-instead of `[["fixed"]]`), is reported as an error.
+An unknown condition type, or a missing or unknown parameter, throws a `FEAScriptError` with the code
+`INVALID_INPUT`. Set the model with `setModelConfig` before adding the conditions, so that a single condition
+object is read as the condition of a node. The array form of FEAScript 0.3, e.g. `[["fixed"]]` or
+`[["pinned"], ["moment", 1250]]`, still works, with a warning.
 
 ### Solvers
 

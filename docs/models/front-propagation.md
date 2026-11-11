@@ -6,7 +6,7 @@ sidebar_position: 3
 
 <img className="physics-logo" src="/assets/physics/front-propagation.svg" alt="" />
 
-`frontPropagationScript` computes how a front (for example a solidification interface) advances from a part of
+`frontPropagation` computes how a front (for example a solidification interface) advances from a part of
 the boundary into the domain, by solving the eikonal equation in 1D and 2D. The solution $u(\bar{x})$ is the
 arrival time of the front at every point, which for a unit speed equals the distance from the initial front.
 
@@ -82,20 +82,19 @@ import { FEAScriptModel } from "feascript";
 
 // 1. Create the model and select the physics
 const model = new FEAScriptModel();
-model.setModelConfig("frontPropagationScript");
+model.setModelConfig("frontPropagation", { solver: { method: "lusolve" } });
 
 // 2. Define the mesh
 model.setGeometry({ rectangle: [4, 2] });
 model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [12, 8] });
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("bottom", ["constantValue", 0]); // Initial front
-model.addBoundaryCondition("left", ["constantValue", 0]); // Initial front
-model.addBoundaryCondition("top", ["zeroGradient"]);
-model.addBoundaryCondition("right", ["constantValue", 0]); // Initial front
+model.addBoundaryCondition("bottom", { type: "constantValue", value: 0 }); // Initial front
+model.addBoundaryCondition("left", { type: "constantValue", value: 0 }); // Initial front
+model.addBoundaryCondition("top", { type: "zeroGradient" });
+model.addBoundaryCondition("right", { type: "constantValue", value: 0 }); // Initial front
 
 // 4. Solve
-model.setSolverMethod("lusolve");
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 
@@ -103,13 +102,13 @@ The model takes no coefficient functions: the speed of the front is one everywhe
 
 ### Boundary conditions
 
-| Condition                  | Parameters   | Kind              | Meaning                                         |
-| -------------------------- | ------------ | ----------------- | ----------------------------------------------- |
-| `["constantValue", value]` | Arrival time | Dirichlet         | The front is on this boundary at time $u = u_b$ |
-| `["zeroGradient"]`         | –            | Neumann (natural) | $\partial u / \partial n = 0$                   |
+| Condition                          | Parameters            | Kind              | Meaning                                         |
+| ---------------------------------- | --------------------- | ----------------- | ----------------------------------------------- |
+| `{ type: "constantValue", value }` | `value`: arrival time | Dirichlet         | The front is on this boundary at time $u = u_b$ |
+| `{ type: "zeroGradient" }`         | –                     | Neumann (natural) | $\partial u / \partial n = 0$                   |
 
-Use `["constantValue", 0]` for the initial front. A non-zero value sets a later start time for that boundary: with
-`["constantValue", 1]` on the left end of a 1D domain, for example, the solution is $u = 1 + x$.
+Use `{ type: "constantValue", value: 0 }` for the initial front. A non-zero value sets a later start time for that boundary: with
+`{ type: "constantValue", value: 1 }` on the left end of a 1D domain, for example, the solution is $u = 1 + x$.
 
 ### Solvers
 

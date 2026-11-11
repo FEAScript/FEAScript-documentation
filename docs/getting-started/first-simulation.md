@@ -42,20 +42,19 @@ Save the following as an `.html` file and open it through a local web server (fo
 
       // 1. Create the model and select the physics
       const model = new FEAScriptModel();
-      model.setModelConfig("heatConductionScript");
+      model.setModelConfig("heatConduction", { solver: { method: "lusolve" } });
 
       // 2. Define the geometry and the mesh: a 4 by 2 rectangle, 8 × 4 quadratic quadrilaterals
       model.setGeometry({ rectangle: [4, 2] });
       model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [8, 4] });
 
       // 3. Apply the boundary conditions
-      model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
-      model.addBoundaryCondition("left", ["symmetry"]);
-      model.addBoundaryCondition("top", ["convection", 1, 20]);
-      model.addBoundaryCondition("right", ["constantTemperature", 200]);
+      model.addBoundaryCondition("bottom", { type: "constantTemperature", temperature: 200 });
+      model.addBoundaryCondition("left", { type: "symmetry" });
+      model.addBoundaryCondition("top", { type: "convection", h: 1, ambientTemperature: 20 });
+      model.addBoundaryCondition("right", { type: "constantTemperature", temperature: 200 });
 
       // 4. Solve
-      model.setSolverMethod("lusolve");
       const result = model.solve();
 
       // 5. Plot the results
@@ -74,9 +73,10 @@ Save the following as an `.html` file and open it through a local web server (fo
    `setMeshConfig` how it is meshed: quadrilaterals or triangles, their order and their size or number (see
    [Mesh](../fundamentals/mesh.md)). A mesh imported from Gmsh is given with `setMesh` instead.
 3. **Apply the boundary conditions.** The sides of a rectangle are named `"bottom"`, `"right"`, `"top"` and
-   `"left"`. See [Boundary conditions](../fundamentals/boundary-conditions.md) for the condition types of every
+   `"left"`. Each condition is an object with its `type` and its named parameters, e.g.
+   `{ type: "convection", h: 1, ambientTemperature: 20 }`. See [Boundary conditions](../fundamentals/boundary-conditions.md) for the condition types of every
    model.
-4. **Solve.** `setSolverMethod` is optional (the default is `"lusolve"`). `solve()` returns the
+4. **Solve.** The `solver` option of `setModelConfig` is optional (the default method is `"lusolve"`). `solve()` returns the
    `solutionVector` and the `nodesCoordinates` of the mesh (see [Solvers](../fundamentals/solvers.mdx)).
 5. **Plot the results.** [`plotSolution`](../api/visualization.md) draws the result in the `resultsCanvas` element.
 
@@ -101,17 +101,17 @@ import { FEAScriptModel } from "feascript";
 
 // 1. Create the model and select the physics
 const model = new FEAScriptModel();
-model.setModelConfig("heatConductionScript");
+model.setModelConfig("heatConduction");
 
 // 2. Define the geometry and the mesh
 model.setGeometry({ rectangle: [4, 2] });
 model.setMeshConfig({ elements: "quadrilaterals", elementOrder: "quadratic", divisions: [8, 4] });
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("bottom", ["constantTemperature", 200]);
-model.addBoundaryCondition("left", ["symmetry"]);
-model.addBoundaryCondition("top", ["convection", 1, 20]);
-model.addBoundaryCondition("right", ["constantTemperature", 200]);
+model.addBoundaryCondition("bottom", { type: "constantTemperature", temperature: 200 });
+model.addBoundaryCondition("left", { type: "symmetry" });
+model.addBoundaryCondition("top", { type: "convection", h: 1, ambientTemperature: 20 });
+model.addBoundaryCondition("right", { type: "constantTemperature", temperature: 200 });
 
 // 4. Solve
 const { solutionVector, nodesCoordinates } = model.solve();

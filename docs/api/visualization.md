@@ -22,10 +22,10 @@ The plotting functions draw one value per mesh node. For scalar models this is `
 several unknowns per node return named `fields`, and the plotting functions draw one of them, selected with the
 `field` option:
 
-| Model                      | Fields                             | Default             |
-| -------------------------- | ---------------------------------- | ------------------- |
-| `creepingFlowScript`       | `velocityMagnitude`, `u`, `v`, `p` | `velocityMagnitude` |
-| `eulerBernoulliBeamScript` | `w`, `theta`                       | `w`                 |
+| Model                | Fields                             | Default             |
+| -------------------- | ---------------------------------- | ------------------- |
+| `creepingFlow`       | `velocityMagnitude`, `u`, `v`, `p` | `velocityMagnitude` |
+| `eulerBernoulliBeam` | `w`, `theta`                       | `w`                 |
 
 ```javascript
 const result = model.solve();

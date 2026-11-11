@@ -6,7 +6,7 @@ sidebar_position: 2
 
 <img className="physics-logo" src="/assets/physics/general-form-pde.svg" alt="" />
 
-`generalFormPDEScript` solves a general second-order, one-dimensional PDE, defined by four coefficient functions.
+`generalFormPDE` solves a general second-order, one-dimensional PDE, defined by four coefficient functions.
 It covers diffusion, advection–diffusion and reaction–diffusion problems, in linear or nonlinear form.
 
 :::caution
@@ -80,7 +80,8 @@ import { FEAScriptModel } from "feascript";
 
 // 1. Create the model and select the physics
 const model = new FEAScriptModel();
-model.setModelConfig("generalFormPDEScript", {
+model.setModelConfig("generalFormPDE", {
+  solver: { method: "lusolve" },
   coefficientFunctions: {
     A: (x) => 1, // Diffusion coefficient
     B: (x) => -10, // Advection coefficient
@@ -94,11 +95,10 @@ model.setGeometry({ line: 1.0 });
 model.setMeshConfig({ elementOrder: "quadratic", divisions: 20 });
 
 // 3. Apply the boundary conditions
-model.addBoundaryCondition("left", ["constantValue", 1]); // x = 0
-model.addBoundaryCondition("right", ["zeroGradient"]); // x = 1
+model.addBoundaryCondition("left", { type: "constantValue", value: 1 }); // x = 0
+model.addBoundaryCondition("right", { type: "zeroGradient" }); // x = 1
 
 // 4. Solve
-model.setSolverMethod("lusolve");
 const { solutionVector, nodesCoordinates } = model.solve();
 ```
 
@@ -110,7 +110,8 @@ $\frac{d^2u}{dx^2} = D(x, u)$ with $D = Da \, u^2$:
 ```javascript
 const Da = 1;
 
-model.setModelConfig("generalFormPDEScript", {
+model.setModelConfig("generalFormPDE", {
+  solver: { method: "lusolve" },
   nonlinear: true, // Solve with the Newton-Raphson method
   coefficientFunctions: {
     A: (x) => 1,
@@ -124,10 +125,8 @@ model.setModelConfig("generalFormPDEScript", {
 model.setGeometry({ line: 10.0 });
 model.setMeshConfig({ elementOrder: "linear", divisions: 20 });
 
-model.addBoundaryCondition("left", ["constantValue", 1]);
-model.addBoundaryCondition("right", ["zeroGradient"]);
-
-model.setSolverMethod("lusolve");
+model.addBoundaryCondition("left", { type: "constantValue", value: 1 });
+model.addBoundaryCondition("right", { type: "zeroGradient" });
 
 const { solutionVector, nodesCoordinates } = model.solve({ maxIterations: 100, tolerance: 1e-5 });
 ```
@@ -160,10 +159,10 @@ iterate at that point.
 
 ### Boundary conditions
 
-| Condition                  | Parameters | Kind              |
-| -------------------------- | ---------- | ----------------- |
-| `["constantValue", value]` | $u_b$      | Dirichlet         |
-| `["zeroGradient"]`         | –          | Neumann (natural) |
+| Condition                          | Parameters     | Kind              |
+| ---------------------------------- | -------------- | ----------------- |
+| `{ type: "constantValue", value }` | `value`: $u_b$ | Dirichlet         |
+| `{ type: "zeroGradient" }`         | –              | Neumann (natural) |
 
 The boundaries of a line are `"left"` ($x = 0$) and `"right"` ($x = length$). A boundary without a condition
 behaves as `"zeroGradient"`.
