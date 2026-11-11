@@ -57,16 +57,16 @@ no exact solution, so the two programs are compared with each other, on two quan
 
 | Mesh    | $\psi_{min}$, FEAScript | $\psi_{min}$, Elmer | Difference in $\psi_{min}$ | Difference in velocity |
 | ------- | ----------------------- | ------------------- | -------------------------- | ---------------------- |
-| 8 × 8   | −0.0965                 | −0.0964             | 1.2e-4                     | 8.0e-2                 |
-| 16 × 16 | −0.0990                 | −0.0990             | 3.6e-5                     | 1.2e-2                 |
-| 24 × 24 | −0.0996                 | −0.0996             | 1.9e-5                     | 5.3e-3                 |
-| 32 × 32 | −0.0998                 | −0.0998             | 9.6e-6                     | 1.1e-3                 |
-| 48 × 48 | −0.1000                 | −0.1000             | 3.2e-6                     | 1.0e-4                 |
-| 64 × 64 | −0.1000                 | −0.1000             | 1.3e-6                     | 4.9e-5                 |
+| 8 × 8   | −0.096471               | −0.096350           | 1.2e-4                     | 8.0e-2                 |
+| 16 × 16 | −0.099012               | −0.099048           | 3.6e-5                     | 1.2e-2                 |
+| 24 × 24 | −0.099592               | −0.099610           | 1.9e-5                     | 5.3e-3                 |
+| 32 × 32 | −0.099804               | −0.099814           | 9.6e-6                     | 1.1e-3                 |
+| 48 × 48 | −0.099975               | −0.099978           | 3.2e-6                     | 1.0e-4                 |
+| 64 × 64 | −0.100016               | −0.100017           | 1.3e-6                     | 4.9e-5                 |
 
 ![Lid-driven cavity: difference between FEAScript and Elmer in velocity and in ψ_min against element size, logarithmic axes](/assets/examples/cavity-elmer-comparison.svg)
 
-Both programs converge to the same flow: on the $64 \times 64$ mesh, $\psi_{min} = -0.1000$ at $y = 0.7646$ in
+Both programs converge to the same flow: on the $64 \times 64$ mesh, $\psi_{min} = -0.10002$ at $y = 0.7646$ in
 both, and the velocities differ by less than 5e-5 away from the lid corners. Next to the two lid corners, where
 the velocity jumps from that of the lid to zero, the programs differ by up to 0.17 on every mesh, because they apply
 the lid velocity differently along the top edge of the corner elements: FEAScript sets the full lid velocity at

@@ -23,14 +23,17 @@ $$
 
 which the cubic Hermite element reproduces.
 
-| Quantity            | Exact   | FEAScript | Difference |
-| ------------------- | ------- | --------- | ---------- |
-| Tip deflection w(L) | −0.2133 | −0.2133   | 2.8e-17    |
-| Tip rotation θ(L)   | −0.0800 | −0.0800   | 4.2e-17    |
-| Clamped end w(0)    | 0.0000  | 0.0000    | 2.4e-17    |
-| Clamped end θ(0)    | 0.0000  | 0.0000    | 0          |
+| Quantity            | Exact                 | FEAScript            | Absolute error | Relative error |
+| ------------------- | --------------------- | -------------------- | -------------- | -------------- |
+| Tip deflection w(L) | $-16/75$ (−0.213333…) | −0.2133333333333334  | 6.9e-17        | 3.2e-16        |
+| Tip rotation θ(L)   | $-2/25$ (−0.08)       | −0.08000000000000004 | 4.3e-17        | 5.4e-16        |
+| Clamped end w(0)    | 0                     | 0                    | 0              | –              |
+| Clamped end θ(0)    | 0                     | 0                    | 0              | –              |
 
-The differences are at the level of round-off in double precision, the number format of JavaScript.
+The FEAScript values are printed in full, as the shortest decimals that identify each double precision number.
+The errors are measured against the exact fractions. The relative errors are 3 and 5 times the unit round-off of
+double precision, the number format of JavaScript, $u = 2^{-53} \approx 1.1 \times 10^{-16}$: the element is exact,
+and only the arithmetic rounds. The clamped values are exactly 0 because they are prescribed.
 
 The test requires each value to match within `1e-9`.
 
@@ -42,8 +45,8 @@ that both scalings are checked.
 
 | $EI$              | $L$ | Largest entry ($4EI/L$) | Largest difference | Relative to largest entry |
 | ----------------- | --- | ----------------------- | ------------------ | ------------------------- |
-| $2 \times 10^6$   | 5   | 1,600,000               | 2.3e-10            | 1.5e-16                   |
-| $7.5 \times 10^4$ | 2.5 | 120,000                 | 2.9e-11            | 2.4e-16                   |
+| $2 \times 10^6$   | 5   | $1.6 \times 10^6$       | 2.3e-10            | 1.5e-16                   |
+| $7.5 \times 10^4$ | 2.5 | $1.2 \times 10^5$       | 2.9e-11            | 2.4e-16                   |
 
 The test requires every entry to match within `1e-6`:
 [`eulerBernoulliBeam1DCantilever`](https://github.com/FEAScript/FEAScript-core/tree/main/tests/verification/analytical/eulerBernoulliBeam1DCantilever).

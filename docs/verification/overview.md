@@ -61,9 +61,12 @@ They also agree on [unstructured Gmsh meshes](../examples/heat-conduction#compar
 ## How results are reported
 
 - Computed values are given to the decimals of the reference they are compared with, for example 3 decimals for the
-  Code_Aster benchmarks. Where there is no published value to the same precision, they are given to 4 decimals.
+  Code_Aster benchmarks. Otherwise they are given to enough digits to show the differences listed next to them, and
+  in full where the result is exact to round-off.
+- Exact values are written exactly, for example $-16/75$, $-0.08$ or 0, never padded with zeros such as
+  −0.0800.
 - Errors, deviations and differences are given in scientific notation with 2 significant digits, for example
-  1.6e-4. An exact zero is written as 0.
+  1.6e-4. An exact zero is written as 0. Relative errors are not given for quantities whose exact value is 0.
 - Tolerances are written as in the test code, for example `5e-2`.
 - Convergence orders are given to 2 decimals.
 
