@@ -291,12 +291,17 @@ elements.
 
 ## Meshes as objects
 
-`importGmshMesh`, [`generateTriangleMesh` and `generateQuadrilateralMesh`](../api/mesh-generators.md) all return
-a mesh object, and `setMesh` takes one. The object holds the nodes (`nodesXCoordinates`, `nodesYCoordinates`),
-the elements (`nodalNumbering`, the node numbers of each element, from 1), the element sides on each boundary
+[`generateTriangleMesh` and `generateQuadrilateralMesh`](../api/mesh-generators.md) return a mesh object, and
+`setMesh` takes one. The object holds the nodes (`nodesXCoordinates`, `nodesYCoordinates`), the elements
+(`nodalNumbering`, the node numbers of each element, from 1), the element sides on each boundary
 (`boundaryElements`, keyed by name), the aliases of the names, and `meshDimension`, `elementOrder` and
 `elementShape`. A model's own mesh is available through `model.getMesh()`, which generates it from the geometry
 and the mesh configuration if needed, so a mesh can be inspected, plotted or reused in another model.
+
+[`importGmshMesh`](../api/gmsh-import.md) returns the mesh as read from the file, with the same nodes but the
+elements grouped by shape (`nodalNumbering.quadElements` or `nodalNumbering.triangleElements`) and the boundaries
+still given by the Gmsh physical groups. `setMesh` converts it to the mesh object above, with the boundaries keyed
+by name; call `model.getMesh()` after `setMesh` to get the converted mesh.
 
 ## Mesh settings of FEAScript 0.3
 

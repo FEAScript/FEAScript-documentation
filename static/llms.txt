@@ -264,7 +264,7 @@ model.setMesh(triMesh); // The geometry and mesh configuration are then not used
 
 - Gmsh: `.msh` version 4.1 ASCII (`gmsh model.geo -2 -format msh41 -o model.msh`), 2D only, all quadrilaterals or all triangles, all linear or all quadratic. Element dimension and order are detected from the file.
 - The boundaries of a Gmsh mesh are named after its 1D physical groups, e.g. `Physical Line("top") = {3};` gives the boundary `"top"`. Add a `Physical Surface` too, or Gmsh saves no 2D elements.
-- A mesh object holds `nodesXCoordinates`, `nodesYCoordinates`, `nodalNumbering` (node numbers of each element, from 1), `boundaryElements` (keyed by name), `meshDimension`, `elementOrder` and `elementShape`.
+- The generators return a mesh object: `nodesXCoordinates`, `nodesYCoordinates`, `nodalNumbering` (node numbers of each element, from 1), `boundaryElements` (keyed by name), `meshDimension`, `elementOrder` and `elementShape`. `importGmshMesh` returns the mesh as read from the file (elements in `nodalNumbering.quadElements` or `.triangleElements`), which `setMesh` converts; read the converted mesh with `model.getMesh()` after `setMesh`.
 
 ## Boundary condition rules
 
