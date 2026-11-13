@@ -9,7 +9,7 @@ sidebar_position: 2
 Node.js examples of [`heatConduction`](../models/heat-conduction), in
 [`examples/heatConduction`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/heatConduction).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
-from FEAScript-core 0.4.0 (RC).
+from FEAScript-core 0.4.0.
 
 ## Wall in 1D
 
@@ -131,7 +131,7 @@ largest error is at the node next to the top right corner, where the fixed tempe
 convection of the top edge and the exact solution is not smooth. There it falls only in proportion to the element
 size $h$, with either element; the RMS error over all the nodes falls about as $h^2$.
 
-FEAScript-core 0.4.0 (RC) was used, with `"frontal"` and `"lusolve"`, which give the same temperatures. Elmer used
+FEAScript-core 0.4.0 was used, with `"frontal"` and `"lusolve"`, which give the same temperatures. Elmer used
 its `HeatSolver` with the UMFPACK direct solver, run on one core as a single MPI process. For the solve times, see
 [Solvers](../fundamentals/solvers.mdx#performance). The benchmark, with the Elmer setup, is in
 [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark/tree/main/heatConduction2DFin).

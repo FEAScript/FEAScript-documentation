@@ -9,7 +9,7 @@ sidebar_position: 3
 Node.js examples of [`generalFormPDE`](../models/general-form-pde), in
 [`examples/generalFormPDE`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/generalFormPDE).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
-from FEAScript-core 0.4.0 (RC).
+from FEAScript-core 0.4.0.
 
 ## Advection-diffusion in 1D
 

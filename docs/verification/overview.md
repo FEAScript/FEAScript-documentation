@@ -13,7 +13,7 @@ is linked from its section so you can read the exact setup and rerun it.
 
 :::info Checked against
 
-The results on these pages were produced with **FEAScript-core 0.4.0 (RC)**. The docs of earlier releases are
+The results on these pages were produced with **FEAScript-core 0.4.0**. The docs of earlier releases are
 in the version dropdown.
 
 :::

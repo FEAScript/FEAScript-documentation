@@ -9,7 +9,7 @@ sidebar_position: 6
 Node.js examples of [`eulerBernoulliBeam`](../models/euler-bernoulli-beam), in
 [`examples/eulerBernoulliBeam`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/eulerBernoulliBeam).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
-from FEAScript-core 0.4.0 (RC).
+from FEAScript-core 0.4.0.
 
 The beam elements are cubic Hermite elements, with the deflection $w$ and the rotation $\theta$ at each node. The
 deflection curves below are drawn with the Hermite shape functions between the nodes; the markers are the nodes.

@@ -7,7 +7,7 @@ sidebar_position: 4
 <img className="physics-logo" src="/assets/physics/front-propagation.svg" alt="" />
 
 Verification of [`frontPropagation`](../models/front-propagation) against closed-form solutions. All results
-are from FEAScript-core 0.4.0 (RC), solved with `lusolve`.
+are from FEAScript-core 0.4.0, solved with `lusolve`.
 
 ## Planar front
 

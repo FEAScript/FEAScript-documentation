@@ -9,7 +9,7 @@ sidebar_position: 5
 Node.js examples of [`creepingFlow`](../models/creeping-flow), in
 [`examples/creepingFlow`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/creepingFlow).
 Run the commands below from that folder (see [running an example](overview#running-an-example)). All results are
-from FEAScript-core 0.4.0 (RC).
+from FEAScript-core 0.4.0.
 
 ## Lid-driven cavity in 2D
 
@@ -72,7 +72,7 @@ the velocity jumps from that of the lid to zero, the programs differ by up to 0.
 the lid velocity differently along the top edge of the corner elements: FEAScript sets the full lid velocity at
 every lid node except the corners, while Elmer interpolates it linearly from zero at the corner.
 
-FEAScript-core 0.4.0 (RC) was used, with `"lusolve"`. Elmer used its `IncompressibleNSVec` solver in Stokes mode,
+FEAScript-core 0.4.0 was used, with `"lusolve"`. Elmer used its `IncompressibleNSVec` solver in Stokes mode,
 run on one core as a single MPI process. For the solve times, see [Solvers](../fundamentals/solvers.mdx#performance).
 The benchmark, with the Elmer setup, is in
 [FEAScript-benchmark](https://github.com/FEAScript/FEAScript-benchmark/tree/main/creepingFlow2DLidDrivenCavity).

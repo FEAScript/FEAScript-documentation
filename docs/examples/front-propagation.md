@@ -9,7 +9,7 @@ sidebar_position: 4
 Node.js example of [`frontPropagation`](../models/front-propagation), in
 [`examples/frontPropagation`](https://github.com/FEAScript/FEAScript-core/tree/main/examples/frontPropagation).
 Run the command below from that folder (see [running an example](overview#running-an-example)). The results are
-from FEAScript-core 0.4.0 (RC).
+from FEAScript-core 0.4.0.
 
 ## Solidification front in 2D
 

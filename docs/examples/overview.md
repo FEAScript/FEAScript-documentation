@@ -12,7 +12,7 @@ script that sets up a model in the five steps of [your first simulation](../gett
 solves it and prints the results.
 
 These pages show, for each example, the geometry and boundary conditions, the mesh, and the results. The results
-were computed with **FEAScript-core 0.4.0 (RC)**, by running the examples unchanged.
+were computed with **FEAScript-core 0.4.0**, by running the examples unchanged.
 
 ## Examples
 
