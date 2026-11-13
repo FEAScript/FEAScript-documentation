@@ -156,6 +156,7 @@ Returns an object with:
 | `nodesCoordinates.nodesXCoordinates` | `number[]`     | $x$ coordinates of the mesh nodes                                        |
 | `nodesCoordinates.nodesYCoordinates` | `number[]`     | $y$ coordinates of the mesh nodes (2D meshes)                            |
 | `fields`                             | `object`       | Named fields, one value per node (models with several unknowns per node) |
+| `info`                               | `object`       | The run report (see below)                                               |
 
 For scalar models (heat conduction, general-form PDE, front propagation), `solutionVector` has one value per
 node, in the order of `nodesCoordinates`, and there is no `fields` property. The
@@ -163,10 +164,30 @@ node, in the order of `nodesCoordinates`, and there is no `fields` property. The
 [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md#results) (`w`, `theta`) models have more unknowns per
 node: `fields` holds each of them as a `Float64Array` with one value per node, ready to plot or post-process.
 
+`info` reports how the solve went, with the same properties for every model and solver method:
+
+| Property     | Type             | Description                                                                                                                                                          |
+| ------------ | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `method`     | `string`         | The linear solver method used, e.g. `"lusolve"`                                                                                                                      |
+| `converged`  | `boolean`        | Always `true`: a solve that does not converge throws a `FEAScriptError` with the code `NOT_CONVERGED`                                                                |
+| `iterations` | `number \| null` | Iterations of the linear solver (`"jacobi"`, `"jacobi-gpu"`), summed over the Newton–Raphson iterations of a nonlinear model; `null` for `"lusolve"` and `"frontal"` |
+| `residual`   | `number \| null` | $\lVert R - \mathcal{J} u \rVert_2 / \lVert R \rVert_2$ of the linear system, in 64-bit floats for every method; `null` for `"frontal"` and for nonlinear models     |
+| `newton`     | `object \| null` | For nonlinear models, `{ iterations, increment }`: the Newton–Raphson iterations and the last $\lVert \Delta \bar{u} \rVert_2$; `null` otherwise                     |
+| `solveTime`  | `number`         | Time of the whole solve in milliseconds, from the mesh to the solution                                                                                               |
+
+```javascript
+const { info } = model.solve();
+console.log(`${info.method}: ${info.iterations ?? "direct"} iterations, residual ${info.residual}`);
+```
+
+The frontal solver eliminates the equations element by element without assembling the system matrix, so it has
+no residual to report. For a nonlinear model, the last linear system solves for the converged, nearly zero
+increment, so its relative residual says nothing about the solution; `newton.increment` is the measure there.
+
 ### `solveAsync(computeEngine, options)`
 
 Asynchronous version of `solve`, used with the `"jacobi-gpu"` solver method. It returns a `Promise` that resolves
-to the same object as `solve()`.
+to the same object as `solve()`, `info` included.
 
 ```javascript
 model.setModelConfig("heatConduction", { solver: { method: "jacobi-gpu" } });
@@ -181,7 +202,8 @@ const { solutionVector, nodesCoordinates } = await model.solveAsync();
 
 :::caution
 `solveAsync` currently supports only `heatConduction` with the `"jacobi-gpu"` solver method, in browsers
-with WebGPU support. For other models or solver methods, it returns an empty solution vector.
+with WebGPU support. For other models or solver methods, it throws a `FEAScriptError` with the code
+`UNSUPPORTED_SOLVER`.
 :::
 
 ## Error handling

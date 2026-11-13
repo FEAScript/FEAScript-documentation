@@ -59,7 +59,8 @@ model.terminate();
 | `ping()`                                       | `Promise<boolean>` | Resolves to `true` when the worker is ready                                                                  |
 | `terminate()`                                  | –                  | Stops the worker                                                                                             |
 
-`solve()` resolves to `{ solutionVector, nodesCoordinates, solverConfig, meshDimension }`, plus `fields` for the
+`solve()` resolves to `{ solutionVector, nodesCoordinates, info, solverConfig, meshDimension }`, where `info` is
+the [run report](./feascript-model.md#solveoptions), plus `fields` for the
 creeping flow and Euler–Bernoulli beam models (see [Visualization](./visualization.md)). The object returned by
 `getModelInfo()` can be passed as the `model` argument of the [plotting functions](./visualization.md).
 
