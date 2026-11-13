@@ -34,6 +34,21 @@ Both URLs above always serve the latest FEAScript release, so your page updates 
 
 You can also download a release from [GitHub Releases](https://github.com/FEAScript/FEAScript-core/releases) and import it locally.
 
+### With a script tag
+
+Pages that do not use ES modules can load the UMD build with a classic `<script>` tag. It defines a global
+`FEAScript` object that holds every export:
+
+```html
+<script src="https://core.feascript.com/dist/feascript.umd.js"></script>
+<script>
+  const { FEAScriptModel, plotSolution } = FEAScript;
+</script>
+```
+
+`FEAScriptWorker` works with this build too: it loads `feascript-worker.esm.js` from the same folder as
+`feascript.umd.js`, so keep the files of `dist/` together when you host the library yourself.
+
 ## With Node.js
 
 ```bash
