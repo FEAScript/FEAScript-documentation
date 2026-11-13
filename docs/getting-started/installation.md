@@ -27,7 +27,7 @@ Both URLs above always serve the latest FEAScript release, so your page updates 
 
 ```html
 <script type="module">
-  import { FEAScriptModel } from "https://cdn.jsdelivr.net/gh/FEAScript/FEAScript-core@0.3.1/dist/feascript.esm.js";
+  import { FEAScriptModel } from "https://cdn.jsdelivr.net/gh/FEAScript/FEAScript-core@0.4.0/dist/feascript.esm.js";
 </script>
 ```
 :::
