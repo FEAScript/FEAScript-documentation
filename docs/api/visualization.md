@@ -33,7 +33,8 @@ plotSolution(model, result, "contour", "velocityMagnitudeCanvas"); // Default fi
 plotSolution(model, result, "contour", "pressureCanvas", { field: "p" });
 ```
 
-An unknown field name is reported as an error and the default field is plotted. See the
+An unknown field name, a `field` for a scalar model, a plot type the function cannot draw, or a plot element
+that does not exist throws a `FEAScriptError` with the code `INVALID_INPUT`. See the
 [creeping flow](../models/creeping-flow.md#results) and
 [Euler–Bernoulli beam](../models/euler-bernoulli-beam.md#results) pages for the fields.
 

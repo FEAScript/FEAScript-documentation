@@ -69,8 +69,8 @@ $$
   first step starts from $u = 0$).
 - At $\lambda = 1$, the remaining viscous term is $\max(10^{-2}, 10^{-1} h_e)$.
 
-If a step does not converge, FEAScript stops at that step and logs an error: the returned solution is not
-valid, and a finer mesh may be required. The `maxIterations` and `tolerance` options (see
+If a step does not converge, FEAScript stops at that step and throws a `FEAScriptError` with the code
+`NOT_CONVERGED`, instead of going on from a wrong solution; a finer mesh may be required. The `maxIterations` and `tolerance` options (see
 [Solvers](../fundamentals/solvers.mdx#newtonraphson-method)) apply to the Newton–Raphson iterations of each step.
 
 ## Usage

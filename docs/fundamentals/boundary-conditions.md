@@ -81,10 +81,10 @@ Following the [Galerkin formulation](./finite-element-method.md#boundary-conditi
 When two boundaries share a node, for example at a corner of a rectangle:
 
 - a Dirichlet condition on either boundary takes precedence over a Robin or natural condition on the other;
-- if both boundaries have Dirichlet conditions with different values, the boundary with the larger key sets the
-  value at the shared node (the boundaries are processed in increasing key order);
+- if both boundaries have Dirichlet conditions with different values, the condition added last sets the value
+  at the shared node (the conditions are applied in the order of the `addBoundaryCondition` calls);
 - in the [creeping flow](../models/creeping-flow.md) model, a zero velocity (no slip) takes precedence over a
-  nonzero velocity, whatever the keys. In the lid-driven cavity, both top corners therefore take the velocity
+  nonzero velocity, whatever the order. In the lid-driven cavity, both top corners therefore take the velocity
   of the side walls, zero, so that the moving lid does not push fluid through the side walls at the corners.
 
 ## Deprecated forms

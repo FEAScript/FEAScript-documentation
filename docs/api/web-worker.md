@@ -55,7 +55,7 @@ model.terminate();
 | `addBoundaryCondition(boundaryKey, condition)` | `Promise<boolean>` | Adds a boundary condition                                                                                    |
 | `setSolverMethod(solverMethod)`                | `Promise<boolean>` | Deprecated: use the `solver` option of `setModelConfig`                                                      |
 | `solve(options)`                               | `Promise<object>`  | Solves the model in the worker (`maxIterations`, `tolerance`)                                                |
-| `getModelInfo()`                               | `Promise<object>`  | `{ solverConfig, geometry, meshConfig, meshDimension, boundaryConditions, solverMethod }`                    |
+| `getModelInfo()`                               | `Promise<object>`  | `{ solverConfig, geometry, meshConfig, mesh, meshDimension, boundaryConditions, solverMethod }`              |
 | `ping()`                                       | `Promise<boolean>` | Resolves to `true` when the worker is ready                                                                  |
 | `terminate()`                                  | –                  | Stops the worker                                                                                             |
 

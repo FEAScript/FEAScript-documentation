@@ -93,8 +93,8 @@ The size of the change between two iterations is not used: the Jacobi method can
 become small while the iterate is still far from the solution.
 
 The Jacobi method converges only for suitable matrices, for example diagonally dominant ones. Linear elements
-usually give such matrices; quadratic elements usually do not. If the method does not converge, FEAScript logs
-an error and returns the last iterate.
+usually give such matrices; quadratic elements usually do not. If the method does not converge within
+`maxIterations`, the solve throws a `FEAScriptError` with the code `NOT_CONVERGED`.
 
 | Option          | Default | Description                                     |
 | --------------- | ------- | ----------------------------------------------- |
@@ -142,7 +142,9 @@ the `1e-8` of `"jacobi"`, and a much smaller tolerance may never be reached.
 Nonlinear models are solved with the Newton–Raphson method (see
 [Finite element method](./finite-element-method.md#linear-and-nonlinear-systems)). It starts from
 $\bar{u} = 0$ and stops when $\lVert \Delta \bar{u} \rVert_2$ is smaller than or equal to the tolerance. If the
-norm of an increment exceeds $10^2$, the iterations are stopped and an error is logged.
+norm of an increment exceeds $10^2$, the iterations are stopped with a warning. A Newton–Raphson solve that
+stops this way, or that reaches `maxIterations` without converging, throws a `FEAScriptError` with the code
+`NOT_CONVERGED`.
 
 | Option          | Default | Description                                   |
 | --------------- | ------- | --------------------------------------------- |

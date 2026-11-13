@@ -80,8 +80,9 @@ const { solutionVector, nodesCoordinates } = model.solve();
 
 ## Limitations
 
-- Only 2D meshes are supported; a 1D or 3D mesh is reported as an error.
-- All elements must be of the same shape (quadrilaterals or triangles) and order (linear or quadratic).
+- Only 2D meshes are supported; a 1D or 3D mesh throws a `FEAScriptError` with the code `UNSUPPORTED_MESH`.
+- All elements must be of the same shape (quadrilaterals or triangles) and order (linear or quadratic); a mixed
+  mesh throws `UNSUPPORTED_MESH`.
 - Only the ASCII variant of the version 4.1 format is read. Export with
   `gmsh model.geo -2 -format msh41 -o model.msh`, or with **File → Export** and the "Version 4 ASCII" format in
   the Gmsh interface.
