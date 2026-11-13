@@ -46,6 +46,26 @@ import { FEAScriptModel } from "feascript";
 
 FEAScript is built as an ES module. In a new project, set `"type": "module"` in your `package.json`.
 
+### TypeScript and editors
+
+The npm package ships TypeScript declarations, so TypeScript projects are type-checked against the FEAScript API,
+and editors such as VS Code show the options of each method and complete them as you type, in JavaScript too.
+A misspelled model name, solver method or boundary condition parameter is marked before the code runs:
+
+```typescript
+import { FEAScriptModel } from "feascript";
+import type { SolveResult } from "feascript";
+
+const model = new FEAScriptModel();
+model.setModelConfig("heatConduction", { solver: { method: "frontal" } });
+model.addBoundaryCondition("top", { type: "convection", h: 1, ambientTemperature: 20 });
+const result: SolveResult = model.solve();
+console.log(result.info.solveTime);
+```
+
+The types of the inputs and the results (`Geometry`, `MeshConfig`, `BoundaryCondition`, `SolveResult`,
+`RunReport` and the others) can be imported with `import type`.
+
 ## Optional dependencies
 
 FEAScript itself needs no extra setup to solve a model. The plotting functions use two optional libraries:
