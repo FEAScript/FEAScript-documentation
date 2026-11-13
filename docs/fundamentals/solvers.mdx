@@ -130,10 +130,12 @@ const result = await model.solveAsync();
 system matrix, so its memory use grows with the square of the number of nodes.
 :::
 
-The GPU computations use single precision (32-bit) floats. The `maxIterations` option (default `10000`) has the
-same meaning as for `"jacobi"`. The `tolerance` option (default `1e-4`) applies to a different stopping criterion:
-the largest absolute residual, $\max_i \lvert R_i - \sum_j \mathcal{J}_{ij} u_j \rvert$, which is checked every few
-iterations.
+The `maxIterations` (default `10000`) and `tolerance` options have the same meaning as for `"jacobi"`: the
+iterations stop when the residual relative to the right-hand side,
+$\lVert R - \mathcal{J} u \rVert_2 / \lVert R \rVert_2$, is smaller than the tolerance. It is checked every few
+iterations. The GPU computations use single precision (32-bit) floats, where this residual stops falling at about
+$10^{-7}$ to $10^{-5}$, depending on the size of the system. The default `tolerance` is therefore `1e-4` instead of
+the `1e-8` of `"jacobi"`, and a much smaller tolerance may never be reached.
 
 ## Newton–Raphson method
 

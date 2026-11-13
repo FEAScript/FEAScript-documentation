@@ -56,11 +56,11 @@ Selects the physical model and sets its options.
 
 The `solver` option selects the linear system solver and sets its iterations:
 
-| `solver` property | Type     | Description                                                                                                                                          |
-| ----------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `method`          | `string` | `"lusolve"` (default), `"jacobi"`, `"frontal"` or `"jacobi-gpu"` (with `solveAsync()`)                                                               |
-| `maxIterations`   | `number` | Maximum iterations of the Jacobi solvers, also inside Newton–Raphson                                                                                 |
-| `tolerance`       | `number` | Tolerance of the Jacobi solvers: on the residual relative to the right-hand side for `"jacobi"`, on the largest absolute residual for `"jacobi-gpu"` |
+| `solver` property | Type     | Description                                                                            |
+| ----------------- | -------- | -------------------------------------------------------------------------------------- |
+| `method`          | `string` | `"lusolve"` (default), `"jacobi"`, `"frontal"` or `"jacobi-gpu"` (with `solveAsync()`) |
+| `maxIterations`   | `number` | Maximum iterations of the Jacobi solvers, also inside Newton–Raphson                   |
+| `tolerance`       | `number` | Tolerance of the Jacobi solvers, on the residual relative to the right-hand side       |
 
 An unknown method or property, or an iteration limit or tolerance that is not positive, throws a
 `FEAScriptError` with the code `INVALID_INPUT`. See [Solvers](../fundamentals/solvers.mdx) for the methods
