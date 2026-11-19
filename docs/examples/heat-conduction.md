@@ -112,21 +112,21 @@ so both programs are compared with it at every node, and with each other:
 
 | Elements  | Mesh      | Nodes  | Largest error (°C) | RMS error (°C) | Difference from Elmer (°C) |
 | --------- | --------- | ------ | ------------------ | -------------- | -------------------------- |
-| Linear    | 20 × 10   | 231    | 1.0e0              | 1.1e-1         | 3.1e-13                    |
+| Linear    | 20 × 10   | 231    | 1.0e0              | 1.1e-1         | 4.3e-13                    |
 | Linear    | 40 × 20   | 861    | 5.7e-1             | 3.2e-2         | 3.4e-12                    |
-| Linear    | 80 × 40   | 3,321  | 3.1e-1             | 8.8e-3         | 9.2e-12                    |
-| Linear    | 160 × 80  | 13,041 | 1.6e-1             | 2.4e-3         | 4.4e-11                    |
-| Linear    | 320 × 160 | 51,681 | 8.1e-2             | 6.7e-4         | 1.9e-10                    |
-| Quadratic | 10 × 5    | 231    | 8.0e-1             | 6.7e-2         | 5.4e-13                    |
-| Quadratic | 20 × 10   | 861    | 3.9e-1             | 1.7e-2         | 2.5e-12                    |
-| Quadratic | 40 × 20   | 3,321  | 2.0e-1             | 4.3e-3         | 6.3e-12                    |
+| Linear    | 80 × 40   | 3,321  | 3.1e-1             | 8.8e-3         | 1.1e-11                    |
+| Linear    | 160 × 80  | 13,041 | 1.6e-1             | 2.4e-3         | 4.9e-11                    |
+| Linear    | 320 × 160 | 51,681 | 8.1e-2             | 6.7e-4         | 2.0e-10                    |
+| Quadratic | 10 × 5    | 231    | 8.0e-1             | 6.7e-2         | 6.8e-13                    |
+| Quadratic | 20 × 10   | 861    | 3.9e-1             | 1.7e-2         | 2.7e-12                    |
+| Quadratic | 40 × 20   | 3,321  | 2.0e-1             | 4.3e-3         | 8.1e-12                    |
 | Quadratic | 80 × 40   | 13,041 | 9.7e-2             | 1.1e-3         | 2.9e-11                    |
-| Quadratic | 160 × 80  | 51,681 | 4.9e-2             | 2.7e-4         | 1.0e-10                    |
+| Quadratic | 160 × 80  | 51,681 | 4.9e-2             | 2.7e-4         | 9.6e-11                    |
 
 ![Fin in 2D: largest error against the exact solution against element size, for linear and quadratic elements, logarithmic axes](/assets/examples/fin-elmer-comparison.svg)
 
 The errors of Elmer are the same to the digits shown, and the temperatures of the two programs differ by at most
-1.9e-10 °C on every mesh, the round-off of double precision arithmetic, which grows with the size of the mesh. The
+2.0e-10 °C on every mesh, the round-off of double precision arithmetic, which grows with the size of the mesh. The
 largest error is at the node next to the top right corner, where the fixed temperature of the right edge meets the
 convection of the top edge and the exact solution is not smooth. There it falls only in proportion to the element
 size $h$, with either element; the RMS error over all the nodes falls about as $h^2$.
@@ -140,7 +140,7 @@ its `HeatSolver` with the UMFPACK direct solver, run on one core as a single MPI
 
 The fin was also solved with [scikit-fem](https://github.com/kinnala/scikit-fem), an open-source finite element library for Python, on the
 same meshes, with the same elements and its default direct solver. The temperatures of FEAScript and scikit-fem
-differ by at most 1.7e-10 °C on every mesh, from 231 to 51,681 nodes, as close as with Elmer.
+differ by at most 1.9e-10 °C on every mesh, from 231 to 51,681 nodes, as close as with Elmer.
 
 ## Fin in 2D, Gmsh mesh
 
