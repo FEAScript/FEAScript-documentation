@@ -23,7 +23,7 @@ import { FEAScriptModel } from "feascript";
 </script>
 ```
 
-Exports: `FEAScriptModel`, `FEAScriptWorker`, `FEAScriptError`, `importGmshMesh`, `generateTriangleMesh`, `generateQuadrilateralMesh`, `logSystem`, `version` (a string constant, e.g. `"0.4.0"`), `plotSolution`, `plotInterpolatedSolution`, `plotSolutionVtk`, `plotInterpolatedSolutionVtk`, `createColorScale`, `createContourLineOptions`, `transformSolverOutputToVtkData`, `transformSolverOutputToVTP`, `transformSolverOutputToMLBuffers`.
+Exports: `FEAScriptModel`, `FEAScriptWorker`, `FEAScriptError`, `importGmshMesh`, `generateTriangleMesh`, `generateQuadrilateralMesh`, `logSystem`, `version` (a string constant, e.g. `"0.4.0"`), `plotSolution`, `plotInterpolatedSolution`, `plotSolutionVtk`, `plotInterpolatedSolutionVtk`, `createColorScale`, `createContourLineOptions`, `transformSolverOutputToVtkData`, `transformSolverOutputToVTP`, `transformSolverOutputToMLBuffers`, and from 0.4.1 `evaluateSolution`.
 
 ## Workflow
 
@@ -300,6 +300,7 @@ model.setModelConfig("heatConduction", { solver: { method: "jacobi", maxIteratio
   - `await plotSolutionVtk(model, result, plotType, divId, { field })`
   - `await plotInterpolatedSolutionVtk(model, result, "contour", divId, { colorScale: createColorScale({ scalarBarTitle: "T" }), contourLines: createContourLineOptions({ numberOfContours: 12 }) })`
 - Export: `await transformSolverOutputToVTP(model, result, null, { mode: "surface" })` returns a VTP XML string for ParaView; `transformSolverOutputToMLBuffers(result)` returns typed arrays (`features` = `[x, y, value]` per node, `labels`, `points`).
+- Values at points (0.4.1 and later, 2D only, no plotting library needed): `evaluateSolution(model, result, [[x, y], ...], { field })` returns a `Float64Array` with one value per point, interpolated with the element basis functions; `NaN` for a point outside the mesh (outside the domain or in a hole). Points that are not `[x, y]` pairs of finite numbers, or a 1D model, throw `"INVALID_INPUT"`.
 - Pass the `model` and the `result` of `solve()` as they are. Scalar models plot `solutionVector`. Creeping flow and the beam plot one of `result.fields`, chosen with `{ field }` (defaults: `velocityMagnitude` for creeping flow, `w` for the beam). An unknown field, a `field` for a scalar model, an unknown plot type or a missing plot `div` throws `"INVALID_INPUT"`.
 
 ## Web worker (browser)

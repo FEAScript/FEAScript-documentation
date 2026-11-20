@@ -143,6 +143,45 @@ await plotInterpolatedSolutionVtk(model, result, "contour", "resultsCanvas", {
 | `color`            | `[0.15, 0.15, 0.15]` | RGB color, each component in [0, 1] |
 | `lineWidth`        | `1`                  | Line width                          |
 
+## Values at points
+
+### `evaluateSolution(model, result, points, options)`
+
+:::note
+Added in FEAScript 0.4.1.
+:::
+
+Returns the solution of a 2D model at the given points, for example to read it along a line or to pass it to
+another program on its own grid. Each point is located in the mesh, and the nodal values of its element are
+interpolated with the element basis functions, the same way as `plotInterpolatedSolution` does. It needs no
+plotting library and also runs in Node.js.
+
+| Parameter       | Type                 | Description                                                                  |
+| --------------- | -------------------- | ---------------------------------------------------------------------------- |
+| `model`         | `object`             | As for the plotting functions                                                |
+| `result`        | `object`             | As for the plotting functions                                                |
+| `points`        | `[number, number][]` | The points, as `[x, y]` pairs                                                |
+| `options.field` | `string`             | The field to evaluate, for models with several unknowns per node (see above) |
+
+It returns a `Float64Array` with one value per point, in the order of the points. A point outside the mesh
+(outside the domain or inside a hole) gets `NaN`, and a point on the boundary counts as inside.
+
+```javascript
+const result = model.solve();
+const points = [];
+for (let i = 0; i <= 20; i++) points.push([i * 0.2, 1]); // A line across the domain at y = 1
+const temperatures = evaluateSolution(model, result, points);
+```
+
+The values are exact for the fields the elements reproduce: linear fields on linear elements, and quadratic fields
+on straight-sided quadratic elements. A 1D model, points that are not an array, or a point that is not a pair of
+finite numbers throws a `FEAScriptError` with the code `INVALID_INPUT`.
+
+:::tip
+Points that follow each other, such as the points of a grid or a line, are located fastest: the search starts from
+the element that held the previous point.
+:::
+
 ## Export
 
 ### `transformSolverOutputToVTP(model, result, meshData, options)`
