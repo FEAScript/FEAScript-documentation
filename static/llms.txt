@@ -1,6 +1,6 @@
 # FEAScript
 
-> FEAScript is a finite element simulation library written in JavaScript (ES modules). It runs in the browser and in Node.js. This file is a compact, exact reference of the FEAScript 0.4.0 API for AI assistants. Use only the functions, options and string values listed here: anything not listed is not supported.
+> FEAScript is a finite element simulation library written in JavaScript (ES modules). It runs in the browser and in Node.js. This file is a compact, exact reference of the FEAScript 0.4.1 API for AI assistants. Use only the functions, options and string values listed here: anything not listed is not supported.
 
 Full documentation: https://docs.feascript.com
 Source code: https://github.com/FEAScript/FEAScript-core
@@ -23,7 +23,7 @@ import { FEAScriptModel } from "feascript";
 </script>
 ```
 
-Exports: `FEAScriptModel`, `FEAScriptWorker`, `FEAScriptError`, `importGmshMesh`, `generateTriangleMesh`, `generateQuadrilateralMesh`, `logSystem`, `version` (a string constant, e.g. `"0.4.0"`), `plotSolution`, `plotInterpolatedSolution`, `plotSolutionVtk`, `plotInterpolatedSolutionVtk`, `createColorScale`, `createContourLineOptions`, `transformSolverOutputToVtkData`, `transformSolverOutputToVTP`, `transformSolverOutputToMLBuffers`, and from 0.4.1 `evaluateSolution`.
+Exports: `FEAScriptModel`, `FEAScriptWorker`, `FEAScriptError`, `importGmshMesh`, `generateTriangleMesh`, `generateQuadrilateralMesh`, `logSystem`, `version` (a string constant, e.g. `"0.4.1"`), `plotSolution`, `plotInterpolatedSolution`, `plotSolutionVtk`, `plotInterpolatedSolutionVtk`, `createColorScale`, `createContourLineOptions`, `transformSolverOutputToVtkData`, `transformSolverOutputToVTP`, `transformSolverOutputToMLBuffers`, and from 0.4.1 `evaluateSolution`.
 
 ## Workflow
 
@@ -103,7 +103,7 @@ import type { Geometry, MeshConfig, BoundaryCondition, SolveResult, RunReport } 
   - `{ type: "constantTemperature", temperature }`: Dirichlet, T = temperature.
   - `{ type: "convection", h, ambientTemperature }`: Robin, −k ∂T/∂n = h (T − T∞). `h` and `ambientTemperature` are numbers.
   - `{ type: "symmetry" }`: zero heat flux (also the condition of a boundary without one).
-- Give at least one boundary a `"constantTemperature"` or `"convection"` condition. With zero flux on every boundary the temperature is not determined: the solve does not throw, but returns meaningless values.
+- Give at least one boundary a `"constantTemperature"` or `"convection"` condition. With zero flux on every boundary the temperature is not determined, and the solve throws `"SINGULAR_MATRIX"` (0.4.0 returned meaningless values instead).
 - Solvers: `"lusolve"`, `"jacobi"`, `"frontal"`, and `"jacobi-gpu"` (with `await model.solveAsync()` only).
 - Result: one temperature per node in `solutionVector`.
 
@@ -342,7 +342,7 @@ try {
 | `UNSUPPORTED_MESH`   | A mesh the model cannot use, e.g. creeping flow on linear elements, a 2D general form PDE, a beam not on a linear 1D mesh |
 | `UNSUPPORTED_SOLVER` | A solver method the model does not support, a `solveAsync()` it cannot run, or `"jacobi-gpu"` without WebGPU |
 | `NOT_CONVERGED`      | Jacobi, front propagation or the nonlinear general form PDE did not converge                          |
-| `SINGULAR_MATRIX`    | No unique solution, e.g. a zero conductivity                                                          |
+| `SINGULAR_MATRIX`    | No unique solution, e.g. a zero conductivity or zero flux on every boundary                           |
 | `NON_FINITE_VALUES`  | NaN or infinity in the system or the solution, e.g. a coefficient function that returns NaN           |
 | `MESH_TOO_FINE`      | The triangle mesh passed `maxNodes`                                                                   |
 | `INTERNAL_ERROR`     | A step of the frontal solver failed                                                                   |

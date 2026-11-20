@@ -31,10 +31,10 @@ at every level.
 ```javascript
 import { version } from "feascript";
 
-console.log("FEAScript version:", version); // "0.4.0"
+console.log("FEAScript version:", version); // "0.4.1"
 ```
 
-A string constant with the version of the library, as in its npm package (`"0.4.0"`; a release candidate reads
+A string constant with the version of the library, as in its npm package (`"0.4.1"`; a release candidate reads
 `"0.4.0-rc.1"`).
 
 `printVersion`, the name used up to FEAScript 0.3, is still exported but deprecated; use `version`. It will be

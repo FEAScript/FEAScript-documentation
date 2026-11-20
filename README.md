@@ -35,7 +35,7 @@ npx -y -p node@20 -c "npm run build && npm run serve"
   - Verification: `python3 scripts/generate-verification-figures.py`, which reads the Gmsh meshes from `../FEAScript-core/tests/meshes`.
   - Examples: `node scripts/export-example-results.mjs` runs the Node.js examples of `../FEAScript-core` (built with `npm run build`) unchanged and records their meshes and solutions; then `python3 scripts/generate-example-figures.py` draws the geometries, meshes and results.
   - Log-log plots (convergence, comparison with Elmer, solver times): `python3 scripts/generate-plot-figures.py`. Their values are those of the tables next to each plot; update both together.
-- `docs/` always holds the docs of the current FEAScript-core version ("0.4.0" in the version dropdown).
+- `docs/` always holds the docs of the current FEAScript-core version ("0.4.1" in the version dropdown).
 - `static/llms.txt` (served at `docs.feascript.com/llms.txt`) is a hand-written, single-file API summary for AI assistants. Update it whenever the API changes: new models, options, boundary conditions or solvers.
 
 ## Appearance
@@ -46,7 +46,7 @@ The navbar's GitHub pill matches the website and fetches the FEAScript-core star
 
 ## Versioning
 
-The docs keep one version per **minor** release of FEAScript-core (`MAJOR.MINOR`), labeled with its latest patch release. Patch releases do not change the API, so they get no docs version of their own.
+The docs keep one version per **minor** release of FEAScript-core (`MAJOR.MINOR`), labeled with its latest patch release. Patch releases make no breaking changes, so they get no docs version of their own. A function or option added in a patch release is marked in the docs with the version that added it (for example "Added in FEAScript 0.4.1").
 
 - `docs/` holds the docs of the latest minor version and is served at the unversioned URLs (`lastVersion: "current"` in `docusaurus.config.js`). Its label in the version dropdown is set in `docusaurus.config.js`.
 - Older minor versions are snapshots in `versioned_docs/version-x.y.z/`, served at `docs.feascript.com/x.y.z/...`, with their sidebars in `versioned_sidebars/` and their names in `versions.json`.

@@ -118,8 +118,8 @@ exactly like `"symmetry"`.
 :::caution
 Give at least one boundary a `"constantTemperature"` or `"convection"` condition. With zero heat flux on every
 boundary, the temperature is determined only up to a constant, and with a heat source there is no steady
-solution at all. FEAScript does not detect this case yet: the solve returns meaningless values instead of
-throwing an error.
+solution at all. Since 0.4.1 the solve throws a `FEAScriptError` with the code `SINGULAR_MATRIX` in this case
+(0.4.0 returned meaningless values instead).
 ::: The type `"constantTemp"`, renamed `"constantTemperature"` in 0.3.0, was removed in
 0.4.0.
 
